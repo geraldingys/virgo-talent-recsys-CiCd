@@ -49,36 +49,37 @@ Increment 3 → src/modules/saw/                  (SAW + ROC weighting)
 
 ---
 
-### Struktur Proyek
+## Struktur Proyek
 
-````text
-virgo-recsys/
+```text
+virgo-talent-recsys/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 ├── .gitignore
-├── .env.example             # copy ini jadi .env lalu isi nilainya
+├── .env.example                    # copy ke .env lalu isi nilainya
 ├── README.md
 ├── src/
-│   ├── api/                 # FastAPI entrypoint (main.py)
-│   ├── core/                # config, database connection, settings
+│   ├── api/                        # FastAPI entrypoint (main.py)
+│   ├── core/                       # config, database connection, settings
 │   ├── modules/
-│   │   ├── ner/             # Increment 1: LLM + Qwen3:8b
-│   │   ├── semantic_similarity/ # Increment 2: Sánchez + Neo4j
-│   │   └── saw/             # Increment 3: SAW + ROC
-│   └── utils/               # helper functions bersama
+│   │   ├── ner/                    # Increment 1: LLM + Qwen3:8b
+│   │   ├── semantic_similarity/    # Increment 2: Sánchez + Neo4j
+│   │   └── saw/                    # Increment 3: SAW + ROC
+│   └── utils/                      # helper functions bersama
 ├── ontology/
-│   ├── ttl/                 # export dari Protégé (.ttl) -> dimount ke Neo4j
-│   ├── owl/                 # file OWL source
-│   └── exports/             # [gitignored] hasil generate ulang
+│   ├── ttl/                        # export dari Protégé (.ttl) → dimount ke Neo4j
+│   ├── owl/                        # file OWL source
+│   └── exports/                    # [gitignored] hasil generate ulang
 ├── data/
-│   ├── samples/             # dummy data untuk testing (boleh di-commit)
-│   └── raw/ processed/ seeds/ # [gitignored] data internal P79
+│   ├── samples/                    # dummy data untuk testing (boleh di-commit)
+│   ├── raw/                        # [gitignored] data internal P79
+│   ├── processed/                  # [gitignored]
+│   └── seeds/                      # [gitignored]
 ├── tests/
-│   └── unit/ integration/ e2e/
-└── docs/
-    ├── srs/ sdd/ uml/       # dokumen SRS, SDD, diagram
-    └── configs/
+│   ├── unit/
+└── configs/
+```
 
 ---
 
@@ -87,11 +88,11 @@ virgo-recsys/
 ### 1. Clone & setup environment
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/GeraldinGysrawa/virgo-talent-recsys.git
 cd virgo-talent-recsys
 cp .env.example .env
 # Edit .env — isi OLLAMA_BASE_URL dan OLLAMA_API_TOKEN dari PT P79
-````
+```
 
 ### 2. Jalankan FastAPI + Neo4j
 
@@ -120,7 +121,7 @@ docker exec virgo-ollama ollama pull qwen3:8b
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
+source .venv/bin/activate       # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn src.api.main:app --reload
 ```
@@ -130,11 +131,11 @@ uvicorn src.api.main:app --reload
 ## Branching Strategy
 
 ```
-main                      → stabil, sudah diuji
-develop                   → integrasi antar modul
-feature/inc1-ner          → Increment 1: Modul NER
-feature/inc2-semantic-sim → Increment 2: Semantic Similarity
-feature/inc3-saw          → Increment 3: SAW + ROC
+main                       → stabil, sudah diuji
+develop                    → integrasi antar modul
+feature/inc1-ner           → Increment 1: Modul NER
+feature/inc2-semantic-sim  → Increment 2: Semantic Similarity
+feature/inc3-saw           → Increment 3: SAW + ROC
 ```
 
 ---
