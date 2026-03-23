@@ -8,8 +8,6 @@
 #                  yang sudah berjalan.
 #   - Ollama     → remote server PT P79, akses via Bearer token.
 #                  Set OLLAMA_BASE_URL + OLLAMA_API_TOKEN di .env.
-#                  Service `ollama` di bawah hanya untuk dev LOKAL
-#                  jika sewaktu-waktu perlu testing offline.
 #   - Neo4j      → dikelola sendiri via Docker (belum ada di P79).
 #   - FastAPI    → untuk sekarang lokal; deploy target menyusul.
 #
@@ -18,8 +16,6 @@
 #   docker compose --profile local-ollama up -d  → + Ollama lokal
 #   docker compose logs -f api                   → lihat log FastAPI
 # =============================================================
-
-version: "3.9"
 
 networks:
   virgo-net:
@@ -77,28 +73,3 @@ services:
       start_period: 30s
     networks:
       - virgo-net
-
-  # ── 3. Ollama — LOCAL DEV ONLY ────────────────────────────
-  # Aktif hanya jika dipanggil eksplisit dengan profile:
-  #   docker compose --profile local-ollama up -d ollama
-  # Lalu pull model: docker exec virgo-ollama ollama pull qwen3:8b
-  ollama:
-    image: ollama/ollama:latest
-    container_name: virgo-ollama
-    restart: unless-stopped
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    networks:
-      - virgo-net
-    profiles:
-      - local-ollama
-    # Uncomment jika ada GPU NVIDIA:
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
