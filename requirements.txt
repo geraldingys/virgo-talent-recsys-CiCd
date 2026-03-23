@@ -1,0 +1,48 @@
+# =============================================================
+# virgo-recsys — requirements.txt
+# Tugas Akhir: Sistem Rekomendasi Talenta Multi-Kriteria
+# Stack: FastAPI + Neo4j + Ollama (Qwen3:8b) + n8n
+# =============================================================
+
+# ─── Web Framework ────────────────────────────────────────
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.12
+
+# ─── Data Validation ──────────────────────────────────────
+pydantic==2.9.2
+pydantic-settings==2.6.1         # load config dari .env
+
+# ─── Environment ──────────────────────────────────────────
+python-dotenv==1.0.1
+
+# ─── HTTP Client (panggil Ollama API) ─────────────────────
+httpx==0.27.2
+aiohttp==3.11.7                  # async HTTP jika diperlukan
+
+# ─── Neo4j Driver ─────────────────────────────────────────
+neo4j==5.25.0                    # official Python driver
+
+# ─── Ontologi & Semantic Web ──────────────────────────────
+rdflib==7.0.0                    # parse .ttl / .owl dari Protégé
+owlready2==0.47                  # load OWL ontology di Python
+
+# ─── NLP Utilities ────────────────────────────────────────
+# (NER utama pakai Ollama/LLM, ini hanya helper)
+regex==2024.9.11                 # pattern matching lebih powerful
+
+# ─── Data Processing ──────────────────────────────────────
+numpy==2.1.3
+pandas==2.2.3
+
+# ─── Testing ──────────────────────────────────────────────
+pytest==8.3.3
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
+httpx==0.27.2                    # test client untuk FastAPI
+
+# ─── Code Quality ─────────────────────────────────────────
+ruff==0.7.4                      # linter + formatter (pengganti flake8+black)
+
+# ─── Logging ──────────────────────────────────────────────
+loguru==0.7.2

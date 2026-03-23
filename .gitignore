@@ -1,0 +1,71 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+.python-version
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ─── Environment & Secrets ────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ─── Docker ───────────────────────────────────────────────
+# Keep docker-compose files, ignore override
+docker-compose.override.yml
+
+# ─── Data (jangan commit data internal perusahaan) ────────
+data/raw/*
+data/processed/*
+data/seeds/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/seeds/.gitkeep
+
+# Tapi izinkan sample/dummy data untuk testing
+data/samples/*.json
+
+# ─── Neo4j ────────────────────────────────────────────────
+neo4j/data/
+neo4j/logs/
+neo4j/import/
+neo4j/plugins/
+
+# ─── IDE / Editor ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ─── Testing & Coverage ───────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.log
+
+# ─── Ontology exports (regenerasi dari Protégé) ───────────
+ontology/exports/*
+!ontology/exports/.gitkeep
+
+# ─── Misc ─────────────────────────────────────────────────
+*.bak
+*.tmp
+node_modules/
