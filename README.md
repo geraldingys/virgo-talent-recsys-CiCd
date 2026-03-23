@@ -49,33 +49,36 @@ Increment 3 → src/modules/saw/                  (SAW + ROC weighting)
 
 ---
 
+### Struktur Proyek
+
+````text
 virgo-recsys/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 ├── .gitignore
-├── .env.example ← copy ini jadi .env lalu isi nilainya
+├── .env.example             # copy ini jadi .env lalu isi nilainya
 ├── README.md
 ├── src/
-│ ├── api/ ← FastAPI entrypoint (main.py nanti di sini)
-│ ├── core/ ← config, database connection, settings
-│ ├── modules/
-│ │ ├── ner/ ← Increment 1: LLM + Qwen3:8b
-│ │ ├── semantic_similarity/ ← Increment 2: Sánchez + Neo4j
-│ │ └── saw/ ← Increment 3: SAW + ROC
-│ └── utils/ ← helper functions bersama
+│   ├── api/                 # FastAPI entrypoint (main.py)
+│   ├── core/                # config, database connection, settings
+│   ├── modules/
+│   │   ├── ner/             # Increment 1: LLM + Qwen3:8b
+│   │   ├── semantic_similarity/ # Increment 2: Sánchez + Neo4j
+│   │   └── saw/             # Increment 3: SAW + ROC
+│   └── utils/               # helper functions bersama
 ├── ontology/
-│ ├── ttl/ ← export dari Protégé (.ttl) → dimount ke Neo4j
-│ ├── owl/ ← file OWL source
-│ └── exports/ ← gitignored, hasil generate ulang
+│   ├── ttl/                 # export dari Protégé (.ttl) -> dimount ke Neo4j
+│   ├── owl/                 # file OWL source
+│   └── exports/             # [gitignored] hasil generate ulang
 ├── data/
-│ ├── samples/ ← dummy data untuk testing (boleh di-commit)
-│ ├── raw/ processed/ seeds/ ← gitignored (data internal P79)
+│   ├── samples/             # dummy data untuk testing (boleh di-commit)
+│   └── raw/ processed/ seeds/ # [gitignored] data internal P79
 ├── tests/
-│ ├── unit/ integration/ e2e/
-├── docs/
-│ ├── srs/ sdd/ uml/ ← taruh dokumen SRS, SDD, diagram di sini
-└── configs/
+│   └── unit/ integration/ e2e/
+└── docs/
+    ├── srs/ sdd/ uml/       # dokumen SRS, SDD, diagram
+    └── configs/
 
 ---
 
@@ -88,7 +91,7 @@ git clone <repo-url>
 cd virgo-talent-recsys
 cp .env.example .env
 # Edit .env — isi OLLAMA_BASE_URL dan OLLAMA_API_TOKEN dari PT P79
-```
+````
 
 ### 2. Jalankan FastAPI + Neo4j
 
