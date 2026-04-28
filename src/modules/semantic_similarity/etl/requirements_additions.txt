@@ -1,0 +1,5 @@
+# Tambahkan ke requirements.txt yang sudah ada
+
+# ─── Google Sheets (ETL Increment 2) ──────────────────────
+gspread==6.1.2
+google-auth==2.35.0

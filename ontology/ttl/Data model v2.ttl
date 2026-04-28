@@ -1,0 +1,2819 @@
+@prefix : <http://padepokan79.com/ontology/skill#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix virgo: <http://padepokan79.com/ontology/skill#> .
+@base <http://padepokan79.com/ontology/skill#> .
+
+<http://padepokan79.com/ontology/skill> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://padepokan79.com/ontology/skill#assignedToProject
+virgo:assignedToProject rdf:type owl:ObjectProperty ;
+                        rdfs:domain virgo:Talent ;
+                        rdfs:range virgo:Project ;
+                        rdfs:label "assignedToProject" .
+
+
+###  http://padepokan79.com/ontology/skill#hasSkill
+virgo:hasSkill rdf:type owl:ObjectProperty ;
+               rdfs:domain virgo:Talent ;
+               rdfs:range virgo:root ;
+               rdfs:label "hasSkill" .
+
+
+###  http://padepokan79.com/ontology/skill#prefersPlacement
+virgo:prefersPlacement rdf:type owl:ObjectProperty ;
+                       rdfs:domain virgo:Talent ;
+                       rdfs:range virgo:Placement ;
+                       rdfs:label "prefersPlacement" .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://padepokan79.com/ontology/skill#concernPerbankan
+virgo:concernPerbankan rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty ;
+                       rdfs:domain virgo:Talent ;
+                       rdfs:range xsd:boolean ;
+                       rdfs:label "concernPerbankan" .
+
+
+###  http://padepokan79.com/ontology/skill#namaLengkap
+virgo:namaLengkap rdf:type owl:DatatypeProperty ,
+                           owl:FunctionalProperty ;
+                  rdfs:domain virgo:Talent ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "namaLengkap" .
+
+
+###  http://padepokan79.com/ontology/skill#namaLokasi
+virgo:namaLokasi rdf:type owl:DatatypeProperty ;
+                 rdfs:subPropertyOf owl:topDataProperty ;
+                 rdfs:domain virgo:Placement ;
+                 rdfs:range xsd:string ;
+                 rdfs:label "namaLokasi" .
+
+
+###  http://padepokan79.com/ontology/skill#namaProject
+virgo:namaProject rdf:type owl:DatatypeProperty ,
+                           owl:FunctionalProperty ;
+                  rdfs:domain virgo:Project ;
+                  rdfs:range xsd:string ;
+                  rdfs:label "namaProject" .
+
+
+###  http://padepokan79.com/ontology/skill#nip
+virgo:nip rdf:type owl:DatatypeProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain virgo:Talent ;
+          rdfs:range xsd:string ;
+          rdfs:label "nip" .
+
+
+###  http://padepokan79.com/ontology/skill#pengalamanTahun
+virgo:pengalamanTahun rdf:type owl:DatatypeProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain virgo:Talent ;
+                      rdfs:range xsd:nonNegativeInteger ;
+                      rdfs:label "pengalamanTahun" .
+
+
+###  http://padepokan79.com/ontology/skill#projectEndDate
+virgo:projectEndDate rdf:type owl:DatatypeProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:range xsd:dateTime ;
+                     rdfs:label "projectEndDate" .
+
+
+###  http://padepokan79.com/ontology/skill#projectStartDate
+virgo:projectStartDate rdf:type owl:DatatypeProperty ,
+                                owl:FunctionalProperty ;
+                       rdfs:range xsd:dateTime ;
+                       rdfs:label "projectStartDate" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://padepokan79.com/ontology/skill#Placement
+virgo:Placement rdf:type owl:Class ;
+                rdfs:label "Placement" .
+
+
+###  http://padepokan79.com/ontology/skill#Project
+virgo:Project rdf:type owl:Class ;
+              rdfs:label "Project" .
+
+
+###  http://padepokan79.com/ontology/skill#Talent
+virgo:Talent rdf:type owl:Class ;
+             rdfs:label "Talent" .
+
+
+###  http://padepokan79.com/ontology/skill#activityDiagram
+virgo:activityDiagram rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:umlDiagrams ;
+                      rdfs:label "Activity Diagram" .
+
+
+###  http://padepokan79.com/ontology/skill#adobeIllustrator
+virgo:adobeIllustrator rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:graphicDesignTools ;
+                       rdfs:label "Adobe Illustrator" .
+
+
+###  http://padepokan79.com/ontology/skill#adobePhotoshop
+virgo:adobePhotoshop rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:graphicDesignTools ;
+                     rdfs:label "Adobe Photoshop" .
+
+
+###  http://padepokan79.com/ontology/skill#agile
+virgo:agile rdf:type owl:Class ;
+            rdfs:subClassOf virgo:methodologiesProcesses ;
+            rdfs:label "Agile Methodology" .
+
+
+###  http://padepokan79.com/ontology/skill#aiMl
+virgo:aiMl rdf:type owl:Class ;
+           rdfs:subClassOf virgo:root ;
+           rdfs:label "AI & Machine Learning" .
+
+
+###  http://padepokan79.com/ontology/skill#ajax
+virgo:ajax rdf:type owl:Class ;
+           rdfs:subClassOf virgo:httpClientLibraries ,
+                           virgo:javascriptEcosystem ;
+           rdfs:label "AJAX" .
+
+
+###  http://padepokan79.com/ontology/skill#angular
+virgo:angular rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:webFrontendFrameworks ;
+              rdfs:label "Angular" .
+
+
+###  http://padepokan79.com/ontology/skill#ansible
+virgo:ansible rdf:type owl:Class ;
+              rdfs:subClassOf virgo:cloudInfrastructure ,
+                              virgo:devOpsTooling ;
+              rdfs:label "Ansible" .
+
+
+###  http://padepokan79.com/ontology/skill#antDesign
+virgo:antDesign rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:uiComponentLibraries ;
+                rdfs:label "Ant Design" .
+
+
+###  http://padepokan79.com/ontology/skill#apacheDubbo
+virgo:apacheDubbo rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:apiIntegration ,
+                                  virgo:javaEcosystem ,
+                                  virgo:messagingStreaming ;
+                  rdfs:label "Apache Dubbo" .
+
+
+###  http://padepokan79.com/ontology/skill#apachePoi
+virgo:apachePoi rdf:type owl:Class ;
+                rdfs:subClassOf virgo:developmentTools ,
+                                virgo:javaEcosystem ;
+                rdfs:label "Apache POI" .
+
+
+###  http://padepokan79.com/ontology/skill#apacheSuperset
+virgo:apacheSuperset rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:biVisualizationTools ;
+                     rdfs:label "Apache Superset" .
+
+
+###  http://padepokan79.com/ontology/skill#apiContract
+virgo:apiContract rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:apiProtocols ,
+                                  virgo:documentationDiagramming ;
+                  rdfs:label "API Contract" .
+
+
+###  http://padepokan79.com/ontology/skill#apiDocumentation
+virgo:apiDocumentation rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:apiIntegration ,
+                                       virgo:documentationDiagramming ;
+                       rdfs:label "API Documentation" .
+
+
+###  http://padepokan79.com/ontology/skill#apiIntegration
+virgo:apiIntegration rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:root ;
+                     rdfs:label "API & Integration" .
+
+
+###  http://padepokan79.com/ontology/skill#apiProtocols
+virgo:apiProtocols rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:apiIntegration ;
+                   rdfs:label "API Protocols & Standards" .
+
+
+###  http://padepokan79.com/ontology/skill#apiTesting
+virgo:apiTesting rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:apiIntegration ,
+                                 virgo:testingQA ;
+                 rdfs:label "API Testing Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#apollo
+virgo:apollo rdf:type owl:Class ;
+             rdfs:subClassOf virgo:apiIntegration ,
+                             virgo:httpClientLibraries ,
+                             virgo:javascriptEcosystem ;
+             rdfs:label "Apollo" .
+
+
+###  http://padepokan79.com/ontology/skill#appium
+virgo:appium rdf:type owl:Class ;
+             rdfs:subClassOf virgo:e2eTesting ,
+                             virgo:mobileTestingTools ;
+             rdfs:label "Appium" .
+
+
+###  http://padepokan79.com/ontology/skill#architecturePatterns
+virgo:architecturePatterns rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:softwareArchitecture ;
+                           rdfs:label "Architecture Patterns" .
+
+
+###  http://padepokan79.com/ontology/skill#artemisMq
+virgo:artemisMq rdf:type owl:Class ;
+                rdfs:subClassOf virgo:messagingStreaming ;
+                rdfs:label "ArtemisMQ" .
+
+
+###  http://padepokan79.com/ontology/skill#aspNet
+virgo:aspNet rdf:type owl:Class ;
+             rdfs:subClassOf virgo:dotnetEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "ASP.NET" .
+
+
+###  http://padepokan79.com/ontology/skill#aspNetMvc
+virgo:aspNetMvc rdf:type owl:Class ;
+                rdfs:subClassOf virgo:dotnetEcosystem ,
+                                virgo:webBackendFrameworks ;
+                rdfs:label "ASP.NET MVC" .
+
+
+###  http://padepokan79.com/ontology/skill#aws
+virgo:aws rdf:type owl:Class ;
+          rdfs:subClassOf virgo:cloudProviders ;
+          rdfs:label "AWS" .
+
+
+###  http://padepokan79.com/ontology/skill#axios
+virgo:axios rdf:type owl:Class ;
+            rdfs:subClassOf virgo:httpClientLibraries ,
+                            virgo:javascriptEcosystem ;
+            rdfs:label "Axios" .
+
+
+###  http://padepokan79.com/ontology/skill#azure
+virgo:azure rdf:type owl:Class ;
+            rdfs:subClassOf virgo:cloudProviders ;
+            rdfs:label "Microsoft Azure" .
+
+
+###  http://padepokan79.com/ontology/skill#azureDataStudio
+virgo:azureDataStudio rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:cloudProviders ,
+                                      virgo:databaseAdminTools ;
+                      rdfs:label "Azure Data Studio" .
+
+
+###  http://padepokan79.com/ontology/skill#balsamiq
+virgo:balsamiq rdf:type owl:Class ;
+               rdfs:subClassOf virgo:wireframingPrototyping ;
+               rdfs:label "Balsamiq" .
+
+
+###  http://padepokan79.com/ontology/skill#bcrypt
+virgo:bcrypt rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:securityTools ;
+             rdfs:label "Bcrypt" .
+
+
+###  http://padepokan79.com/ontology/skill#bdd
+virgo:bdd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:methodologiesProcesses ,
+                          virgo:testingQA ;
+          rdfs:label "BDD" .
+
+
+###  http://padepokan79.com/ontology/skill#biVisualizationTools
+virgo:biVisualizationTools rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:dataAnalytics ;
+                           rdfs:label "BI & Visualization Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#bigquery
+virgo:bigquery rdf:type owl:Class ;
+               rdfs:subClassOf virgo:cloudProviders ,
+                               virgo:dataWarehouse ;
+               rdfs:label "BigQuery" .
+
+
+###  http://padepokan79.com/ontology/skill#bizagi
+virgo:bizagi rdf:type owl:Class ;
+             rdfs:subClassOf virgo:diagrammingTools ,
+                             virgo:lowCodeNoCode ;
+             rdfs:label "Bizagi" .
+
+
+###  http://padepokan79.com/ontology/skill#biznetCloud
+virgo:biznetCloud rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:cloudProviders ;
+                  rdfs:label "Biznet Cloud" .
+
+
+###  http://padepokan79.com/ontology/skill#bloc
+virgo:bloc rdf:type owl:Class ;
+           rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                           virgo:stateManagement ;
+           rdfs:label "BLoC" .
+
+
+###  http://padepokan79.com/ontology/skill#bootstrap
+virgo:bootstrap rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:uiComponentLibraries ;
+                rdfs:label "Bootstrap" .
+
+
+###  http://padepokan79.com/ontology/skill#brd
+virgo:brd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:documentationDiagramming ,
+                          virgo:methodologiesProcesses ;
+          rdfs:label "BRD" .
+
+
+###  http://padepokan79.com/ontology/skill#bugzilla
+virgo:bugzilla rdf:type owl:Class ;
+               rdfs:subClassOf virgo:projectManagementTools ,
+                               virgo:testManagement ;
+               rdfs:label "Bugzilla" .
+
+
+###  http://padepokan79.com/ontology/skill#buildTools
+virgo:buildTools rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:developmentTools ,
+                                 virgo:frameworks ;
+                 rdfs:label "Build & Bundler Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#bullMq
+virgo:bullMq rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:messagingStreaming ;
+             rdfs:label "BullMQ" .
+
+
+###  http://padepokan79.com/ontology/skill#burpSuite
+virgo:burpSuite rdf:type owl:Class ;
+                rdfs:subClassOf virgo:securityTesting ;
+                rdfs:label "Burp Suite" .
+
+
+###  http://padepokan79.com/ontology/skill#camunda
+virgo:camunda rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiIntegration ,
+                              virgo:diagrammingTools ,
+                              virgo:lowCodeNoCode ;
+              rdfs:label "Camunda" .
+
+
+###  http://padepokan79.com/ontology/skill#canva
+virgo:canva rdf:type owl:Class ;
+            rdfs:subClassOf virgo:graphicDesignTools ;
+            rdfs:label "Canva" .
+
+
+###  http://padepokan79.com/ontology/skill#ciCd
+virgo:ciCd rdf:type owl:Class ;
+           rdfs:subClassOf virgo:devOpsTooling ,
+                           virgo:methodologiesProcesses ;
+           rdfs:label "CI/CD" .
+
+
+###  http://padepokan79.com/ontology/skill#classDiagram
+virgo:classDiagram rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:umlDiagrams ;
+                   rdfs:label "Class Diagram" .
+
+
+###  http://padepokan79.com/ontology/skill#cloudInfrastructure
+virgo:cloudInfrastructure rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:root ;
+                          rdfs:label "Cloud & Infrastructure" .
+
+
+###  http://padepokan79.com/ontology/skill#cloudProviders
+virgo:cloudProviders rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:cloudInfrastructure ;
+                     rdfs:label "Cloud Providers" .
+
+
+###  http://padepokan79.com/ontology/skill#cloudflare
+virgo:cloudflare rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:cloudProviders ,
+                                 virgo:networkingProtocols ,
+                                 virgo:securityTools ;
+                 rdfs:label "Cloudflare" .
+
+
+###  http://padepokan79.com/ontology/skill#codeIgniter
+virgo:codeIgniter rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:phpEcosystem ,
+                                  virgo:webBackendFrameworks ;
+                  rdfs:label "CodeIgniter" .
+
+
+###  http://padepokan79.com/ontology/skill#confluence
+virgo:confluence rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:documentationDiagramming ,
+                                 virgo:projectManagementTools ;
+                 rdfs:label "Confluence" .
+
+
+###  http://padepokan79.com/ontology/skill#containerOrchestration
+virgo:containerOrchestration rdf:type owl:Class ;
+                             rdfs:subClassOf virgo:cloudInfrastructure ,
+                                             virgo:devOpsTooling ;
+                             rdfs:label "Container & Orchestration" .
+
+
+###  http://padepokan79.com/ontology/skill#contextApi
+virgo:contextApi rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ,
+                                 virgo:stateManagement ;
+                 rdfs:label "Context API" .
+
+
+###  http://padepokan79.com/ontology/skill#cpp
+virgo:cpp rdf:type owl:Class ;
+          rdfs:subClassOf virgo:programmingLanguages ;
+          rdfs:label "C++" .
+
+
+###  http://padepokan79.com/ontology/skill#cryptoJs
+virgo:cryptoJs rdf:type owl:Class ;
+               rdfs:subClassOf virgo:javascriptEcosystem ,
+                               virgo:securityTools ;
+               rdfs:label "crypto.js" .
+
+
+###  http://padepokan79.com/ontology/skill#csharp
+virgo:csharp rdf:type owl:Class ;
+             rdfs:subClassOf virgo:dotnetEcosystem ;
+             rdfs:label "C#" .
+
+
+###  http://padepokan79.com/ontology/skill#css
+virgo:css rdf:type owl:Class ;
+          rdfs:subClassOf virgo:programmingLanguages ,
+                          virgo:webFrontendFrameworks ;
+          rdfs:label "CSS" .
+
+
+###  http://padepokan79.com/ontology/skill#cucumber
+virgo:cucumber rdf:type owl:Class ;
+               rdfs:subClassOf virgo:bdd ,
+                               virgo:testingFrameworks ;
+               rdfs:label "Cucumber" .
+
+
+###  http://padepokan79.com/ontology/skill#cypress
+virgo:cypress rdf:type owl:Class ;
+              rdfs:subClassOf virgo:e2eTesting ,
+                              virgo:javascriptEcosystem ;
+              rdfs:label "Cypress" .
+
+
+###  http://padepokan79.com/ontology/skill#d3Js
+virgo:d3Js rdf:type owl:Class ;
+           rdfs:subClassOf virgo:biVisualizationTools ,
+                           virgo:dataAnalytics ,
+                           virgo:javascriptEcosystem ;
+           rdfs:label "d3.js" .
+
+
+###  http://padepokan79.com/ontology/skill#dart
+virgo:dart rdf:type owl:Class ;
+           rdfs:subClassOf virgo:dartFlutterEcosystem ;
+           rdfs:label "Dart" .
+
+
+###  http://padepokan79.com/ontology/skill#dartFlutterEcosystem
+virgo:dartFlutterEcosystem rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:programmingLanguages ;
+                           rdfs:label "Dart & Flutter Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#dataAnalytics
+virgo:dataAnalytics rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:root ;
+                    rdfs:label "Data Analytics & BI" .
+
+
+###  http://padepokan79.com/ontology/skill#dataProcessingLibraries
+virgo:dataProcessingLibraries rdf:type owl:Class ;
+                              rdfs:subClassOf virgo:dataAnalytics ,
+                                              virgo:pythonEcosystem ;
+                              rdfs:label "Data Processing Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#dataWarehouse
+virgo:dataWarehouse rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:dataAnalytics ,
+                                    virgo:databases ;
+                    rdfs:label "Data Warehouse & Big Data" .
+
+
+###  http://padepokan79.com/ontology/skill#databaseAdminTools
+virgo:databaseAdminTools rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:databases ,
+                                         virgo:developmentTools ;
+                         rdfs:label "Database Administration Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#databases
+virgo:databases rdf:type owl:Class ;
+                rdfs:subClassOf virgo:root ;
+                rdfs:label "Databases & Data Stores" .
+
+
+###  http://padepokan79.com/ontology/skill#dbDiagram
+virgo:dbDiagram rdf:type owl:Class ;
+                rdfs:subClassOf virgo:databaseAdminTools ,
+                                virgo:diagrammingTools ;
+                rdfs:label "DBDiagram" .
+
+
+###  http://padepokan79.com/ontology/skill#dbeaver
+virgo:dbeaver rdf:type owl:Class ;
+              rdfs:subClassOf virgo:databaseAdminTools ;
+              rdfs:label "DBeaver" .
+
+
+###  http://padepokan79.com/ontology/skill#designDefinition
+virgo:designDefinition rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:documentationDiagramming ,
+                                       virgo:methodologiesProcesses ;
+                       rdfs:label "Design Definition" .
+
+
+###  http://padepokan79.com/ontology/skill#designPrinciples
+virgo:designPrinciples rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:softwareArchitecture ;
+                       rdfs:label "Design Principles & OOP" .
+
+
+###  http://padepokan79.com/ontology/skill#desktopFrameworks
+virgo:desktopFrameworks rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:frameworks ;
+                        rdfs:label "Desktop Frameworks" .
+
+
+###  http://padepokan79.com/ontology/skill#devOpsTooling
+virgo:devOpsTooling rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:root ;
+                    owl:disjointWith virgo:uiUxDesign ;
+                    rdfs:label "DevOps & CI/CD Tooling" .
+
+
+###  http://padepokan79.com/ontology/skill#developmentTools
+virgo:developmentTools rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:root ;
+                       rdfs:label "Development Tools & IDEs" .
+
+
+###  http://padepokan79.com/ontology/skill#dfd
+virgo:dfd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:umlDiagrams ;
+          rdfs:label "DFD" .
+
+
+###  http://padepokan79.com/ontology/skill#diagrammingTools
+virgo:diagrammingTools rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:documentationDiagramming ,
+                                       virgo:uiUxDesign ;
+                       rdfs:label "Diagramming Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#django
+virgo:django rdf:type owl:Class ;
+             rdfs:subClassOf virgo:pythonEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Django" .
+
+
+###  http://padepokan79.com/ontology/skill#docker
+virgo:docker rdf:type owl:Class ;
+             rdfs:subClassOf virgo:containerOrchestration ;
+             rdfs:label "Docker" .
+
+
+###  http://padepokan79.com/ontology/skill#dockerHub
+virgo:dockerHub rdf:type owl:Class ;
+                rdfs:subClassOf virgo:containerOrchestration ;
+                rdfs:label "Docker Hub" .
+
+
+###  http://padepokan79.com/ontology/skill#documentationDiagramming
+virgo:documentationDiagramming rdf:type owl:Class ;
+                               rdfs:subClassOf virgo:root ;
+                               rdfs:label "Documentation & Diagramming" .
+
+
+###  http://padepokan79.com/ontology/skill#dojoUi
+virgo:dojoUi rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:uiComponentLibraries ;
+             rdfs:label "Dojo UI" .
+
+
+###  http://padepokan79.com/ontology/skill#dotnetEcosystem
+virgo:dotnetEcosystem rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:programmingLanguages ;
+                      rdfs:label ".NET Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#drawIo
+virgo:drawIo rdf:type owl:Class ;
+             rdfs:subClassOf virgo:diagrammingTools ;
+             rdfs:label "Draw.io" .
+
+
+###  http://padepokan79.com/ontology/skill#drpc
+virgo:drpc rdf:type owl:Class ;
+           rdfs:subClassOf virgo:apiProtocols ,
+                           virgo:messagingStreaming ;
+           rdfs:label "dRPC" .
+
+
+###  http://padepokan79.com/ontology/skill#e2eTesting
+virgo:e2eTesting rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:testingQA ;
+                 rdfs:label "End-to-End (E2E) Testing" .
+
+
+###  http://padepokan79.com/ontology/skill#eclipse
+virgo:eclipse rdf:type owl:Class ;
+              rdfs:subClassOf virgo:developmentTools ;
+              rdfs:label "Eclipse" .
+
+
+###  http://padepokan79.com/ontology/skill#elasticJob
+virgo:elasticJob rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:devOpsTooling ,
+                                 virgo:javaEcosystem ;
+                 rdfs:label "ElasticJob" .
+
+
+###  http://padepokan79.com/ontology/skill#elasticsearch
+virgo:elasticsearch rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:dataAnalytics ,
+                                    virgo:nonRelationalDatabases ;
+                    rdfs:label "Elasticsearch" .
+
+
+###  http://padepokan79.com/ontology/skill#electronJs
+virgo:electronJs rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:desktopFrameworks ,
+                                 virgo:javascriptEcosystem ;
+                 rdfs:label "Electron.js" .
+
+
+###  http://padepokan79.com/ontology/skill#erd
+virgo:erd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:databases ,
+                          virgo:umlDiagrams ;
+          rdfs:label "ERD" .
+
+
+###  http://padepokan79.com/ontology/skill#erpNext
+virgo:erpNext rdf:type owl:Class ;
+              rdfs:subClassOf virgo:lowCodeNoCode ,
+                              virgo:phpEcosystem ;
+              rdfs:label "ERPNext" .
+
+
+###  http://padepokan79.com/ontology/skill#eslint
+virgo:eslint rdf:type owl:Class ;
+             rdfs:subClassOf virgo:developmentTools ,
+                             virgo:javascriptEcosystem ;
+             rdfs:label "ESLint" .
+
+
+###  http://padepokan79.com/ontology/skill#etlTools
+virgo:etlTools rdf:type owl:Class ;
+               rdfs:subClassOf virgo:dataAnalytics ,
+                               virgo:devOpsTooling ;
+               rdfs:label "ETL & Data Pipeline Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#excalidraw
+virgo:excalidraw rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:diagrammingTools ;
+                 rdfs:label "Excalidraw" .
+
+
+###  http://padepokan79.com/ontology/skill#excelize
+virgo:excelize rdf:type owl:Class ;
+               rdfs:subClassOf virgo:developmentTools ,
+                               virgo:goEcosystem ;
+               rdfs:label "Excelize" .
+
+
+###  http://padepokan79.com/ontology/skill#expressJs
+virgo:expressJs rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:webBackendFrameworks ;
+                rdfs:label "Express.js" .
+
+
+###  http://padepokan79.com/ontology/skill#fastApi
+virgo:fastApi rdf:type owl:Class ;
+              rdfs:subClassOf virgo:pythonEcosystem ,
+                              virgo:webBackendFrameworks ;
+              rdfs:label "FastAPI" .
+
+
+###  http://padepokan79.com/ontology/skill#figma
+virgo:figma rdf:type owl:Class ;
+            rdfs:subClassOf virgo:wireframingPrototyping ;
+            rdfs:label "Figma" .
+
+
+###  http://padepokan79.com/ontology/skill#flask
+virgo:flask rdf:type owl:Class ;
+            rdfs:subClassOf virgo:pythonEcosystem ,
+                            virgo:webBackendFrameworks ;
+            rdfs:label "Flask" .
+
+
+###  http://padepokan79.com/ontology/skill#flatpickr
+virgo:flatpickr rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:uiComponentLibraries ;
+                rdfs:label "Flatpickr" .
+
+
+###  http://padepokan79.com/ontology/skill#flowchart
+virgo:flowchart rdf:type owl:Class ;
+                rdfs:subClassOf virgo:documentationDiagramming ;
+                rdfs:label "Flowchart" .
+
+
+###  http://padepokan79.com/ontology/skill#flutter
+virgo:flutter rdf:type owl:Class ;
+              rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                              virgo:mobileFrameworks ;
+              rdfs:label "Flutter" .
+
+
+###  http://padepokan79.com/ontology/skill#formValidationLibraries
+virgo:formValidationLibraries rdf:type owl:Class ;
+                              rdfs:subClassOf virgo:frameworks ,
+                                              virgo:webFrontendFrameworks ;
+                              rdfs:label "Form & Validation Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#formik
+virgo:formik rdf:type owl:Class ;
+             rdfs:subClassOf virgo:formValidationLibraries ,
+                             virgo:javascriptEcosystem ;
+             rdfs:label "Formik" .
+
+
+###  http://padepokan79.com/ontology/skill#frameworks
+virgo:frameworks rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:root ;
+                 rdfs:label "Frameworks & Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#frappe
+virgo:frappe rdf:type owl:Class ;
+             rdfs:subClassOf virgo:lowCodeNoCode ,
+                             virgo:phpEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Frappe" .
+
+
+###  http://padepokan79.com/ontology/skill#frontendArchitecture
+virgo:frontendArchitecture rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:softwareArchitecture ,
+                                           virgo:webFrontendFrameworks ;
+                           rdfs:label "Frontend Architecture" .
+
+
+###  http://padepokan79.com/ontology/skill#fsd
+virgo:fsd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:frontendArchitecture ,
+                          virgo:methodologiesProcesses ;
+          rdfs:label "FSD" .
+
+
+###  http://padepokan79.com/ontology/skill#ftp
+virgo:ftp rdf:type owl:Class ;
+          rdfs:subClassOf virgo:networkingProtocols ;
+          rdfs:label "FTP" .
+
+
+###  http://padepokan79.com/ontology/skill#gcp
+virgo:gcp rdf:type owl:Class ;
+          rdfs:subClassOf virgo:cloudProviders ;
+          rdfs:label "Google Cloud Platform (GCP)" .
+
+
+###  http://padepokan79.com/ontology/skill#geminiGpt
+virgo:geminiGpt rdf:type owl:Class ;
+                rdfs:subClassOf virgo:aiMl ;
+                rdfs:label "Gemini/GPT" .
+
+
+###  http://padepokan79.com/ontology/skill#geoJson
+virgo:geoJson rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiProtocols ,
+                              virgo:gisGeospatial ;
+              rdfs:label "GeoJSON" .
+
+
+###  http://padepokan79.com/ontology/skill#geopandas
+virgo:geopandas rdf:type owl:Class ;
+                rdfs:subClassOf virgo:dataProcessingLibraries ,
+                                virgo:gisGeospatial ,
+                                virgo:pythonEcosystem ;
+                rdfs:label "Geopandas" .
+
+
+###  http://padepokan79.com/ontology/skill#geoserver
+virgo:geoserver rdf:type owl:Class ;
+                rdfs:subClassOf virgo:gisGeospatial ;
+                rdfs:label "GeoServer" .
+
+
+###  http://padepokan79.com/ontology/skill#getIt
+virgo:getIt rdf:type owl:Class ;
+            rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                            virgo:designPrinciples ;
+            rdfs:label "GetIt" .
+
+
+###  http://padepokan79.com/ontology/skill#gin
+virgo:gin rdf:type owl:Class ;
+          rdfs:subClassOf virgo:goEcosystem ,
+                          virgo:webBackendFrameworks ;
+          rdfs:label "Gin" .
+
+
+###  http://padepokan79.com/ontology/skill#gis
+virgo:gis rdf:type owl:Class ;
+          rdfs:subClassOf virgo:gisGeospatial ;
+          rdfs:label "GIS" .
+
+
+###  http://padepokan79.com/ontology/skill#gisGeospatial
+virgo:gisGeospatial rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:root ;
+                    rdfs:label "GIS & Geospatial" .
+
+
+###  http://padepokan79.com/ontology/skill#git
+virgo:git rdf:type owl:Class ;
+          rdfs:subClassOf virgo:devOpsTooling ;
+          rdfs:label "Git" .
+
+
+###  http://padepokan79.com/ontology/skill#gitea
+virgo:gitea rdf:type owl:Class ;
+            rdfs:subClassOf virgo:devOpsTooling ;
+            rdfs:label "Gitea" .
+
+
+###  http://padepokan79.com/ontology/skill#github
+virgo:github rdf:type owl:Class ;
+             rdfs:subClassOf virgo:devOpsTooling ;
+             rdfs:label "GitHub" .
+
+
+###  http://padepokan79.com/ontology/skill#gitlab
+virgo:gitlab rdf:type owl:Class ;
+             rdfs:subClassOf virgo:devOpsTooling ;
+             rdfs:label "GitLab" .
+
+
+###  http://padepokan79.com/ontology/skill#gitlabCi
+virgo:gitlabCi rdf:type owl:Class ;
+               rdfs:subClassOf virgo:devOpsTooling ;
+               rdfs:label "GitLab CI" .
+
+
+###  http://padepokan79.com/ontology/skill#goEcosystem
+virgo:goEcosystem rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:programmingLanguages ;
+                  rdfs:label "Go (Golang) Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#goFiber
+virgo:goFiber rdf:type owl:Class ;
+              rdfs:subClassOf virgo:goEcosystem ,
+                              virgo:webBackendFrameworks ;
+              rdfs:label "GoFiber" .
+
+
+###  http://padepokan79.com/ontology/skill#goRouter
+virgo:goRouter rdf:type owl:Class ;
+               rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                               virgo:mobileFrameworks ;
+               rdfs:label "GoRouter" .
+
+
+###  http://padepokan79.com/ontology/skill#golang
+virgo:golang rdf:type owl:Class ;
+             rdfs:subClassOf virgo:goEcosystem ;
+             rdfs:label "Golang" .
+
+
+###  http://padepokan79.com/ontology/skill#googleAnalytics
+virgo:googleAnalytics rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:biVisualizationTools ,
+                                      virgo:cloudProviders ;
+                      rdfs:label "Google Analytics" .
+
+
+###  http://padepokan79.com/ontology/skill#googleCalendarApi
+virgo:googleCalendarApi rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:apiIntegration ,
+                                        virgo:cloudProviders ;
+                        rdfs:label "Google Calendar API" .
+
+
+###  http://padepokan79.com/ontology/skill#googleDocs
+virgo:googleDocs rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:documentationDiagramming ,
+                                 virgo:projectManagementTools ;
+                 rdfs:label "Google Docs" .
+
+
+###  http://padepokan79.com/ontology/skill#googleEarthEngine
+virgo:googleEarthEngine rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:cloudProviders ,
+                                        virgo:gisGeospatial ;
+                        rdfs:label "Google Earth Engine" .
+
+
+###  http://padepokan79.com/ontology/skill#googleSheets
+virgo:googleSheets rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:dataAnalytics ,
+                                   virgo:projectManagementTools ;
+                   rdfs:label "Google Sheets" .
+
+
+###  http://padepokan79.com/ontology/skill#gorm
+virgo:gorm rdf:type owl:Class ;
+           rdfs:subClassOf virgo:goEcosystem ,
+                           virgo:ormLibraries ;
+           rdfs:label "GORM" .
+
+
+###  http://padepokan79.com/ontology/skill#graphicDesignTools
+virgo:graphicDesignTools rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:uiUxDesign ;
+                         rdfs:label "Graphic Design Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#graphql
+virgo:graphql rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiProtocols ;
+              rdfs:label "GraphQL" .
+
+
+###  http://padepokan79.com/ontology/skill#graphqlJs
+virgo:graphqlJs rdf:type owl:Class ;
+                rdfs:subClassOf virgo:apiProtocols ,
+                                virgo:javascriptEcosystem ;
+                rdfs:label "GraphQL" .
+
+
+###  http://padepokan79.com/ontology/skill#grpc
+virgo:grpc rdf:type owl:Class ;
+           rdfs:subClassOf virgo:apiProtocols ,
+                           virgo:messagingStreaming ;
+           rdfs:label "gRPC" .
+
+
+###  http://padepokan79.com/ontology/skill#gulpJs
+virgo:gulpJs rdf:type owl:Class ;
+             rdfs:subClassOf virgo:buildTools ,
+                             virgo:javascriptEcosystem ;
+             rdfs:label "Gulp.js" .
+
+
+###  http://padepokan79.com/ontology/skill#handlebars
+virgo:handlebars rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ,
+                                 virgo:webFrontendFrameworks ;
+                 rdfs:label "Handlebars" .
+
+
+###  http://padepokan79.com/ontology/skill#harbor
+virgo:harbor rdf:type owl:Class ;
+             rdfs:subClassOf virgo:containerOrchestration ,
+                             virgo:devOpsTooling ;
+             rdfs:label "Harbor" .
+
+
+###  http://padepokan79.com/ontology/skill#hibernate
+virgo:hibernate rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javaEcosystem ,
+                                virgo:ormLibraries ;
+                rdfs:label "Hibernate" .
+
+
+###  http://padepokan79.com/ontology/skill#hl7
+virgo:hl7 rdf:type owl:Class ;
+          rdfs:subClassOf virgo:apiIntegration ,
+                          virgo:apiProtocols ;
+          rdfs:label "HL7" .
+
+
+###  http://padepokan79.com/ontology/skill#html
+virgo:html rdf:type owl:Class ;
+           rdfs:subClassOf virgo:programmingLanguages ,
+                           virgo:webFrontendFrameworks ;
+           rdfs:label "HTML" .
+
+
+###  http://padepokan79.com/ontology/skill#htmlToPdf
+virgo:htmlToPdf rdf:type owl:Class ;
+                rdfs:subClassOf virgo:documentationDiagramming ,
+                                virgo:webFrontendFrameworks ;
+                rdfs:label "HTML to PDF" .
+
+
+###  http://padepokan79.com/ontology/skill#htmlToPdfLib
+virgo:htmlToPdfLib rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:developmentTools ,
+                                   virgo:webFrontendFrameworks ;
+                   rdfs:label "HTML to PDF" .
+
+
+###  http://padepokan79.com/ontology/skill#httpClientLibraries
+virgo:httpClientLibraries rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:apiIntegration ,
+                                          virgo:frameworks ;
+                          rdfs:label "HTTP Client Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#husky
+virgo:husky rdf:type owl:Class ;
+            rdfs:subClassOf virgo:devOpsTooling ,
+                            virgo:developmentTools ,
+                            virgo:javascriptEcosystem ;
+            rdfs:label "Husky" .
+
+
+###  http://padepokan79.com/ontology/skill#i18n
+virgo:i18n rdf:type owl:Class ;
+           rdfs:subClassOf virgo:javascriptEcosystem ,
+                           virgo:webFrontendFrameworks ;
+           rdfs:label "i18n" .
+
+
+###  http://padepokan79.com/ontology/skill#ibatis
+virgo:ibatis rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javaEcosystem ,
+                             virgo:ormLibraries ;
+             rdfs:label "iBatis" .
+
+
+###  http://padepokan79.com/ontology/skill#iis10
+virgo:iis10 rdf:type owl:Class ;
+            rdfs:subClassOf virgo:cloudInfrastructure ,
+                            virgo:networkingProtocols ;
+            rdfs:label "IIS 10" .
+
+
+###  http://padepokan79.com/ontology/skill#inMemoryDatabases
+virgo:inMemoryDatabases rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:databases ;
+                        rdfs:label "In-Memory & Cache Databases" .
+
+
+###  http://padepokan79.com/ontology/skill#inertiaJs
+virgo:inertiaJs rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:webFrontendFrameworks ;
+                rdfs:label "Inertia.js" .
+
+
+###  http://padepokan79.com/ontology/skill#insomnia
+virgo:insomnia rdf:type owl:Class ;
+               rdfs:subClassOf virgo:apiTesting ;
+               rdfs:label "Insomnia" .
+
+
+###  http://padepokan79.com/ontology/skill#intellijIdea
+virgo:intellijIdea rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:developmentTools ;
+                   rdfs:label "IntelliJ IDEA" .
+
+
+###  http://padepokan79.com/ontology/skill#interactJs
+virgo:interactJs rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ,
+                                 virgo:uiComponentLibraries ;
+                 rdfs:label "InteractJS" .
+
+
+###  http://padepokan79.com/ontology/skill#iona
+virgo:iona rdf:type owl:Class ;
+           rdfs:subClassOf virgo:apiIntegration ,
+                           virgo:messagingStreaming ;
+           rdfs:label "IONA" .
+
+
+###  http://padepokan79.com/ontology/skill#jackson
+virgo:jackson rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiIntegration ,
+                              virgo:javaEcosystem ;
+              rdfs:label "Jackson" .
+
+
+###  http://padepokan79.com/ontology/skill#jaeger
+virgo:jaeger rdf:type owl:Class ;
+             rdfs:subClassOf virgo:cloudInfrastructure ,
+                             virgo:devOpsTooling ;
+             rdfs:label "Jaeger" .
+
+
+###  http://padepokan79.com/ontology/skill#jasperReports
+virgo:jasperReports rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:biVisualizationTools ,
+                                    virgo:javaEcosystem ;
+                    rdfs:label "JasperReports" .
+
+
+###  http://padepokan79.com/ontology/skill#java
+virgo:java rdf:type owl:Class ;
+           rdfs:subClassOf virgo:javaEcosystem ;
+           rdfs:label "Java" .
+
+
+###  http://padepokan79.com/ontology/skill#javaAndroid
+virgo:javaAndroid rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:javaEcosystem ,
+                                  virgo:mobileFrameworks ;
+                  rdfs:label "Java Android" .
+
+
+###  http://padepokan79.com/ontology/skill#javaEcosystem
+virgo:javaEcosystem rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:programmingLanguages ;
+                    rdfs:label "Java Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#javaEe
+virgo:javaEe rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javaEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Java EE" .
+
+
+###  http://padepokan79.com/ontology/skill#javaFx
+virgo:javaFx rdf:type owl:Class ;
+             rdfs:subClassOf virgo:desktopFrameworks ,
+                             virgo:javaEcosystem ;
+             rdfs:label "JavaFX" .
+
+
+###  http://padepokan79.com/ontology/skill#javaNative
+virgo:javaNative rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javaEcosystem ;
+                 rdfs:label "Java Native" .
+
+
+###  http://padepokan79.com/ontology/skill#javaQuarkus
+virgo:javaQuarkus rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:javaEcosystem ,
+                                  virgo:webBackendFrameworks ;
+                  rdfs:label "Java Quarkus" .
+
+
+###  http://padepokan79.com/ontology/skill#javaSwing
+virgo:javaSwing rdf:type owl:Class ;
+                rdfs:subClassOf virgo:desktopFrameworks ,
+                                virgo:javaEcosystem ;
+                rdfs:label "Java Swing" .
+
+
+###  http://padepokan79.com/ontology/skill#javaWebMail
+virgo:javaWebMail rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:apiIntegration ,
+                                  virgo:javaEcosystem ;
+                  rdfs:label "Java WebMail" .
+
+
+###  http://padepokan79.com/ontology/skill#javalang
+virgo:javalang rdf:type owl:Class ;
+               rdfs:subClassOf virgo:developmentTools ,
+                               virgo:javaEcosystem ;
+               rdfs:label "Javalang" .
+
+
+###  http://padepokan79.com/ontology/skill#javascript
+virgo:javascript rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ;
+                 rdfs:label "JavaScript" .
+
+
+###  http://padepokan79.com/ontology/skill#javascriptEcosystem
+virgo:javascriptEcosystem rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:programmingLanguages ;
+                          rdfs:label "JavaScript Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#jdepend
+virgo:jdepend rdf:type owl:Class ;
+              rdfs:subClassOf virgo:developmentTools ,
+                              virgo:javaEcosystem ;
+              rdfs:label "JDepend" .
+
+
+###  http://padepokan79.com/ontology/skill#jenkins
+virgo:jenkins rdf:type owl:Class ;
+              rdfs:subClassOf virgo:devOpsTooling ;
+              rdfs:label "Jenkins" .
+
+
+###  http://padepokan79.com/ontology/skill#jest
+virgo:jest rdf:type owl:Class ;
+           rdfs:subClassOf virgo:javascriptEcosystem ,
+                           virgo:testingFrameworks ,
+                           virgo:unitTesting ;
+           rdfs:label "Jest" .
+
+
+###  http://padepokan79.com/ontology/skill#jetpackCompose
+virgo:jetpackCompose rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:kotlinEcosystem ,
+                                     virgo:mobileFrameworks ;
+                     rdfs:label "Jetpack Compose" .
+
+
+###  http://padepokan79.com/ontology/skill#jira
+virgo:jira rdf:type owl:Class ;
+           rdfs:subClassOf virgo:projectManagementTools ;
+           rdfs:label "JIRA" .
+
+
+###  http://padepokan79.com/ontology/skill#jmeter
+virgo:jmeter rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javaEcosystem ,
+                             virgo:performanceTesting ;
+             rdfs:label "JMeter" .
+
+
+###  http://padepokan79.com/ontology/skill#joi
+virgo:joi rdf:type owl:Class ;
+          rdfs:subClassOf virgo:formValidationLibraries ,
+                          virgo:javascriptEcosystem ;
+          rdfs:label "Joi" .
+
+
+###  http://padepokan79.com/ontology/skill#jquery
+virgo:jquery rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webFrontendFrameworks ;
+             rdfs:label "jQuery" .
+
+
+###  http://padepokan79.com/ontology/skill#jumpserver
+virgo:jumpserver rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:devOpsTooling ,
+                                 virgo:securityTools ;
+                 rdfs:label "Jumpserver" .
+
+
+###  http://padepokan79.com/ontology/skill#junit
+virgo:junit rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javaEcosystem ,
+                            virgo:testingFrameworks ;
+            rdfs:label "JUnit" .
+
+
+###  http://padepokan79.com/ontology/skill#jwt
+virgo:jwt rdf:type owl:Class ;
+          rdfs:subClassOf virgo:apiIntegration ,
+                          virgo:javascriptEcosystem ,
+                          virgo:securityTools ;
+          rdfs:label "JSON Web Token (JWT)" .
+
+
+###  http://padepokan79.com/ontology/skill#kafka
+virgo:kafka rdf:type owl:Class ;
+            rdfs:subClassOf virgo:messagingStreaming ;
+            rdfs:label "Kafka" .
+
+
+###  http://padepokan79.com/ontology/skill#kanban
+virgo:kanban rdf:type owl:Class ;
+             rdfs:subClassOf virgo:agile ,
+                             virgo:methodologiesProcesses ;
+             rdfs:label "Kanban" .
+
+
+###  http://padepokan79.com/ontology/skill#katalon
+virgo:katalon rdf:type owl:Class ;
+              rdfs:subClassOf virgo:e2eTesting ,
+                              virgo:mobileTestingTools ;
+              rdfs:label "Katalon Studio" .
+
+
+###  http://padepokan79.com/ontology/skill#kendoUi
+virgo:kendoUi rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:uiComponentLibraries ;
+              rdfs:label "Kendo UI" .
+
+
+###  http://padepokan79.com/ontology/skill#kibana
+virgo:kibana rdf:type owl:Class ;
+             rdfs:subClassOf virgo:biVisualizationTools ,
+                             virgo:devOpsTooling ;
+             rdfs:label "Kibana" .
+
+
+###  http://padepokan79.com/ontology/skill#kotlin
+virgo:kotlin rdf:type owl:Class ;
+             rdfs:subClassOf virgo:kotlinEcosystem ;
+             rdfs:label "Kotlin" .
+
+
+###  http://padepokan79.com/ontology/skill#kotlinEcosystem
+virgo:kotlinEcosystem rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:programmingLanguages ;
+                      rdfs:label "Kotlin Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#kubernetes
+virgo:kubernetes rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:containerOrchestration ;
+                 rdfs:label "Kubernetes (K8s)" .
+
+
+###  http://padepokan79.com/ontology/skill#laravel
+virgo:laravel rdf:type owl:Class ;
+              rdfs:subClassOf virgo:phpEcosystem ,
+                              virgo:webBackendFrameworks ;
+              rdfs:label "Laravel" .
+
+
+###  http://padepokan79.com/ontology/skill#laravelLumen
+virgo:laravelLumen rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:phpEcosystem ,
+                                   virgo:webBackendFrameworks ;
+                   rdfs:label "Laravel Lumen" .
+
+
+###  http://padepokan79.com/ontology/skill#lazarus
+virgo:lazarus rdf:type owl:Class ;
+              rdfs:subClassOf virgo:desktopFrameworks ,
+                              virgo:programmingLanguages ;
+              rdfs:label "Lazarus" .
+
+
+###  http://padepokan79.com/ontology/skill#ldap
+virgo:ldap rdf:type owl:Class ;
+           rdfs:subClassOf virgo:networkingProtocols ,
+                           virgo:securityTools ;
+           rdfs:label "LDAP" .
+
+
+###  http://padepokan79.com/ontology/skill#leaflet
+virgo:leaflet rdf:type owl:Class ;
+              rdfs:subClassOf virgo:gisGeospatial ,
+                              virgo:javascriptEcosystem ,
+                              virgo:webFrontendFrameworks ;
+              rdfs:label "Leaflet" .
+
+
+###  http://padepokan79.com/ontology/skill#lightshot
+virgo:lightshot rdf:type owl:Class ;
+                rdfs:subClassOf virgo:developmentTools ,
+                                virgo:uiUxDesign ;
+                rdfs:label "Lightshot" .
+
+
+###  http://padepokan79.com/ontology/skill#linux
+virgo:linux rdf:type owl:Class ;
+            rdfs:subClassOf virgo:operatingSystems ;
+            rdfs:label "Linux" .
+
+
+###  http://padepokan79.com/ontology/skill#liquibase
+virgo:liquibase rdf:type owl:Class ;
+                rdfs:subClassOf virgo:databases ,
+                                virgo:devOpsTooling ,
+                                virgo:javaEcosystem ;
+                rdfs:label "Liquibase" .
+
+
+###  http://padepokan79.com/ontology/skill#lombok
+virgo:lombok rdf:type owl:Class ;
+             rdfs:subClassOf virgo:developmentTools ,
+                             virgo:javaEcosystem ;
+             rdfs:label "Lombok" .
+
+
+###  http://padepokan79.com/ontology/skill#lookerStudio
+virgo:lookerStudio rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:biVisualizationTools ,
+                                   virgo:cloudProviders ;
+                   rdfs:label "Looker Studio" .
+
+
+###  http://padepokan79.com/ontology/skill#lowCodeNoCode
+virgo:lowCodeNoCode rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:root ;
+                    rdfs:label "Low-Code / No-Code Platforms" .
+
+
+###  http://padepokan79.com/ontology/skill#mantis
+virgo:mantis rdf:type owl:Class ;
+             rdfs:subClassOf virgo:projectManagementTools ,
+                             virgo:testManagement ;
+             rdfs:label "Mantis" .
+
+
+###  http://padepokan79.com/ontology/skill#mariaDb
+virgo:mariaDb rdf:type owl:Class ;
+              rdfs:subClassOf virgo:relationalDatabases ;
+              rdfs:label "MariaDB" .
+
+
+###  http://padepokan79.com/ontology/skill#materialUi
+virgo:materialUi rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ,
+                                 virgo:uiComponentLibraries ;
+                 rdfs:label "Material UI (MUI)" .
+
+
+###  http://padepokan79.com/ontology/skill#maven
+virgo:maven rdf:type owl:Class ;
+            rdfs:subClassOf virgo:buildTools ,
+                            virgo:javaEcosystem ;
+            rdfs:label "Maven" .
+
+
+###  http://padepokan79.com/ontology/skill#messagingStreaming
+virgo:messagingStreaming rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:root ;
+                         rdfs:label "Messaging & Streaming" .
+
+
+###  http://padepokan79.com/ontology/skill#methodologiesProcesses
+virgo:methodologiesProcesses rdf:type owl:Class ;
+                             rdfs:subClassOf virgo:root ;
+                             rdfs:label "Methodologies & Processes" .
+
+
+###  http://padepokan79.com/ontology/skill#microFrontend
+virgo:microFrontend rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:architecturePatterns ,
+                                    virgo:frontendArchitecture ;
+                    rdfs:label "Micro Frontend" .
+
+
+###  http://padepokan79.com/ontology/skill#microservices
+virgo:microservices rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:architecturePatterns ;
+                    rdfs:label "Microservices" .
+
+
+###  http://padepokan79.com/ontology/skill#microsoftExcel
+virgo:microsoftExcel rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:dataAnalytics ,
+                                     virgo:projectManagementTools ;
+                     rdfs:label "Microsoft Excel" .
+
+
+###  http://padepokan79.com/ontology/skill#microsoftWord
+virgo:microsoftWord rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:documentationDiagramming ,
+                                    virgo:projectManagementTools ;
+                    rdfs:label "Microsoft Word" .
+
+
+###  http://padepokan79.com/ontology/skill#minIO
+virgo:minIO rdf:type owl:Class ;
+            rdfs:subClassOf virgo:objectStorage ;
+            rdfs:label "MinIO" .
+
+
+###  http://padepokan79.com/ontology/skill#miro
+virgo:miro rdf:type owl:Class ;
+           rdfs:subClassOf virgo:diagrammingTools ,
+                           virgo:projectManagementTools ;
+           rdfs:label "Miro" .
+
+
+###  http://padepokan79.com/ontology/skill#mobaXterm
+virgo:mobaXterm rdf:type owl:Class ;
+                rdfs:subClassOf virgo:developmentTools ,
+                                virgo:operatingSystems ;
+                rdfs:label "MobaXterm" .
+
+
+###  http://padepokan79.com/ontology/skill#mobileFrameworks
+virgo:mobileFrameworks rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:frameworks ;
+                       rdfs:label "Mobile Frameworks" .
+
+
+###  http://padepokan79.com/ontology/skill#mobileTestingTools
+virgo:mobileTestingTools rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:testingQA ;
+                         rdfs:label "Mobile Testing Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#mockito
+virgo:mockito rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javaEcosystem ,
+                              virgo:testingFrameworks ;
+              rdfs:label "Mockito" .
+
+
+###  http://padepokan79.com/ontology/skill#modelMapper
+virgo:modelMapper rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:frameworks ,
+                                  virgo:javaEcosystem ;
+                  rdfs:label "ModelMapper" .
+
+
+###  http://padepokan79.com/ontology/skill#mongodb
+virgo:mongodb rdf:type owl:Class ;
+              rdfs:subClassOf virgo:nonRelationalDatabases ;
+              rdfs:label "MongoDB" .
+
+
+###  http://padepokan79.com/ontology/skill#mongodbCompass
+virgo:mongodbCompass rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:databaseAdminTools ;
+                     rdfs:label "MongoDB Compass" .
+
+
+###  http://padepokan79.com/ontology/skill#monorepo
+virgo:monorepo rdf:type owl:Class ;
+               rdfs:subClassOf virgo:architecturePatterns ,
+                               virgo:devOpsTooling ,
+                               virgo:frontendArchitecture ;
+               rdfs:label "Monorepo" .
+
+
+###  http://padepokan79.com/ontology/skill#moodle
+virgo:moodle rdf:type owl:Class ;
+             rdfs:subClassOf virgo:lowCodeNoCode ,
+                             virgo:phpEcosystem ;
+             rdfs:label "Moodle" .
+
+
+###  http://padepokan79.com/ontology/skill#mqtt
+virgo:mqtt rdf:type owl:Class ;
+           rdfs:subClassOf virgo:messagingStreaming ,
+                           virgo:networkingProtocols ;
+           rdfs:label "MQTT" .
+
+
+###  http://padepokan79.com/ontology/skill#mssql
+virgo:mssql rdf:type owl:Class ;
+            rdfs:subClassOf virgo:relationalDatabases ;
+            rdfs:label "Microsoft SQL Server" .
+
+
+###  http://padepokan79.com/ontology/skill#multer
+virgo:multer rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Multer" .
+
+
+###  http://padepokan79.com/ontology/skill#mybatis
+virgo:mybatis rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javaEcosystem ,
+                              virgo:ormLibraries ;
+              rdfs:label "MyBatis" .
+
+
+###  http://padepokan79.com/ontology/skill#mysql
+virgo:mysql rdf:type owl:Class ;
+            rdfs:subClassOf virgo:relationalDatabases ;
+            rdfs:label "MySQL" .
+
+
+###  http://padepokan79.com/ontology/skill#n8n
+virgo:n8n rdf:type owl:Class ;
+          rdfs:subClassOf virgo:apiIntegration ,
+                          virgo:devOpsTooling ,
+                          virgo:lowCodeNoCode ;
+          rdfs:label "n8n" .
+
+
+###  http://padepokan79.com/ontology/skill#navicat
+virgo:navicat rdf:type owl:Class ;
+              rdfs:subClassOf virgo:databaseAdminTools ;
+              rdfs:label "Navicat" .
+
+
+###  http://padepokan79.com/ontology/skill#nestJs
+virgo:nestJs rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "NestJS" .
+
+
+###  http://padepokan79.com/ontology/skill#networkingProtocols
+virgo:networkingProtocols rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:root ;
+                          rdfs:label "Networking & Protocols" .
+
+
+###  http://padepokan79.com/ontology/skill#nextJs
+virgo:nextJs rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webBackendFrameworks ,
+                             virgo:webFrontendFrameworks ;
+             rdfs:label "Next.js" .
+
+
+###  http://padepokan79.com/ontology/skill#nexus
+virgo:nexus rdf:type owl:Class ;
+            rdfs:subClassOf virgo:devOpsTooling ;
+            rdfs:label "Nexus" .
+
+
+###  http://padepokan79.com/ontology/skill#nginx
+virgo:nginx rdf:type owl:Class ;
+            rdfs:subClassOf virgo:cloudInfrastructure ,
+                            virgo:networkingProtocols ;
+            rdfs:label "Nginx" .
+
+
+###  http://padepokan79.com/ontology/skill#nightwatchJs
+virgo:nightwatchJs rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:e2eTesting ,
+                                   virgo:javascriptEcosystem ;
+                   rdfs:label "Nightwatch.js" .
+
+
+###  http://padepokan79.com/ontology/skill#nodeJs
+virgo:nodeJs rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Node.js" .
+
+
+###  http://padepokan79.com/ontology/skill#nodemailer
+virgo:nodemailer rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:apiIntegration ,
+                                 virgo:javascriptEcosystem ;
+                 rdfs:label "Nodemailer" .
+
+
+###  http://padepokan79.com/ontology/skill#nonRelationalDatabases
+virgo:nonRelationalDatabases rdf:type owl:Class ;
+                             rdfs:subClassOf virgo:databases ;
+                             rdfs:label "Non-Relational Databases (NoSQL)" .
+
+
+###  http://padepokan79.com/ontology/skill#notepadPlusPlus
+virgo:notepadPlusPlus rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:developmentTools ;
+                      rdfs:label "Notepad++" .
+
+
+###  http://padepokan79.com/ontology/skill#numpy
+virgo:numpy rdf:type owl:Class ;
+            rdfs:subClassOf virgo:dataProcessingLibraries ,
+                            virgo:pythonEcosystem ;
+            rdfs:label "NumPy" .
+
+
+###  http://padepokan79.com/ontology/skill#nuxtJs
+virgo:nuxtJs rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webBackendFrameworks ,
+                             virgo:webFrontendFrameworks ;
+             rdfs:label "Nuxt.js" .
+
+
+###  http://padepokan79.com/ontology/skill#objectStorage
+virgo:objectStorage rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:cloudInfrastructure ;
+                    rdfs:label "Object & File Storage" .
+
+
+###  http://padepokan79.com/ontology/skill#okd
+virgo:okd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:containerOrchestration ;
+          rdfs:label "OKD" .
+
+
+###  http://padepokan79.com/ontology/skill#oop
+virgo:oop rdf:type owl:Class ;
+          rdfs:subClassOf virgo:designPrinciples ;
+          rdfs:label "OOP" .
+
+
+###  http://padepokan79.com/ontology/skill#openLayers
+virgo:openLayers rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:gisGeospatial ,
+                                 virgo:javascriptEcosystem ,
+                                 virgo:webFrontendFrameworks ;
+                 rdfs:label "OpenLayers" .
+
+
+###  http://padepokan79.com/ontology/skill#openshift
+virgo:openshift rdf:type owl:Class ;
+                rdfs:subClassOf virgo:cloudProviders ,
+                                virgo:containerOrchestration ;
+                rdfs:label "OpenShift" .
+
+
+###  http://padepokan79.com/ontology/skill#operatingSystems
+virgo:operatingSystems rdf:type owl:Class ;
+                       rdfs:subClassOf virgo:root ;
+                       rdfs:label "Operating Systems & Environments" .
+
+
+###  http://padepokan79.com/ontology/skill#oracleDb
+virgo:oracleDb rdf:type owl:Class ;
+               rdfs:subClassOf virgo:relationalDatabases ;
+               rdfs:label "Oracle DB" .
+
+
+###  http://padepokan79.com/ontology/skill#ormLibraries
+virgo:ormLibraries rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:databases ,
+                                   virgo:frameworks ;
+                   rdfs:label "ORM & Data Access Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#outsystems
+virgo:outsystems rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:lowCodeNoCode ;
+                 rdfs:label "OutSystems" .
+
+
+###  http://padepokan79.com/ontology/skill#owasp
+virgo:owasp rdf:type owl:Class ;
+            rdfs:subClassOf virgo:methodologiesProcesses ,
+                            virgo:securityTools ;
+            rdfs:label "OWASP" .
+
+
+###  http://padepokan79.com/ontology/skill#owaspZap
+virgo:owaspZap rdf:type owl:Class ;
+               rdfs:subClassOf virgo:securityTesting ;
+               rdfs:label "OWASP ZAP" .
+
+
+###  http://padepokan79.com/ontology/skill#pandas
+virgo:pandas rdf:type owl:Class ;
+             rdfs:subClassOf virgo:dataProcessingLibraries ,
+                             virgo:pythonEcosystem ;
+             rdfs:label "Pandas" .
+
+
+###  http://padepokan79.com/ontology/skill#pdfJs
+virgo:pdfJs rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javascriptEcosystem ,
+                            virgo:webFrontendFrameworks ;
+            rdfs:label "PDF.js" .
+
+
+###  http://padepokan79.com/ontology/skill#performanceTesting
+virgo:performanceTesting rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:testingQA ;
+                         rdfs:label "Performance & Load Testing" .
+
+
+###  http://padepokan79.com/ontology/skill#pgAdmin
+virgo:pgAdmin rdf:type owl:Class ;
+              rdfs:subClassOf virgo:databaseAdminTools ;
+              rdfs:label "PGAdmin" .
+
+
+###  http://padepokan79.com/ontology/skill#php
+virgo:php rdf:type owl:Class ;
+          rdfs:subClassOf virgo:phpEcosystem ;
+          rdfs:label "PHP" .
+
+
+###  http://padepokan79.com/ontology/skill#phpEcosystem
+virgo:phpEcosystem rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:programmingLanguages ;
+                   rdfs:label "PHP Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#phpmyadmin
+virgo:phpmyadmin rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:databaseAdminTools ,
+                                 virgo:phpEcosystem ;
+                 rdfs:label "PHPMyAdmin" .
+
+
+###  http://padepokan79.com/ontology/skill#pinia
+virgo:pinia rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javascriptEcosystem ,
+                            virgo:stateManagement ;
+            rdfs:label "Pinia" .
+
+
+###  http://padepokan79.com/ontology/skill#plantUml
+virgo:plantUml rdf:type owl:Class ;
+               rdfs:subClassOf virgo:diagrammingTools ;
+               rdfs:label "PlantUML" .
+
+
+###  http://padepokan79.com/ontology/skill#playwright
+virgo:playwright rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:e2eTesting ,
+                                 virgo:javascriptEcosystem ;
+                 rdfs:label "Playwright" .
+
+
+###  http://padepokan79.com/ontology/skill#postgis
+virgo:postgis rdf:type owl:Class ;
+              rdfs:subClassOf virgo:gisGeospatial ,
+                              virgo:relationalDatabases ;
+              rdfs:label "PostGIS" .
+
+
+###  http://padepokan79.com/ontology/skill#postgresql
+virgo:postgresql rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:relationalDatabases ;
+                 rdfs:label "PostgreSQL" .
+
+
+###  http://padepokan79.com/ontology/skill#postman
+virgo:postman rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiTesting ;
+              rdfs:label "Postman" .
+
+
+###  http://padepokan79.com/ontology/skill#powerApps
+virgo:powerApps rdf:type owl:Class ;
+                rdfs:subClassOf virgo:cloudProviders ,
+                                virgo:lowCodeNoCode ;
+                rdfs:label "Power Apps" .
+
+
+###  http://padepokan79.com/ontology/skill#powerAutomate
+virgo:powerAutomate rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:devOpsTooling ,
+                                    virgo:lowCodeNoCode ;
+                    rdfs:label "Power Automate" .
+
+
+###  http://padepokan79.com/ontology/skill#powerDesigner
+virgo:powerDesigner rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:databaseAdminTools ,
+                                    virgo:documentationDiagramming ;
+                    rdfs:label "PowerDesigner" .
+
+
+###  http://padepokan79.com/ontology/skill#prettier
+virgo:prettier rdf:type owl:Class ;
+               rdfs:subClassOf virgo:developmentTools ,
+                               virgo:javascriptEcosystem ;
+               rdfs:label "Prettier" .
+
+
+###  http://padepokan79.com/ontology/skill#primeNg
+virgo:primeNg rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:uiComponentLibraries ;
+              rdfs:label "PrimeNG" .
+
+
+###  http://padepokan79.com/ontology/skill#prisma
+virgo:prisma rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:ormLibraries ;
+             rdfs:label "Prisma" .
+
+
+###  http://padepokan79.com/ontology/skill#programmingLanguages
+virgo:programmingLanguages rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:root ;
+                           rdfs:label "Programming Languages" .
+
+
+###  http://padepokan79.com/ontology/skill#projectManagementTools
+virgo:projectManagementTools rdf:type owl:Class ;
+                             rdfs:subClassOf virgo:root ;
+                             rdfs:label "Project & Collaboration Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#protobuf
+virgo:protobuf rdf:type owl:Class ;
+               rdfs:subClassOf virgo:apiProtocols ,
+                               virgo:messagingStreaming ;
+               rdfs:label "Protobuf" .
+
+
+###  http://padepokan79.com/ontology/skill#pySpark
+virgo:pySpark rdf:type owl:Class ;
+              rdfs:subClassOf virgo:dataProcessingLibraries ,
+                              virgo:dataWarehouse ,
+                              virgo:pythonEcosystem ;
+              rdfs:label "PySpark" .
+
+
+###  http://padepokan79.com/ontology/skill#pygit2
+virgo:pygit2 rdf:type owl:Class ;
+             rdfs:subClassOf virgo:devOpsTooling ,
+                             virgo:pythonEcosystem ;
+             rdfs:label "PyGit2" .
+
+
+###  http://padepokan79.com/ontology/skill#python
+virgo:python rdf:type owl:Class ;
+             rdfs:subClassOf virgo:pythonEcosystem ;
+             rdfs:label "Python" .
+
+
+###  http://padepokan79.com/ontology/skill#pythonEcosystem
+virgo:pythonEcosystem rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:programmingLanguages ;
+                      rdfs:label "Python Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#pytorch
+virgo:pytorch rdf:type owl:Class ;
+              rdfs:subClassOf virgo:aiMl ,
+                              virgo:pythonEcosystem ;
+              rdfs:label "PyTorch" .
+
+
+###  http://padepokan79.com/ontology/skill#qaAutomation
+virgo:qaAutomation rdf:type owl:Class ;
+                   rdfs:subClassOf virgo:testingQA ;
+                   rdfs:label "QA Automation" .
+
+
+###  http://padepokan79.com/ontology/skill#qaManual
+virgo:qaManual rdf:type owl:Class ;
+               rdfs:subClassOf virgo:testingQA ;
+               rdfs:label "QA Manual" .
+
+
+###  http://padepokan79.com/ontology/skill#qgis
+virgo:qgis rdf:type owl:Class ;
+           rdfs:subClassOf virgo:gisGeospatial ;
+           rdfs:label "QGIS" .
+
+
+###  http://padepokan79.com/ontology/skill#qodana
+virgo:qodana rdf:type owl:Class ;
+             rdfs:subClassOf virgo:devOpsTooling ,
+                             virgo:securityTools ;
+             rdfs:label "Qodana" .
+
+
+###  http://padepokan79.com/ontology/skill#rSuite
+virgo:rSuite rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:uiComponentLibraries ;
+             rdfs:label "RSuite" .
+
+
+###  http://padepokan79.com/ontology/skill#rabbitmq
+virgo:rabbitmq rdf:type owl:Class ;
+               rdfs:subClassOf virgo:messagingStreaming ;
+               rdfs:label "RabbitMQ" .
+
+
+###  http://padepokan79.com/ontology/skill#radixUi
+virgo:radixUi rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:uiComponentLibraries ;
+              rdfs:label "Radix UI" .
+
+
+###  http://padepokan79.com/ontology/skill#reactHookForm
+virgo:reactHookForm rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:formValidationLibraries ,
+                                    virgo:javascriptEcosystem ;
+                    rdfs:label "React Hook Form" .
+
+
+###  http://padepokan79.com/ontology/skill#reactJs
+virgo:reactJs rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:webFrontendFrameworks ;
+              rdfs:label "React.js" .
+
+
+###  http://padepokan79.com/ontology/skill#reactNative
+virgo:reactNative rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:javascriptEcosystem ,
+                                  virgo:mobileFrameworks ;
+                  rdfs:label "React Native" .
+
+
+###  http://padepokan79.com/ontology/skill#reactQuery
+virgo:reactQuery rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:httpClientLibraries ,
+                                 virgo:javascriptEcosystem ,
+                                 virgo:stateManagement ;
+                 rdfs:label "React Query" .
+
+
+###  http://padepokan79.com/ontology/skill#redis
+virgo:redis rdf:type owl:Class ;
+            rdfs:subClassOf virgo:inMemoryDatabases ,
+                            virgo:messagingStreaming ;
+            rdfs:label "Redis" .
+
+
+###  http://padepokan79.com/ontology/skill#redux
+virgo:redux rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javascriptEcosystem ,
+                            virgo:stateManagement ;
+            rdfs:label "Redux" .
+
+
+###  http://padepokan79.com/ontology/skill#relationalDatabases
+virgo:relationalDatabases rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:databases ;
+                          rdfs:label "Relational Databases (SQL)" .
+
+
+###  http://padepokan79.com/ontology/skill#reportBuilder
+virgo:reportBuilder rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:biVisualizationTools ,
+                                    virgo:dotnetEcosystem ;
+                    rdfs:label "Report Builder" .
+
+
+###  http://padepokan79.com/ontology/skill#rest
+virgo:rest rdf:type owl:Class ;
+           rdfs:subClassOf virgo:apiProtocols ;
+           rdfs:label "REST API" .
+
+
+###  http://padepokan79.com/ontology/skill#root
+virgo:root rdf:type owl:Class ;
+           rdfs:label "IT Skills" .
+
+
+###  http://padepokan79.com/ontology/skill#rpa
+virgo:rpa rdf:type owl:Class ;
+          rdfs:subClassOf virgo:lowCodeNoCode ,
+                          virgo:methodologiesProcesses ;
+          rdfs:label "RPA" .
+
+
+###  http://padepokan79.com/ontology/skill#ruby
+virgo:ruby rdf:type owl:Class ;
+           rdfs:subClassOf virgo:rubyEcosystem ;
+           rdfs:label "Ruby" .
+
+
+###  http://padepokan79.com/ontology/skill#rubyEcosystem
+virgo:rubyEcosystem rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:programmingLanguages ;
+                    rdfs:label "Ruby Ecosystem" .
+
+
+###  http://padepokan79.com/ontology/skill#rubyOnRails
+virgo:rubyOnRails rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:rubyEcosystem ,
+                                  virgo:webBackendFrameworks ;
+                  rdfs:label "Ruby on Rails" .
+
+
+###  http://padepokan79.com/ontology/skill#rust
+virgo:rust rdf:type owl:Class ;
+           rdfs:subClassOf virgo:programmingLanguages ;
+           rdfs:label "Rust" .
+
+
+###  http://padepokan79.com/ontology/skill#s3Browser
+virgo:s3Browser rdf:type owl:Class ;
+                rdfs:subClassOf virgo:developmentTools ,
+                                virgo:objectStorage ;
+                rdfs:label "S3 Browser" .
+
+
+###  http://padepokan79.com/ontology/skill#scala
+virgo:scala rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javaEcosystem ,
+                            virgo:programmingLanguages ;
+            rdfs:label "Scala" .
+
+
+###  http://padepokan79.com/ontology/skill#scikitLearn
+virgo:scikitLearn rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:aiMl ,
+                                  virgo:pythonEcosystem ;
+                  rdfs:label "Scikit-learn" .
+
+
+###  http://padepokan79.com/ontology/skill#scrum
+virgo:scrum rdf:type owl:Class ;
+            rdfs:subClassOf virgo:agile ,
+                            virgo:methodologiesProcesses ;
+            rdfs:label "Scrum Framework" .
+
+
+###  http://padepokan79.com/ontology/skill#sdd
+virgo:sdd rdf:type owl:Class ;
+          rdfs:subClassOf virgo:documentationDiagramming ,
+                          virgo:methodologiesProcesses ;
+          rdfs:label "SDD" .
+
+
+###  http://padepokan79.com/ontology/skill#securityTesting
+virgo:securityTesting rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:securityTools ,
+                                      virgo:testingQA ;
+                      rdfs:label "Security Testing Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#securityTools
+virgo:securityTools rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:root ;
+                    rdfs:label "Security & Compliance" .
+
+
+###  http://padepokan79.com/ontology/skill#selenium
+virgo:selenium rdf:type owl:Class ;
+               rdfs:subClassOf virgo:e2eTesting ;
+               rdfs:label "Selenium" .
+
+
+###  http://padepokan79.com/ontology/skill#sensorFusionToolbox
+virgo:sensorFusionToolbox rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:aiMl ,
+                                          virgo:dataAnalytics ;
+                          rdfs:label "Sensor Fusion Tracking Toolbox" .
+
+
+###  http://padepokan79.com/ontology/skill#sequelize
+virgo:sequelize rdf:type owl:Class ;
+                rdfs:subClassOf virgo:javascriptEcosystem ,
+                                virgo:ormLibraries ;
+                rdfs:label "Sequelize" .
+
+
+###  http://padepokan79.com/ontology/skill#sequenceDiagram
+virgo:sequenceDiagram rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:umlDiagrams ;
+                      rdfs:label "Sequence Diagram" .
+
+
+###  http://padepokan79.com/ontology/skill#serviceStudio
+virgo:serviceStudio rdf:type owl:Class ;
+                    rdfs:subClassOf virgo:developmentTools ,
+                                    virgo:lowCodeNoCode ;
+                    rdfs:label "Service Studio" .
+
+
+###  http://padepokan79.com/ontology/skill#shadcnUi
+virgo:shadcnUi rdf:type owl:Class ;
+               rdfs:subClassOf virgo:javascriptEcosystem ,
+                               virgo:uiComponentLibraries ;
+               rdfs:label "Shadcn UI" .
+
+
+###  http://padepokan79.com/ontology/skill#sharedPreferences
+virgo:sharedPreferences rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                                        virgo:mobileFrameworks ;
+                        rdfs:label "Shared Preferences" .
+
+
+###  http://padepokan79.com/ontology/skill#signalR
+virgo:signalR rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiProtocols ,
+                              virgo:dotnetEcosystem ,
+                              virgo:networkingProtocols ;
+              rdfs:label "SignalR" .
+
+
+###  http://padepokan79.com/ontology/skill#singleSpa
+virgo:singleSpa rdf:type owl:Class ;
+                rdfs:subClassOf virgo:frontendArchitecture ,
+                                virgo:javascriptEcosystem ;
+                rdfs:label "Single SPA" .
+
+
+###  http://padepokan79.com/ontology/skill#sit
+virgo:sit rdf:type owl:Class ;
+          rdfs:subClassOf virgo:methodologiesProcesses ,
+                          virgo:testingQA ;
+          rdfs:label "SIT" .
+
+
+###  http://padepokan79.com/ontology/skill#smartsheet
+virgo:smartsheet rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:projectManagementTools ;
+                 rdfs:label "SmartSheet" .
+
+
+###  http://padepokan79.com/ontology/skill#snowflake
+virgo:snowflake rdf:type owl:Class ;
+                rdfs:subClassOf virgo:dataWarehouse ;
+                rdfs:label "Snowflake" .
+
+
+###  http://padepokan79.com/ontology/skill#softwareArchitecture
+virgo:softwareArchitecture rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:root ;
+                           rdfs:label "Software Architecture & Design" .
+
+
+###  http://padepokan79.com/ontology/skill#solace
+virgo:solace rdf:type owl:Class ;
+             rdfs:subClassOf virgo:messagingStreaming ;
+             rdfs:label "Solace" .
+
+
+###  http://padepokan79.com/ontology/skill#solidPrinciples
+virgo:solidPrinciples rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:designPrinciples ;
+                      rdfs:label "SOLID Principles" .
+
+
+###  http://padepokan79.com/ontology/skill#sonarqube
+virgo:sonarqube rdf:type owl:Class ;
+                rdfs:subClassOf virgo:devOpsTooling ,
+                                virgo:securityTools ;
+                rdfs:label "SonarQube" .
+
+
+###  http://padepokan79.com/ontology/skill#spireDoc
+virgo:spireDoc rdf:type owl:Class ;
+               rdfs:subClassOf virgo:developmentTools ,
+                               virgo:javaEcosystem ;
+               rdfs:label "Spire.Doc" .
+
+
+###  http://padepokan79.com/ontology/skill#springBoot
+virgo:springBoot rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javaEcosystem ,
+                                 virgo:webBackendFrameworks ;
+                 rdfs:label "Java Spring Boot" .
+
+
+###  http://padepokan79.com/ontology/skill#springFramework
+virgo:springFramework rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:javaEcosystem ,
+                                      virgo:webBackendFrameworks ;
+                      rdfs:label "Spring Framework" .
+
+
+###  http://padepokan79.com/ontology/skill#sqflite
+virgo:sqflite rdf:type owl:Class ;
+              rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                              virgo:databases ;
+              rdfs:label "Sqflite" .
+
+
+###  http://padepokan79.com/ontology/skill#sql
+virgo:sql rdf:type owl:Class ;
+          rdfs:subClassOf virgo:programmingLanguages ,
+                          virgo:relationalDatabases ;
+          rdfs:label "SQL" .
+
+
+###  http://padepokan79.com/ontology/skill#sqlAlchemy
+virgo:sqlAlchemy rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:ormLibraries ,
+                                 virgo:pythonEcosystem ;
+                 rdfs:label "SQLAlchemy" .
+
+
+###  http://padepokan79.com/ontology/skill#sso
+virgo:sso rdf:type owl:Class ;
+          rdfs:subClassOf virgo:apiIntegration ,
+                          virgo:networkingProtocols ,
+                          virgo:securityTools ;
+          rdfs:label "SSO" .
+
+
+###  http://padepokan79.com/ontology/skill#stacked
+virgo:stacked rdf:type owl:Class ;
+              rdfs:subClassOf virgo:dartFlutterEcosystem ,
+                              virgo:mobileFrameworks ;
+              rdfs:label "Stacked" .
+
+
+###  http://padepokan79.com/ontology/skill#stateManagement
+virgo:stateManagement rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:frameworks ,
+                                      virgo:webFrontendFrameworks ;
+                      rdfs:label "State Management" .
+
+
+###  http://padepokan79.com/ontology/skill#statisticsMlToolbox
+virgo:statisticsMlToolbox rdf:type owl:Class ;
+                          rdfs:subClassOf virgo:aiMl ,
+                                          virgo:dataAnalytics ;
+                          rdfs:label "Statistics and Machine Learning Toolbox" .
+
+
+###  http://padepokan79.com/ontology/skill#struts
+virgo:struts rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javaEcosystem ,
+                             virgo:webBackendFrameworks ;
+             rdfs:label "Struts" .
+
+
+###  http://padepokan79.com/ontology/skill#svelte
+virgo:svelte rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:webFrontendFrameworks ;
+             rdfs:label "Svelte" .
+
+
+###  http://padepokan79.com/ontology/skill#swagger
+virgo:swagger rdf:type owl:Class ;
+              rdfs:subClassOf virgo:apiDocumentation ;
+              rdfs:label "Swagger" .
+
+
+###  http://padepokan79.com/ontology/skill#swaggo
+virgo:swaggo rdf:type owl:Class ;
+             rdfs:subClassOf virgo:apiDocumentation ,
+                             virgo:goEcosystem ;
+             rdfs:label "Swaggo" .
+
+
+###  http://padepokan79.com/ontology/skill#swift
+virgo:swift rdf:type owl:Class ;
+            rdfs:subClassOf virgo:mobileFrameworks ,
+                            virgo:programmingLanguages ;
+            rdfs:label "Swift" .
+
+
+###  http://padepokan79.com/ontology/skill#syncfusion
+virgo:syncfusion rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ,
+                                 virgo:uiComponentLibraries ;
+                 rdfs:label "Syncfusion" .
+
+
+###  http://padepokan79.com/ontology/skill#systemDesignArtifacts
+virgo:systemDesignArtifacts rdf:type owl:Class ;
+                            rdfs:subClassOf virgo:documentationDiagramming ,
+                                            virgo:softwareArchitecture ;
+                            rdfs:label "System Design Artifacts" .
+
+
+###  http://padepokan79.com/ontology/skill#tailwindCss
+virgo:tailwindCss rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:css ,
+                                  virgo:javascriptEcosystem ,
+                                  virgo:uiComponentLibraries ;
+                  rdfs:label "Tailwind CSS" .
+
+
+###  http://padepokan79.com/ontology/skill#talend
+virgo:talend rdf:type owl:Class ;
+             rdfs:subClassOf virgo:etlTools ;
+             rdfs:label "Talend Open Studio" .
+
+
+###  http://padepokan79.com/ontology/skill#technicalWriter
+virgo:technicalWriter rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:documentationDiagramming ,
+                                      virgo:methodologiesProcesses ;
+                      rdfs:label "Technical Writer" .
+
+
+###  http://padepokan79.com/ontology/skill#tensorflow
+virgo:tensorflow rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:aiMl ,
+                                 virgo:pythonEcosystem ;
+                 rdfs:label "TensorFlow" .
+
+
+###  http://padepokan79.com/ontology/skill#termius
+virgo:termius rdf:type owl:Class ;
+              rdfs:subClassOf virgo:developmentTools ,
+                              virgo:operatingSystems ;
+              rdfs:label "Termius" .
+
+
+###  http://padepokan79.com/ontology/skill#terraform
+virgo:terraform rdf:type owl:Class ;
+                rdfs:subClassOf virgo:cloudInfrastructure ,
+                                virgo:devOpsTooling ;
+                rdfs:label "Terraform" .
+
+
+###  http://padepokan79.com/ontology/skill#testManagement
+virgo:testManagement rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:projectManagementTools ,
+                                     virgo:testingQA ;
+                     rdfs:label "Test Management Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#testRail
+virgo:testRail rdf:type owl:Class ;
+               rdfs:subClassOf virgo:testManagement ;
+               rdfs:label "TestRail" .
+
+
+###  http://padepokan79.com/ontology/skill#testingFrameworks
+virgo:testingFrameworks rdf:type owl:Class ;
+                        rdfs:subClassOf virgo:frameworks ,
+                                        virgo:testingQA ;
+                        rdfs:label "Testing Frameworks & Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#testingQA
+virgo:testingQA rdf:type owl:Class ;
+                rdfs:subClassOf virgo:root ;
+                rdfs:label "Testing & QA" .
+
+
+###  http://padepokan79.com/ontology/skill#tibero
+virgo:tibero rdf:type owl:Class ;
+             rdfs:subClassOf virgo:relationalDatabases ;
+             rdfs:label "Tibero" .
+
+
+###  http://padepokan79.com/ontology/skill#tiptap
+virgo:tiptap rdf:type owl:Class ;
+             rdfs:subClassOf virgo:javascriptEcosystem ,
+                             virgo:uiComponentLibraries ;
+             rdfs:label "TipTap" .
+
+
+###  http://padepokan79.com/ontology/skill#trello
+virgo:trello rdf:type owl:Class ;
+             rdfs:subClassOf virgo:projectManagementTools ;
+             rdfs:label "Trello" .
+
+
+###  http://padepokan79.com/ontology/skill#trivy
+virgo:trivy rdf:type owl:Class ;
+            rdfs:subClassOf virgo:devOpsTooling ,
+                            virgo:securityTools ;
+            rdfs:label "Trivy" .
+
+
+###  http://padepokan79.com/ontology/skill#typescript
+virgo:typescript rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:javascriptEcosystem ;
+                 rdfs:label "TypeScript" .
+
+
+###  http://padepokan79.com/ontology/skill#ubuntu
+virgo:ubuntu rdf:type owl:Class ;
+             rdfs:subClassOf virgo:operatingSystems ;
+             rdfs:label "Ubuntu" .
+
+
+###  http://padepokan79.com/ontology/skill#uiComponentLibraries
+virgo:uiComponentLibraries rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:frameworks ,
+                                           virgo:uiUxDesign ;
+                           rdfs:label "UI Component Libraries" .
+
+
+###  http://padepokan79.com/ontology/skill#uiUx
+virgo:uiUx rdf:type owl:Class ;
+           rdfs:subClassOf virgo:uiUxDesign ;
+           rdfs:label "UI/UX" .
+
+
+###  http://padepokan79.com/ontology/skill#uiUxDesign
+virgo:uiUxDesign rdf:type owl:Class ;
+                 rdfs:subClassOf virgo:root ;
+                 rdfs:label "UI/UX & Design Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#uipath
+virgo:uipath rdf:type owl:Class ;
+             rdfs:subClassOf virgo:lowCodeNoCode ,
+                             virgo:rpa ;
+             rdfs:label "UIPath" .
+
+
+###  http://padepokan79.com/ontology/skill#uml
+virgo:uml rdf:type owl:Class ;
+          rdfs:subClassOf virgo:umlDiagrams ;
+          rdfs:label "UML Diagram" .
+
+
+###  http://padepokan79.com/ontology/skill#umlDiagrams
+virgo:umlDiagrams rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:documentationDiagramming ,
+                                  virgo:softwareArchitecture ;
+                  rdfs:label "UML Diagrams" .
+
+
+###  http://padepokan79.com/ontology/skill#unitTesting
+virgo:unitTesting rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:testingQA ;
+                  rdfs:label "Unit & Integration Testing" .
+
+
+###  http://padepokan79.com/ontology/skill#unitTestingConcept
+virgo:unitTestingConcept rdf:type owl:Class ;
+                         rdfs:subClassOf virgo:unitTesting ;
+                         rdfs:label "Unit Testing" .
+
+
+###  http://padepokan79.com/ontology/skill#useCaseDiagram
+virgo:useCaseDiagram rdf:type owl:Class ;
+                     rdfs:subClassOf virgo:umlDiagrams ;
+                     rdfs:label "Use Case Diagram" .
+
+
+###  http://padepokan79.com/ontology/skill#vbscript
+virgo:vbscript rdf:type owl:Class ;
+               rdfs:subClassOf virgo:dotnetEcosystem ,
+                               virgo:programmingLanguages ;
+               rdfs:label "VBScript" .
+
+
+###  http://padepokan79.com/ontology/skill#vercel
+virgo:vercel rdf:type owl:Class ;
+             rdfs:subClassOf virgo:cloudProviders ,
+                             virgo:devOpsTooling ;
+             rdfs:label "Vercel" .
+
+
+###  http://padepokan79.com/ontology/skill#viewModel
+virgo:viewModel rdf:type owl:Class ;
+                rdfs:subClassOf virgo:architecturePatterns ,
+                                virgo:designPrinciples ;
+                rdfs:label "View Model" .
+
+
+###  http://padepokan79.com/ontology/skill#vite
+virgo:vite rdf:type owl:Class ;
+           rdfs:subClassOf virgo:buildTools ,
+                           virgo:javascriptEcosystem ;
+           rdfs:label "Vite" .
+
+
+###  http://padepokan79.com/ontology/skill#vm
+virgo:vm rdf:type owl:Class ;
+         rdfs:subClassOf virgo:cloudInfrastructure ,
+                         virgo:operatingSystems ;
+         rdfs:label "VM (Virtual Machine)" .
+
+
+###  http://padepokan79.com/ontology/skill#vpn
+virgo:vpn rdf:type owl:Class ;
+          rdfs:subClassOf virgo:networkingProtocols ,
+                          virgo:securityTools ;
+          rdfs:label "VPN" .
+
+
+###  http://padepokan79.com/ontology/skill#vsCode
+virgo:vsCode rdf:type owl:Class ;
+             rdfs:subClassOf virgo:developmentTools ;
+             rdfs:label "Visual Studio Code" .
+
+
+###  http://padepokan79.com/ontology/skill#vueJs
+virgo:vueJs rdf:type owl:Class ;
+            rdfs:subClassOf virgo:javascriptEcosystem ,
+                            virgo:webFrontendFrameworks ;
+            rdfs:label "Vue.js" .
+
+
+###  http://padepokan79.com/ontology/skill#vuetify
+virgo:vuetify rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:uiComponentLibraries ;
+              rdfs:label "Vuetify" .
+
+
+###  http://padepokan79.com/ontology/skill#web3Js
+virgo:web3Js rdf:type owl:Class ;
+             rdfs:subClassOf virgo:apiIntegration ,
+                             virgo:javascriptEcosystem ;
+             rdfs:label "Web3.js" .
+
+
+###  http://padepokan79.com/ontology/skill#webBackendFrameworks
+virgo:webBackendFrameworks rdf:type owl:Class ;
+                           rdfs:subClassOf virgo:frameworks ;
+                           rdfs:label "Web Backend Frameworks" .
+
+
+###  http://padepokan79.com/ontology/skill#webFrontendFrameworks
+virgo:webFrontendFrameworks rdf:type owl:Class ;
+                            rdfs:subClassOf virgo:frameworks ;
+                            rdfs:label "Web Frontend Frameworks" .
+
+
+###  http://padepokan79.com/ontology/skill#webdriverIo
+virgo:webdriverIo rdf:type owl:Class ;
+                  rdfs:subClassOf virgo:e2eTesting ,
+                                  virgo:javascriptEcosystem ;
+                  rdfs:label "WebdriverIO (Wdio)" .
+
+
+###  http://padepokan79.com/ontology/skill#webpack
+virgo:webpack rdf:type owl:Class ;
+              rdfs:subClassOf virgo:buildTools ,
+                              virgo:javascriptEcosystem ;
+              rdfs:label "Webpack" .
+
+
+###  http://padepokan79.com/ontology/skill#websocket
+virgo:websocket rdf:type owl:Class ;
+                rdfs:subClassOf virgo:apiProtocols ,
+                                virgo:networkingProtocols ;
+                rdfs:label "WebSocket" .
+
+
+###  http://padepokan79.com/ontology/skill#windows
+virgo:windows rdf:type owl:Class ;
+              rdfs:subClassOf virgo:operatingSystems ;
+              rdfs:label "Windows Server" .
+
+
+###  http://padepokan79.com/ontology/skill#wireframingPrototyping
+virgo:wireframingPrototyping rdf:type owl:Class ;
+                             rdfs:subClassOf virgo:documentationDiagramming ,
+                                             virgo:uiUxDesign ;
+                             rdfs:label "Wireframing & Prototyping Tools" .
+
+
+###  http://padepokan79.com/ontology/skill#xampp
+virgo:xampp rdf:type owl:Class ;
+            rdfs:subClassOf virgo:developmentTools ,
+                            virgo:operatingSystems ;
+            rdfs:label "XAMPP" .
+
+
+###  http://padepokan79.com/ontology/skill#xray
+virgo:xray rdf:type owl:Class ;
+           rdfs:subClassOf virgo:testManagement ;
+           rdfs:label "Xray" .
+
+
+###  http://padepokan79.com/ontology/skill#yajraDatatables
+virgo:yajraDatatables rdf:type owl:Class ;
+                      rdfs:subClassOf virgo:phpEcosystem ,
+                                      virgo:uiComponentLibraries ;
+                      rdfs:label "Yajra Datatables" .
+
+
+###  http://padepokan79.com/ontology/skill#yaml
+virgo:yaml rdf:type owl:Class ;
+           rdfs:subClassOf virgo:developmentTools ,
+                           virgo:documentationDiagramming ;
+           rdfs:label "YAML" .
+
+
+###  http://padepokan79.com/ontology/skill#yii
+virgo:yii rdf:type owl:Class ;
+          rdfs:subClassOf virgo:phpEcosystem ,
+                          virgo:webBackendFrameworks ;
+          rdfs:label "Yii" .
+
+
+###  http://padepokan79.com/ontology/skill#yup
+virgo:yup rdf:type owl:Class ;
+          rdfs:subClassOf virgo:formValidationLibraries ,
+                          virgo:javascriptEcosystem ;
+          rdfs:label "Yup" .
+
+
+###  http://padepokan79.com/ontology/skill#zeplin
+virgo:zeplin rdf:type owl:Class ;
+             rdfs:subClassOf virgo:uiUxDesign ,
+                             virgo:wireframingPrototyping ;
+             rdfs:label "Zeplin" .
+
+
+###  http://padepokan79.com/ontology/skill#zod
+virgo:zod rdf:type owl:Class ;
+          rdfs:subClassOf virgo:formValidationLibraries ,
+                          virgo:javascriptEcosystem ;
+          rdfs:label "Zod" .
+
+
+###  http://padepokan79.com/ontology/skill#zookeeper
+virgo:zookeeper rdf:type owl:Class ;
+                rdfs:subClassOf virgo:devOpsTooling ,
+                                virgo:messagingStreaming ;
+                rdfs:label "Zookeeper" .
+
+
+###  http://padepokan79.com/ontology/skill#zustand
+virgo:zustand rdf:type owl:Class ;
+              rdfs:subClassOf virgo:javascriptEcosystem ,
+                              virgo:stateManagement ;
+              rdfs:label "Zustand" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://padepokan79.com/ontology/skill#Project_virgo
+virgo:Project_virgo rdf:type owl:NamedIndividual .
+
+
+###  http://padepokan79.com/ontology/skill#Talent_Harish
+virgo:Talent_Harish rdf:type owl:NamedIndividual ,
+                             virgo:Talent ;
+                    virgo:assignedToProject virgo:Project_virgo .
+
+
+###  http://padepokan79.com/ontology/skill#harish_fail
+virgo:harish_fail rdf:type owl:NamedIndividual ,
+                           virgo:Talent ;
+                  virgo:assignedToProject virgo:react.Js ;
+                  virgo:nip "\"123\"" ,
+                            "\"999\"" .
+
+
+###  http://padepokan79.com/ontology/skill#react.Js
+virgo:react.Js rdf:type owl:NamedIndividual ,
+                        virgo:reactJs .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( virgo:Placement
+                virgo:Project
+                virgo:Talent
+                virgo:root
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( virgo:aws
+                virgo:azure
+                virgo:biznetCloud
+                virgo:gcp
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( virgo:dataWarehouse
+                virgo:inMemoryDatabases
+                virgo:nonRelationalDatabases
+                virgo:relationalDatabases
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( virgo:databases
+                virgo:operatingSystems
+                virgo:programmingLanguages
+                virgo:uiUxDesign
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( virgo:e2eTesting
+                virgo:performanceTesting
+                virgo:securityTesting
+                virgo:unitTesting
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

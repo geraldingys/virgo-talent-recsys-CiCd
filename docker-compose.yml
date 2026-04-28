@@ -55,7 +55,7 @@ services:
     restart: unless-stopped
     environment:
       NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-changeme123}
-      NEO4J_PLUGINS: '["apoc", "n10s"]'
+      NEO4J_PLUGINS: '["apoc"]'
       NEO4J_dbms_security_procedures_unrestricted: "apoc.*,n10s.*"
       NEO4J_dbms_memory_heap_max__size: "1G"
     ports:
@@ -65,6 +65,8 @@ services:
       - neo4j_data:/data
       - neo4j_logs:/logs
       - ./ontology/ttl:/import/ontology
+      - ./plugins:/plugins
+      - ./ontology:/ontology
     healthcheck:
       test: ["CMD", "neo4j", "status"]
       interval: 20s
