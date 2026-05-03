@@ -6,42 +6,33 @@
 #   Menulis TalentRecord yang sudah tervalidasi ke Neo4j
 #   menggunakan Cypher via driver resmi neo4j-python.
 #
+# Perubahan dari versi sebelumnya:
+#   - write_batch() tidak lagi menerima OntologyValidator sebagai
+#     parameter. URI skill sudah diselesaikan di pipeline sebelum
+#     data masuk ke writer (Single Responsibility Principle).
+#   - write_batch() menerima skill_uri_map: dict[label, uri]
+#     yang disiapkan oleh ETLPipeline.
+#
 # Strategi MERGE:
 #   Semua operasi menggunakan MERGE (bukan CREATE) agar
 #   skrip idempoten — aman dijalankan berulang kali tanpa
 #   membuat duplikat node.
-#
-# Asumsi Neo4j:
-#   - Ontologi skill sudah diimpor via n10s (neosemantics)
-#   - Node skill ada sebagai (:Resource) dengan properti
-#     uri dan rdfs__label
-#   - Talent, Placement, Project adalah node native Neo4j
-#     (bukan diimpor via n10s)
 # =============================================================
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Optional
+from dataclasses import dataclass
 
 from loguru import logger
-from neo4j import GraphDatabase, Driver, Session
+from neo4j import Driver, GraphDatabase, Session
 
-
-# ----------------------------------------------------------
-# Hasil operasi tulis satu talenta
-# ----------------------------------------------------------
 
 @dataclass
 class WriteResult:
-    nip       : str
-    success   : bool
-    message   : str = ""
+    nip    : str
+    success: bool
+    message: str = ""
 
-
-# ----------------------------------------------------------
-# Writer utama
-# ----------------------------------------------------------
 
 class Neo4jWriter:
     """
@@ -49,21 +40,21 @@ class Neo4jWriter:
 
     Parameters
     ----------
-    uri      : str   — Bolt URI, contoh: bolt://localhost:7687
-    user     : str   — username Neo4j
-    password : str   — password Neo4j
-    database : str   — nama database, default "neo4j"
+    uri      : str  — Bolt URI, contoh: bolt://localhost:7687
+    user     : str  — username Neo4j
+    password : str  — password Neo4j
+    database : str  — nama database, default "neo4j"
     """
 
     def __init__(
         self,
-        uri: str,
-        user: str,
+        uri     : str,
+        user    : str,
         password: str,
         database: str = "neo4j",
     ) -> None:
-        self._driver: Driver = GraphDatabase.driver(uri, auth=(user, password))
-        self._database = database
+        self._driver  : Driver = GraphDatabase.driver(uri, auth=(user, password))
+        self._database: str    = database
         logger.info(f"Neo4jWriter: terhubung ke {uri} (db={database}).")
 
     def close(self) -> None:
@@ -73,14 +64,21 @@ class Neo4jWriter:
     # Public
     # ----------------------------------------------------------
 
-    def write_batch(self, records: list, validator) -> list[WriteResult]:
+    def write_batch(
+        self,
+        records      : list,
+        skill_uri_map: dict[str, str],
+    ) -> list[WriteResult]:
         """
         Menulis seluruh TalentRecord sekaligus.
 
         Parameters
         ----------
-        records   : list[TalentRecord]
-        validator : OntologyValidator — digunakan untuk resolve URI skill
+        records       : list[TalentRecord]
+        skill_uri_map : dict[label_kanonik, uri_ontologi]
+            Dibangun oleh ETLPipeline dari OntologyValidator
+            sebelum memanggil writer. Writer tidak perlu tahu
+            soal ontologi — cukup pakai URI yang sudah disiapkan.
 
         Returns
         -------
@@ -89,7 +87,7 @@ class Neo4jWriter:
         results: list[WriteResult] = []
         with self._driver.session(database=self._database) as session:
             for record in records:
-                result = self._write_one(session, record, validator)
+                result = self._write_one(session, record, skill_uri_map)
                 results.append(result)
 
         success_count = sum(1 for r in results if r.success)
@@ -102,12 +100,17 @@ class Neo4jWriter:
     # Private — orkestrasi satu talenta
     # ----------------------------------------------------------
 
-    def _write_one(self, session: Session, record, validator) -> WriteResult:
+    def _write_one(
+        self,
+        session      : Session,
+        record,
+        skill_uri_map: dict[str, str],
+    ) -> WriteResult:
         try:
             with session.begin_transaction() as tx:
                 self._merge_talent_node(tx, record)
                 self._merge_placement_and_rel(tx, record)
-                self._merge_skills_and_rel(tx, record, validator)
+                self._merge_skills_and_rel(tx, record, skill_uri_map)
                 if record.project_nama:
                     self._merge_project_and_rel(tx, record)
                 tx.commit()
@@ -124,10 +127,6 @@ class Neo4jWriter:
     # ----------------------------------------------------------
 
     def _merge_talent_node(self, tx, record) -> None:
-        """
-        Membuat atau memperbarui node (:Talent).
-        NIP digunakan sebagai kunci unik (MERGE key).
-        """
         cypher = """
         MERGE (t:Talent {nip: $nip})
         SET   t.namaLengkap      = $nama_lengkap,
@@ -143,9 +142,8 @@ class Neo4jWriter:
 
     def _merge_placement_and_rel(self, tx, record) -> None:
         """
-        Membuat atau menemukan node (:Placement) berdasarkan namaLokasi,
-        lalu menghubungkan ke Talent via [:PREFERS_PLACEMENT].
-        Satu talent bisa punya lebih dari satu placement.
+        Satu talenta bisa punya lebih dari satu relasi placement
+        sesuai keputusan desain (jenis_penempatan adalah list).
         """
         cypher = """
         MATCH  (t:Talent {nip: $nip})
@@ -164,49 +162,39 @@ class Neo4jWriter:
                 "nama_lokasi": nama_lokasi,
             })
 
-    def _merge_skills_and_rel(self, tx, record, validator) -> None:
+    def _merge_skills_and_rel(
+        self,
+        tx           ,
+        record       ,
+        skill_uri_map: dict[str, str],
+    ) -> None:
         """
-        Untuk setiap label skill yang valid:
-        - Cari node (:Resource) di Neo4j berdasarkan URI ontologi
-        - Buat relasi [:HAS_SKILL] dari Talent ke node skill
-        Skill yang tidak ada di ontologi dilewati (sudah dicatat
-        sebagai warning di ValidationResult).
+        URI skill diambil dari skill_uri_map yang sudah disiapkan
+        pipeline — writer tidak bergantung pada OntologyValidator.
+        """
+        cypher = """
+        MATCH (t:Talent {nip: $nip})
+        MATCH (s:owl__Class {uri: $skill_uri})
+        MERGE (t)-[:HAS_SKILL]->(s)
         """
         for label in record.skill_labels:
-            uri = validator.get_skill_uri(label)
+            uri = skill_uri_map.get(label)
             if uri is None:
-                # Sudah dicatat sebagai warning di validator
                 continue
-
-            cypher = """
-            MATCH  (t:Talent {nip: $nip})
-            MATCH  (s:owl__Class {uri: $skill_uri})
-            MERGE  (t)-[:HAS_SKILL]->(s)
-            """
-            result = tx.run(cypher, {"nip": record.nip, "skill_uri": uri})
-
-            # Cek apakah node skill ditemukan
-            summary = result.consume()
-            if summary.counters.relationships_created == 0:
-                # Node skill mungkin ada tapi relasi sudah exist (OK karena MERGE)
-                # atau node skill tidak ditemukan di Neo4j
-                pass
+            tx.run(cypher, {"nip": record.nip, "skill_uri": uri})
 
     def _merge_project_and_rel(self, tx, record) -> None:
         """
-        Membuat atau menemukan node (:Project),
-        lalu menghubungkan ke Talent via [:ASSIGNED_TO_PROJECT]
-        dengan startDate dan endDate sebagai edge properties.
-        Relasi lama untuk talent yang sama dihapus dulu (satu proyek aktif).
+        Hapus relasi proyek lama sebelum membuat yang baru
+        (satu talenta hanya boleh punya satu proyek aktif).
+        startDate dan endDate disimpan sebagai edge properties.
         """
-        # Hapus relasi proyek lama dulu (satu talenta hanya satu proyek aktif)
         cypher_delete = """
         MATCH (t:Talent {nip: $nip})-[r:ASSIGNED_TO_PROJECT]->()
         DELETE r
         """
         tx.run(cypher_delete, {"nip": record.nip})
 
-        # Buat node project dan relasi baru dengan edge properties
         cypher = """
         MATCH  (t:Talent {nip: $nip})
         MERGE  (proj:Project {namaProject: $project_nama})
