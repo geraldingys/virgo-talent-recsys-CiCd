@@ -134,17 +134,58 @@ class Transformer:
         )
 
     @staticmethod
-    def _parse_date(value: str, nip: str) -> Optional[str]:
-        value = str(value).strip()
-        if not value:
+    def _parse_date(value: object, nip: str) -> Optional[str]:
+        """
+        Mengonversi nilai tanggal dari spreadsheet ke ISO (YYYY-MM-DD).
+
+        Spreadsheet memakai format Indonesia hari/bulan/tahun, misalnya
+        15/01/2023. Selain string, mendukung serial angka Sheets/Excel
+        dan objek date/datetime jika library mengembalikannya.
+        """
+        from datetime import date, datetime, timedelta
+
+        if value is None:
             return None
-        from datetime import datetime
-        formats = ["%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%m/%d/%Y"]
+        if isinstance(value, datetime):
+            return value.date().isoformat()
+        if isinstance(value, date):
+            return value.isoformat()
+
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            # Sel tanggal di Sheets sering dikirim sebagai nomor serial (hari
+            # sejak 30 Des 1899, sama seperti Excel).
+            serial = int(value)
+            if 20000 <= serial <= 120000:
+                base = datetime(1899, 12, 30)
+                try:
+                    return (base + timedelta(days=serial)).date().isoformat()
+                except (OverflowError, ValueError):
+                    pass
+
+        text = str(value).strip()
+        if not text:
+            return None
+
+        # "15/01/2023 00:00:00" atau tanggalISO + waktu
+        if " " in text:
+            head = text.split()[0]
+            if any(sep in head for sep in ("/", "-", ".")):
+                text = head
+
+        # Utamakan DD/MM/YYYY dari spreadsheet (contoh 15/01/2023)
+        formats = (
+            "%Y-%m-%d",
+            "%d/%m/%Y",
+            "%d-%m-%Y",
+            "%d.%m.%Y",
+            "%m/%d/%Y",
+        )
         for fmt in formats:
             try:
-                return datetime.strptime(value, fmt).date().isoformat()
+                return datetime.strptime(text, fmt).date().isoformat()
             except ValueError:
                 continue
+
         logger.warning(f"NIP={nip}: format tanggal '{value}' tidak dikenali.")
         return None
 

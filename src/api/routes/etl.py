@@ -12,7 +12,7 @@
 
 import os
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Request, status
 from loguru import logger
 from pydantic import BaseModel
 
@@ -38,6 +38,15 @@ class SyncResponse(BaseModel):
     validation_errors : list[dict]
     write_errors      : list[dict]
     inference_log     : list[dict]
+
+
+class RecomputeICResponse(BaseModel):
+    total_nodes        : int
+    total_pairs        : int
+    ic_written         : int
+    similarity_written : int
+    errors             : list[dict]
+    duration_seconds   : float
 
 
 # ----------------------------------------------------------
@@ -106,4 +115,51 @@ async def sync_etl() -> SyncResponse:
         validation_errors = report.validation_errors,
         write_errors      = report.write_errors,
         inference_log     = getattr(report, 'inference_log', []),
+    )
+
+
+@router.post(
+    "/recompute-ic",
+    response_model=RecomputeICResponse,
+    summary="Hitung ulang IC dan relasi SKILL_SIMILARITY di Neo4j",
+    description=(
+        "Menjalankan pipeline ICPrecomputer: menghapus relasi lama, "
+        "menulis ic_value ke node skill, lalu materialisasi pasangan "
+        "similarity sebagai [:SKILL_SIMILARITY]. Dipanggil setelah "
+        "ontologi atau graf skill di Neo4j berubah."
+    ),
+)
+async def recompute_ic(request: Request) -> RecomputeICResponse:
+    required_env = ["NEO4J_URI", "NEO4J_USER", "NEO4J_PASSWORD"]
+    missing = [k for k in required_env if not os.getenv(k)]
+    if missing:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Environment variable belum diset: {missing}",
+        )
+
+    service = getattr(request.app.state, "similarity_service", None)
+    if service is None:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Semantic similarity service belum diinisialisasi.",
+        )
+
+    logger.info("POST /etl/recompute-ic — mulai.")
+    try:
+        report = service.recompute_ic_similarity()
+    except Exception as exc:
+        logger.exception("recompute-ic gagal.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"recompute-ic error: {str(exc)}",
+        )
+
+    return RecomputeICResponse(
+        total_nodes        = report.total_nodes,
+        total_pairs        = report.total_pairs,
+        ic_written         = report.ic_written,
+        similarity_written = report.similarity_written,
+        errors             = report.errors,
+        duration_seconds   = report.duration_seconds,
     )

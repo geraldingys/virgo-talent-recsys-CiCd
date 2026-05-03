@@ -11,6 +11,9 @@
 #   No. | Nama Lengkap | NIP | Jenis Penempatan |
 #   Concern Perbankan | Teknologi | Pengalaman |
 #   Project | start_date | end_date
+#
+# Tanggal (start_date / end_date): format Indonesia DD/MM/YYYY, mis. 15/01/2023.
+# Kolom ini dimasukkan numericise_ignore agar tidak diubah ke angka serial.
 # =============================================================
 
 import os
@@ -85,7 +88,7 @@ class SheetsReader:
         raw_records = ws.get_all_records(
             expected_headers=list(_COLUMN_MAP.keys()),
             default_blank="",
-            numericise_ignore=["NIP"],
+            numericise_ignore=["NIP", "start_date", "end_date"],
         )
 
         normalized: list[dict] = []

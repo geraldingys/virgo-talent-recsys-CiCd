@@ -22,8 +22,14 @@ class RankRequest(BaseModel):
     required_skills: list[str] = Field(
         ...,
         min_length=1,
-        description="Daftar label skill requirement dari hasil NER.",
-        examples=[["React.js", "Node.js", "PostgreSQL"]],
+        description=(
+            "Daftar skill requirement dari NER. Satu string dapat berisi "
+            "beberapa alternatif dipisah | (OR), misalnya \"React.js|Vue.js\"."
+        ),
+        examples=[
+            ["React.js|Vue.js", "Node.js", "PostgreSQL"],
+            ["React.js", "Node.js"],
+        ],
     )
 
 
