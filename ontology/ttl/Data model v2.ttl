@@ -89,6 +89,7 @@ virgo:pengalamanTahun rdf:type owl:DatatypeProperty ,
 ###  http://padepokan79.com/ontology/skill#projectEndDate
 virgo:projectEndDate rdf:type owl:DatatypeProperty ,
                               owl:FunctionalProperty ;
+                     rdfs:domain virgo:Talent ;
                      rdfs:range xsd:dateTime ;
                      rdfs:label "projectEndDate" .
 
@@ -96,6 +97,7 @@ virgo:projectEndDate rdf:type owl:DatatypeProperty ,
 ###  http://padepokan79.com/ontology/skill#projectStartDate
 virgo:projectStartDate rdf:type owl:DatatypeProperty ,
                                 owl:FunctionalProperty ;
+                       rdfs:domain virgo:Talent ;
                        rdfs:range xsd:dateTime ;
                        rdfs:label "projectStartDate" .
 
@@ -116,6 +118,20 @@ virgo:Project rdf:type owl:Class ;
 
 ###  http://padepokan79.com/ontology/skill#Talent
 virgo:Talent rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                   owl:onProperty virgo:hasSkill ;
+                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass virgo:root
+                                 ] ;
+             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                               owl:onProperty virgo:hasSkill ;
+                               owl:allValuesFrom virgo:root
+                             ] ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty virgo:nip ;
+                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:string
+                             ] ;
              rdfs:label "Talent" .
 
 
@@ -2738,33 +2754,6 @@ virgo:zustand rdf:type owl:Class ;
               rdfs:subClassOf virgo:javascriptEcosystem ,
                               virgo:stateManagement ;
               rdfs:label "Zustand" .
-
-
-#################################################################
-#    Individuals
-#################################################################
-
-###  http://padepokan79.com/ontology/skill#Project_virgo
-virgo:Project_virgo rdf:type owl:NamedIndividual .
-
-
-###  http://padepokan79.com/ontology/skill#Talent_Harish
-virgo:Talent_Harish rdf:type owl:NamedIndividual ,
-                             virgo:Talent ;
-                    virgo:assignedToProject virgo:Project_virgo .
-
-
-###  http://padepokan79.com/ontology/skill#harish_fail
-virgo:harish_fail rdf:type owl:NamedIndividual ,
-                           virgo:Talent ;
-                  virgo:assignedToProject virgo:react.Js ;
-                  virgo:nip "\"123\"" ,
-                            "\"999\"" .
-
-
-###  http://padepokan79.com/ontology/skill#react.Js
-virgo:react.Js rdf:type owl:NamedIndividual ,
-                        virgo:reactJs .
 
 
 #################################################################
