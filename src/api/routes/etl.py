@@ -37,6 +37,7 @@ class SyncResponse(BaseModel):
     written_ok        : int
     validation_errors : list[dict]
     write_errors      : list[dict]
+    inference_log     : list[dict]
 
 
 # ----------------------------------------------------------
@@ -104,4 +105,5 @@ async def sync_etl() -> SyncResponse:
         written_ok        = report.written_ok,
         validation_errors = report.validation_errors,
         write_errors      = report.write_errors,
+        inference_log     = getattr(report, 'inference_log', []),
     )

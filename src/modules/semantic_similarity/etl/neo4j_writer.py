@@ -145,17 +145,24 @@ class Neo4jWriter:
         """
         Membuat atau menemukan node (:Placement) berdasarkan namaLokasi,
         lalu menghubungkan ke Talent via [:PREFERS_PLACEMENT].
-        Relasi lama dihapus dulu agar tidak ada duplikat preferensi.
+        Satu talent bisa punya lebih dari satu placement.
         """
         cypher = """
         MATCH  (t:Talent {nip: $nip})
         MERGE  (p:Placement {namaLokasi: $nama_lokasi})
         MERGE  (t)-[:PREFERS_PLACEMENT]->(p)
         """
-        tx.run(cypher, {
-            "nip"        : record.nip,
-            "nama_lokasi": record.jenis_penempatan,
-        })
+        placements = record.jenis_penempatan
+        if isinstance(placements, str):
+            placements = [placements]
+
+        for nama_lokasi in placements:
+            if not str(nama_lokasi).strip():
+                continue
+            tx.run(cypher, {
+                "nip"        : record.nip,
+                "nama_lokasi": nama_lokasi,
+            })
 
     def _merge_skills_and_rel(self, tx, record, validator) -> None:
         """

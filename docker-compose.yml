@@ -69,9 +69,9 @@ services:
       - ./ontology:/ontology
     healthcheck:
       test: ["CMD", "neo4j", "status"]
-      interval: 20s
+      interval: 10s
       timeout: 10s
-      retries: 5
-      start_period: 30s
+      retries: 10
+      start_period: 60s
     networks:
       - virgo-net

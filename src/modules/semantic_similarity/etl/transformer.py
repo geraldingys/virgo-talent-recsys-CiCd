@@ -1,71 +1,64 @@
 # =============================================================
-# transformer.py
+# transformer.py (v2 — dengan SkillNormalizer)
 # Modul ETL — Increment 2: Semantic Similarity
 #
-# Tanggung Jawab:
-#   Menormalisasi data mentah dari Google Sheets menjadi
-#   struktur yang siap ditulis ke Neo4j. Termasuk:
-#   - Membersihkan whitespace dan kapitalisasi
-#   - Mengurai kolom "Teknologi" (string CSV → list)
-#   - Memetakan label skill ke URI ontologi
-#   - Menormalisasi nilai Jenis Penempatan dan Concern Perbankan
+# Perubahan dari v1:
+#   - Kolom Teknologi sekarang melewati SkillNormalizer
+#     sebelum disimpan ke TalentRecord.
+#   - TalentRecord menyimpan skill_labels (label kanonik)
+#     dan skill_raw (label asli dari spreadsheet).
+#   - Log normalisasi per baris untuk auditabilitas.
 # =============================================================
 
 from dataclasses import dataclass, field
-from datetime import date
 from typing import Optional
 
 from loguru import logger
 
-# ----------------------------------------------------------
-# Nilai valid Jenis Penempatan (sesuai ontologi Placement)
-# ----------------------------------------------------------
+from .skill_normalizer import SkillNormalizer
+
 _PLACEMENT_MAP = {
     "remote"         : "Remote",
     "bandung"        : "Bandung",
+    "jakarta"        : "Jakarta",
     "tanpa batasan"  : "Tanpa Batasan",
 }
 
 
 @dataclass
 class TalentRecord:
-    """
-    Representasi satu baris talenta setelah transformasi.
-    Struktur ini yang diteruskan ke Validator dan Neo4jWriter.
-    """
     nip                : str
     nama_lengkap       : str
     pengalaman_tahun   : int
     concern_perbankan  : bool
-    jenis_penempatan   : str                  # nilai: Remote | Bandung | Tanpa Batasan
-    skill_labels       : list[str] = field(default_factory=list)  # label asli dari spreadsheet
+    jenis_penempatan   : list[str] = field(default_factory=list)
+    skill_labels       : list[str] = field(default_factory=list)  # label kanonik ontologi
+    skill_raw          : list[str] = field(default_factory=list)  # label asli spreadsheet
+    skill_not_found    : list[str] = field(default_factory=list)  # gagal dinormalisasi
     project_nama       : Optional[str] = None
-    start_date         : Optional[str] = None  # string ISO: YYYY-MM-DD
+    start_date         : Optional[str] = None
     end_date           : Optional[str] = None
 
 
 class Transformer:
     """
     Mengubah list[dict] mentah dari SheetsReader
-    menjadi list[TalentRecord] yang sudah bersih.
+    menjadi list[TalentRecord] yang sudah bersih dan ternormalisasi.
+
+    Parameters
+    ----------
+    normalizer : SkillNormalizer
+        Instance normalizer yang sudah diberi ontology_labels.
+        Jika None, normalisasi hanya menggunakan alias map
+        (lapisan fuzzy tidak aktif).
     """
 
+    def __init__(self, normalizer: Optional[SkillNormalizer] = None) -> None:
+        self._normalizer = normalizer
+
     def transform(self, raw_rows: list[dict]) -> list[TalentRecord]:
-        """
-        Memproses seluruh baris sekaligus.
-
-        Parameters
-        ----------
-        raw_rows : list[dict]
-            Output langsung dari SheetsReader.fetch_all().
-
-        Returns
-        -------
-        list[TalentRecord]
-            Baris yang gagal diproses dilewati dengan log warning.
-        """
         records: list[TalentRecord] = []
-        for idx, row in enumerate(raw_rows):
+        for row in raw_rows:
             try:
                 record = self._transform_row(row)
                 records.append(record)
@@ -77,43 +70,51 @@ class Transformer:
         logger.info(f"Transformer: {len(records)} baris berhasil ditransformasi.")
         return records
 
-    # ----------------------------------------------------------
-    # Private
-    # ----------------------------------------------------------
-
     def _transform_row(self, row: dict) -> TalentRecord:
-        nip           = str(row["nip"]).strip()
-        nama_lengkap  = str(row["nama_lengkap"]).strip()
+        nip          = str(row["nip"]).strip()
+        nama_lengkap = str(row["nama_lengkap"]).strip()
 
-        # Pengalaman: pastikan integer, default 0 jika kosong
         try:
             pengalaman = int(str(row.get("pengalaman", "0")).strip() or "0")
         except ValueError:
             pengalaman = 0
-            logger.warning(f"NIP={nip}: nilai pengalaman tidak valid, diset 0.")
 
-        # Concern Perbankan: terima "True"/"False"/"1"/"0"/bool
         concern_raw = str(row.get("concern_perbankan", "false")).strip().lower()
-        concern = concern_raw in ("true", "1", "yes", "ya")
+        concern     = concern_raw in ("true", "1", "yes", "ya")
 
-        # Jenis Penempatan: normalisasi ke nilai baku
         penempatan_raw = str(row.get("jenis_penempatan", "")).strip().lower()
-        penempatan = _PLACEMENT_MAP.get(penempatan_raw)
-        if penempatan is None:
-            raise ValueError(
-                f"Nilai Jenis Penempatan '{penempatan_raw}' tidak dikenal. "
-                f"Nilai valid: {list(_PLACEMENT_MAP.values())}"
+        penempatan     = self._normalize_placements(penempatan_raw, nip)
+
+        # ── Normalisasi skill ──────────────────────────────
+        teknologi_raw = str(row.get("teknologi", "")).strip()
+        raw_labels    = [s.strip() for s in teknologi_raw.split(",") if s.strip()]
+
+        skill_labels    : list[str] = []
+        skill_not_found : list[str] = []
+
+        if self._normalizer and raw_labels:
+            results = self._normalizer.normalize_batch(raw_labels)
+            for r in results:
+                if r.canonical:
+                    skill_labels.append(r.canonical)
+                    if r.method not in ("exact", "alias"):
+                        logger.info(
+                            f"[NIP={nip}] Skill '{r.original}' → "
+                            f"'{r.canonical}' via {r.method}"
+                        )
+                else:
+                    skill_not_found.append(r.original)
+        else:
+            # Fallback: pakai label mentah jika normalizer belum diinisialisasi
+            skill_labels = raw_labels
+
+        # Log skill yang tidak ditemukan
+        if skill_not_found:
+            logger.warning(
+                f"[NIP={nip}] Skill tidak ditemukan di ontologi "
+                f"dan dilewati: {skill_not_found}"
             )
 
-        # Teknologi: pisahkan berdasarkan koma, bersihkan whitespace
-        teknologi_raw = str(row.get("teknologi", "")).strip()
-        skill_labels: list[str] = [
-            s.strip()
-            for s in teknologi_raw.split(",")
-            if s.strip()
-        ]
-
-        # Project & tanggal (opsional — satu proyek aktif)
         project_nama = str(row.get("project", "")).strip() or None
         start_date   = self._parse_date(row.get("start_date", ""), nip)
         end_date     = self._parse_date(row.get("end_date", ""), nip)
@@ -125,6 +126,8 @@ class Transformer:
             concern_perbankan = concern,
             jenis_penempatan  = penempatan,
             skill_labels      = skill_labels,
+            skill_raw         = raw_labels,
+            skill_not_found   = skill_not_found,
             project_nama      = project_nama,
             start_date        = start_date,
             end_date          = end_date,
@@ -132,15 +135,9 @@ class Transformer:
 
     @staticmethod
     def _parse_date(value: str, nip: str) -> Optional[str]:
-        """
-        Menormalisasi berbagai format tanggal menjadi string ISO YYYY-MM-DD.
-        Mengembalikan None jika kosong.
-        """
         value = str(value).strip()
         if not value:
             return None
-
-        # Format umum yang mungkin dipakai di spreadsheet
         from datetime import datetime
         formats = ["%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y", "%m/%d/%Y"]
         for fmt in formats:
@@ -148,6 +145,43 @@ class Transformer:
                 return datetime.strptime(value, fmt).date().isoformat()
             except ValueError:
                 continue
-
-        logger.warning(f"NIP={nip}: format tanggal '{value}' tidak dikenali, dilewati.")
+        logger.warning(f"NIP={nip}: format tanggal '{value}' tidak dikenali.")
         return None
+
+    @staticmethod
+    def _normalize_placements(raw_value: str, nip: str) -> list[str]:
+        """
+        Menormalkan jenis penempatan.
+
+        Jika spreadsheet berisi lebih dari satu nilai (mis. "bandung, remote"),
+        simpan semua nilai yang dikenal agar talent bisa punya lebih dari satu
+        relasi placement. Hanya nilai Bandung, Remote, Tanpa Batasan, dan
+        Jakarta yang diterima.
+        """
+        if not raw_value:
+            raise ValueError("Jenis Penempatan kosong.")
+
+        candidates = [
+            part.strip()
+            for part in raw_value.replace("/", ",").replace("|", ",").split(",")
+            if part.strip()
+        ]
+        if not candidates:
+            raise ValueError("Jenis Penempatan kosong.")
+
+        placements: list[str] = []
+        for candidate in candidates:
+            mapped = _PLACEMENT_MAP.get(candidate)
+            if mapped is not None:
+                if mapped not in placements:
+                    placements.append(mapped)
+
+        if placements:
+            if len(placements) > 1:
+                logger.warning(
+                    f"NIP={nip}: Jenis Penempatan gabungan '{raw_value}' "
+                    f"ditemukan, memakai {placements}."
+                )
+            return placements
+
+        raise ValueError(f"Jenis Penempatan '{raw_value}' tidak dikenal.")

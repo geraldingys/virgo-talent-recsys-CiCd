@@ -85,11 +85,15 @@ class SheetsReader:
         raw_records = ws.get_all_records(
             expected_headers=list(_COLUMN_MAP.keys()),
             default_blank="",
+            numericise_ignore=["NIP"],
         )
 
         normalized: list[dict] = []
         for idx, row in enumerate(raw_records, start=2):  # baris ke-2 = setelah header
             mapped = {_COLUMN_MAP.get(k, k): v for k, v in row.items()}
+
+            # NIP harus dipertahankan sebagai string agar nol di depan tidak hilang.
+            mapped["nip"] = str(mapped.get("nip", "")).strip()
 
             # Lewati baris yang NIP-nya kosong
             if not str(mapped.get("nip", "")).strip():

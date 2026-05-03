@@ -2788,15 +2788,6 @@ virgo:zustand rdf:type owl:Class ;
 
 
 [ rdf:type owl:AllDisjointClasses ;
-  owl:members ( virgo:databases
-                virgo:operatingSystems
-                virgo:programmingLanguages
-                virgo:uiUxDesign
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
   owl:members ( virgo:e2eTesting
                 virgo:performanceTesting
                 virgo:securityTesting

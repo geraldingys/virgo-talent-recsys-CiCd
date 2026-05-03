@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from loguru import logger
 
 from .sheets_reader import SheetsReader
+from .skill_normalizer import SkillNormalizer
 from .transformer import Transformer
 from .validator import OntologyValidator, ValidationResult
 from .neo4j_writer import Neo4jWriter, WriteResult
@@ -55,6 +56,7 @@ class PipelineReport:
     written_ok        : int = 0
     validation_errors : list[dict] = field(default_factory=list)
     write_errors      : list[dict] = field(default_factory=list)
+    inference_log      : list[dict] = field(default_factory=list)
 
 
 # ----------------------------------------------------------
@@ -101,9 +103,32 @@ def run_etl_pipeline(config: ETLConfig) -> PipelineReport:
         logger.warning("Tidak ada data di spreadsheet. Pipeline dihentikan.")
         return report
 
-    # ── Langkah 2: Transformasi ──────────────────────────────
-    logger.info("Langkah 2/4 — Normalisasi dan transformasi baris ...")
-    transformer = Transformer()
+    # ── Langkah 1.5: Inisialisasi Validator & SkillNormalizer ─
+    # Validator dibuat lebih awal untuk ekstrak ontology_labels
+    # bagi SkillNormalizer (lapisan fuzzy matching)
+    logger.info("Langkah 1.5/5 — Inisialisasi Validator & SkillNormalizer ...")
+    validator = OntologyValidator(ttl_path=config.ttl_path)
+    
+    # Ekstrak label kanonik dari ontologi yang sudah dimuat
+    # (dari semua class di ontology setelah load)
+    canonical_labels = list({
+        next(iter(cls.label), cls.name) if hasattr(cls, 'label') and cls.label else cls.name
+        for cls in validator._onto.classes()
+    })
+    
+    normalizer = SkillNormalizer(
+        ontology_labels = canonical_labels,
+        fuzzy_threshold = 85,
+    )
+    logger.info(
+        f"Langkah 1.5 selesai: "
+        f"Validator siap ({len(canonical_labels)} skill di ontologi), "
+        f"Normalizer siap dengan fuzzy matching."
+    )
+
+    # ── Langkah 2: Transformasi (dengan SkillNormalizer) ──────
+    logger.info("Langkah 2/5 — Normalisasi dan transformasi baris ...")
+    transformer = Transformer(normalizer=normalizer)
     records = transformer.transform(raw_rows)
     report.transformed_ok = len(records)
     logger.info(f"Langkah 2 selesai: {report.transformed_ok} baris ditransformasi.")
@@ -113,12 +138,19 @@ def run_etl_pipeline(config: ETLConfig) -> PipelineReport:
         return report
 
     # ── Langkah 3: Validasi Ontologi ────────────────────────
-    logger.info("Langkah 3/4 — Validasi terhadap ontologi (Owlready2 + HermiT) ...")
-    validator = OntologyValidator(ttl_path=config.ttl_path)
+    logger.info("Langkah 3/5 — Validasi terhadap ontologi (Owlready2 + HermiT) ...")
 
     valid_records = []
     for record in records:
         result: ValidationResult = validator.validate(record)
+
+        # Catat hasil inferensi (jika ada) untuk laporan
+        if getattr(result, "inferred_types", None):
+            report.inference_log.append({
+                "nip": record.nip,
+                "nama_lengkap": record.nama_lengkap,
+                "inferred_types": result.inferred_types,
+            })
 
         if result.warnings:
             for w in result.warnings:
@@ -145,7 +177,7 @@ def run_etl_pipeline(config: ETLConfig) -> PipelineReport:
         return report
 
     # ── Langkah 4: Tulis ke Neo4j ────────────────────────────
-    logger.info("Langkah 4/4 — Menulis data ke Neo4j ...")
+    logger.info("Langkah 4/5 — Menulis data ke Neo4j ...")
     writer = Neo4jWriter(
         uri      = config.neo4j_uri,
         user     = config.neo4j_user,
