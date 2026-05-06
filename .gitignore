@@ -69,3 +69,6 @@ ontology/exports/*
 *.bak
 *.tmp
 node_modules/
+
+configs/*
+configs/credentials.json
