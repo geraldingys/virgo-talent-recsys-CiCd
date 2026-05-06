@@ -25,6 +25,7 @@ volumes:
   neo4j_data:
   neo4j_logs:
   ollama_data:
+  n8n_data:
 
 services:
   # ── 1. FastAPI — Backend Recommendation Service ───────────
@@ -75,3 +76,19 @@ services:
       start_period: 60s
     networks:
       - virgo-net
+
+
+  n8n: #12345678A ngrok http 5678
+      image: n8nio/n8n:latest
+      container_name: virgo-n8n
+      restart: unless-stopped
+      ports:
+        - "5678:5678"
+      environment:
+        - N8N_HOST=0.0.0.0
+        - N8N_PORT=5678
+        - WEBHOOK_URL=https://greedily-flap-disagree.ngrok-free.dev # diisi setelah langkah D2
+      volumes:
+        - n8n_data:/home/node/.n8n
+      networks:
+        - virgo-net
