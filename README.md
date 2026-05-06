@@ -110,10 +110,11 @@ docker exec virgo-ollama ollama pull qwen3:8b
 
 ### 4. Akses
 
-| Service              | URL                        |
-| -------------------- | -------------------------- |
-| FastAPI Swagger Docs | http://localhost:8000/docs |
-| Neo4j Browser        | http://localhost:7474      |
+| Service              | URL                                            |
+| -------------------- | ---------------------------------------------- |
+| FastAPI Swagger Docs | http://localhost:8000/docs                     |
+| Neo4j Browser        | http://localhost:7474                          |
+| n8n                  | https://greedily-flap-disagree.ngrok-free.dev/ |
 
 ---
 

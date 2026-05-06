@@ -65,10 +65,11 @@ coverage.xml
 ontology/exports/*
 !ontology/exports/.gitkeep
 
+# ─── Credentials & Configs (sensitive data) ───────────────
+configs/*
+!configs/.gitkeep
+
 # ─── Misc ─────────────────────────────────────────────────
 *.bak
 *.tmp
 node_modules/
-
-configs/*
-configs/credentials.json
