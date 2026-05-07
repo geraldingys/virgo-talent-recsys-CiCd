@@ -29,6 +29,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from loguru import logger
+import re
 
 try:
     from rapidfuzz import process as rf_process, fuzz
@@ -503,6 +504,27 @@ class SkillNormalizer:
 
         # Bangun lookup alias: key lowercase → canonical
         self._alias_lookup = {k.lower(): v for k, v in _ALIAS_MAP.items()}
+
+        # Tambahkan mapping otomatis untuk "level-2" labels yang mengandung
+        # pemisah seperti '&', '/', ',', ';', 'and' atau '|' sehingga setiap
+        # komponen tunggal juga akan map ke label kanonik.
+        # Contoh: 'AI & Machine Learning' → 'ai' -> 'AI & Machine Learning',
+        #                         'machine learning' -> 'AI & Machine Learning'
+        seps_pattern = re.compile(r"\s*(?:&|/|,|;|and|\|)\s*", flags=re.IGNORECASE)
+        for label in self._ontology_labels:
+            # hanya pertimbangkan label non-empty
+            if not label or not isinstance(label, str):
+                continue
+            parts = seps_pattern.split(label)
+            # jika ada lebih dari satu bagian, tambahkan setiap bagian ke lookup
+            if len(parts) > 1:
+                for p in parts:
+                    part = p.strip().lower()
+                    if not part:
+                        continue
+                    # jika belum ada mapping, tambahkan
+                    if part not in self._alias_lookup:
+                        self._alias_lookup[part] = label
 
     def normalize(self, raw_label: str) -> NormalizeResult:
         """
