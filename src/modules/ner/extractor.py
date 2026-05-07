@@ -39,12 +39,13 @@ Output JSON wajib berisi field berikut (null jika tidak disebutkan):
 skills, seniority, experience_years_min, location, start_date, project_sector
 
 Aturan:
-- skills: array string, normalisasi nama (typo/singkatan → nama resmi). Kata "atau" / "/" = alternatif, masukkan SEMUA opsi
-- seniority: "junior" | "mid" | "senior" | null. fresh grad = junior
+- skills: array string, normalisasi nama (typo/singkatan → nama resmi). Kata "atau" / "/" = alternatif, masukkan SEMUA opsi. Semua skill hanya yang ada di dalam bidang IT, abaikan entitas non-IT seperti nama orang, merk kendaraan, atau benda umum.
+- seniority: "junior" | "mid" | "senior" | null. fresh grad = junior, expert = senior, ga jago jago amat = junior
 - experience_years_min: angka desimal, bukan string. fresh grad = 0.0
 - location: nama kota lengkap (normalisasi: bdg→Bandung, jkt→Jakarta, sby→Surabaya)
-- start_date: format dd/mm/yyyy. Jika hanya bulan → 01/mm/yyyy. jika mulai minggu pertama mei = 01/05/2026. Jika mulai minggu kedua = 08/05/2026, jika mulai minggu ketiga = 15/05/2026, jika mulai minggu keempat = 22/05/2026. jika mulai april/mei maka yang diambil adalah bulan pertama yaitu april maka response nya 01/04/2026, null jika tidak ada
+- start_date: format dd/mm/yyyy. Jika hanya bulan → 01/mm/yyyy. jika mulai minggu pertama mei = 01/05/2026. Jika mulai minggu kedua = 08/05/2026, jika mulai minggu ketiga = 15/05/2026, jika mulai minggu keempat = 22/05/2026. jika mulai april/mei maka yang diambil adalah bulan pertama yaitu april maka response nya 01/04/2026, Jika disebutkan rentang bulan, gunakan tanggal pertama dari bulan pertama yang disebutkan.null jika tidak ada
 - project_sector: sektor industri atau null
+- Jika terlalu abstrak dan confidence rendah, kembalikan field dengan null, jangan buat asumsi.
 
 Contoh:
 Q: "senior react min 3 thn, bdg, fintech, mulai 1 mei 2025"
