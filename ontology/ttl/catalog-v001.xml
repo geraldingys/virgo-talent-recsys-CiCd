@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://padepokan79.com/ontology/skill" uri="file:/D:/Bismillah/Polban/Semester%206/Tugas%20Akhir/Construction/Increment%202/ontologi%20skill/virgo_skills_ontology2.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://padepokan79.com/ontology/skill" uri="file:/D:/Bismillah/Polban/Semester%206/Tugas%20Akhir/Construction/Increment%202/ontologi%20skill/virgo_skills_ontology2.ttl"/>
+    <uri id="Imports Wizard Entry" name="http://padepokan79.com/ontology/skill" uri="file:/D:/Bismillah/Polban/Semester%206/Tugas%20Akhir/Construction/Increment%202/ontologi%20skill/virgo_skills_ontology2.ttl"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public"/>
+</catalog>

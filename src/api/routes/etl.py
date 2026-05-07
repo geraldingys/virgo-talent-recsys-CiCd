@@ -35,7 +35,6 @@ class SyncResponse(BaseModel):
 class RecomputeICResponse(BaseModel):
     total_nodes       : int
     total_pairs       : int
-    ic_written        : int
     similarity_written: int
     errors            : list[dict]
     duration_seconds  : float
@@ -109,7 +108,7 @@ async def sync_etl() -> SyncResponse:
 @router.post(
     "/recompute-ic",
     response_model=RecomputeICResponse,
-    summary="Hitung ulang IC dan relasi SKILL_SIMILARITY di Neo4j",
+    summary="Hitung ulang relasi SKILL_SIMILARITY di Neo4j",
 )
 async def recompute_ic(request: Request) -> RecomputeICResponse:
     service = _get_similarity_service(request)
@@ -125,7 +124,6 @@ async def recompute_ic(request: Request) -> RecomputeICResponse:
     return RecomputeICResponse(
         total_nodes        = report.total_nodes,
         total_pairs        = report.total_pairs,
-        ic_written         = report.ic_written,
         similarity_written = report.similarity_written,
         errors             = report.errors,
         duration_seconds   = report.duration_seconds,

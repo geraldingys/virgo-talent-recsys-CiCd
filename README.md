@@ -141,6 +141,21 @@ feature/inc3-saw           → Increment 3: SAW + ROC
 
 ---
 
+## Meninjau Skill Similarity
+
+Untuk menampilkan dan menganalisis relasi similarity antar skill di Neo4j, lihat [SKILL_SIMILARITY_QUERIES.md](SKILL_SIMILARITY_QUERIES.md).
+
+Dokumen tersebut menyediakan 12+ query Cypher untuk:
+- Lihat semua relasi similarity + score
+- Filter berdasarkan threshold
+- Cari skill terdekat untuk satu skill
+- Analisis similarity network (clustering, hubungan indirect)
+- Export ke CSV untuk analisis offline
+
+**Akses:** Buka Neo4j Browser di `http://localhost:7474` → paste query → jalankan dengan Ctrl+Enter
+
+---
+
 ## Menjalankan Tests
 
 ```bash

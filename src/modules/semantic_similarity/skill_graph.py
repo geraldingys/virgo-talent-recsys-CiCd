@@ -38,8 +38,6 @@ class SkillGraph:
     Menyediakan:
     - lookup node via URI atau label
     - daftar semua ancestors (subsumers) sebuah node
-    - daftar semua leaf descendants sebuah node
-    - LCA (Least Common Ancestor) dua node
 
     Parameters
     ----------
@@ -59,7 +57,6 @@ class SkillGraph:
 
         # Cache komputasi (dihitung sekali, dipakai berulang)
         self._ancestors_cache : dict[str, frozenset[str]] = {}
-        self._leaves_cache    : dict[str, frozenset[str]] = {}
 
         self._load()
 
@@ -104,60 +101,6 @@ class SkillGraph:
         self._ancestors_cache[uri] = result
         return result
 
-    def leaves(self, uri: str) -> frozenset[str]:
-        """
-        Mengembalikan semua leaf node keturunan dari uri,
-        termasuk uri itu sendiri jika tidak punya child.
-        """
-        if uri in self._leaves_cache:
-            return self._leaves_cache[uri]
-
-        # Kumpulkan seluruh keturunan via BFS ke bawah
-        all_descendants: set[str] = set()
-        queue = [uri]
-        while queue:
-            current = queue.pop()
-            if current in all_descendants:
-                continue
-            all_descendants.add(current)
-            node = self._nodes.get(current)
-            if node:
-                queue.extend(node.children)
-
-        # Leaf = keturunan yang tidak punya child
-        leaf_set: set[str] = set()
-        for desc_uri in all_descendants:
-            node = self._nodes.get(desc_uri)
-            if node and len(node.children) == 0:
-                leaf_set.add(desc_uri)
-
-        # Jika node itu sendiri tidak punya child, ia adalah leaf
-        self_node = self._nodes.get(uri)
-        if self_node and len(self_node.children) == 0:
-            leaf_set.add(uri)
-
-        result = frozenset(leaf_set)
-        self._leaves_cache[uri] = result
-        return result
-
-    def lca(self, uri_a: str, uri_b: str) -> Optional[str]:
-        """
-        Menghitung Least Common Ancestor (LCA) dua skill.
-        LCA = ancestor bersama yang paling dalam (paling sedikit subsumers-nya).
-        """
-        ancestors_a = self.subsumers(uri_a)
-        ancestors_b = self.subsumers(uri_b)
-        common = ancestors_a & ancestors_b
-
-        if not common:
-            return None
-
-        # LCA = node dengan jumlah subsumers terbanyak (paling spesifik)
-        return max(
-            common,
-            key=lambda u: len(self.subsumers(u)),
-        )
-
     # ----------------------------------------------------------
     # Private — load dari Neo4j
     # ----------------------------------------------------------
@@ -165,28 +108,41 @@ class SkillGraph:
     def _load(self) -> None:
         """
         Memuat seluruh node skill dan relasi subClassOf dari Neo4j.
-        Hanya memuat node yang berasal dari ontologi Padepokan79.
+        Prioritas memuat node ontologi Padepokan79. Jika tidak ada,
+        fallback ke seluruh node owl__Class agar service tetap jalan.
         """
         logger.info("SkillGraph: memuat hierarki skill dari Neo4j ...")
 
         with self._driver.session(database=self._database) as session:
-            # Ambil semua node skill ontologi
+            # Prioritas: ambil node skill namespace ontology utama
             node_result = session.run("""
                 MATCH (s:owl__Class)
                 WHERE s.uri CONTAINS "padepokan79"
                 RETURN s.uri AS uri, s.rdfs__label AS label
             """)
-            for record in node_result:
+            node_records = list(node_result)
+
+            # Fallback: jika namespace utama belum ada, muat seluruh owl__Class
+            if not node_records:
+                logger.warning(
+                    "SkillGraph: tidak menemukan node dengan uri mengandung "
+                    "'padepokan79'. Fallback ke semua :owl__Class."
+                )
+                node_records = list(session.run("""
+                    MATCH (s:owl__Class)
+                    RETURN s.uri AS uri, s.rdfs__label AS label
+                """))
+            for record in node_records:
                 uri   = record["uri"]
+                if not uri:
+                    continue
                 label = record["label"] or uri.split("#")[-1]
                 self._nodes[uri] = SkillNode(uri=uri, label=label)
                 self._label_index[label.lower()] = uri
 
-            # Ambil semua relasi subClassOf antar node skill
+            # Ambil relasi subClassOf dan simpan hanya jika kedua node termuat
             rel_result = session.run("""
                 MATCH (child:owl__Class)-[:rdfs__subClassOf]->(parent:owl__Class)
-                WHERE child.uri  CONTAINS "padepokan79"
-                  AND parent.uri CONTAINS "padepokan79"
                 RETURN child.uri AS child_uri, parent.uri AS parent_uri
             """)
             for record in rel_result:
