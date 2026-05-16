@@ -2,19 +2,15 @@
 # skill_requirement.py
 # Modul Semantic Similarity — Increment 2
 #
-# Tanggung Jawab:
-#   Memparse format skill requirement yang mengandung operator
-#   disjungtif (|) menjadi struktur yang siap diolah matcher.
-#
 # Format input dari NER:
-#   ["React.js|Vue.js", "Node.js", "PostgreSQL"]
-#
-# Hasil parse:
 #   [
-#     SkillRequirement(skills=["React.js", "Vue.js"], is_disjunctive=True),
-#     SkillRequirement(skills=["Node.js"],             is_disjunctive=False),
-#     SkillRequirement(skills=["PostgreSQL"],           is_disjunctive=False),
+#     ["React.js"],                  # satu kebutuhan (AND)
+#     ["PostgreSQL", "MySQL"],       # alternatif dalam grup (OR)
 #   ]
+#
+# Semantik:
+#   - Array luar  : setiap grup digabung AND (Best Match Average antar grup)
+#   - Array dalam : >1 skill = OR (ambil skor tertinggi di grup)
 #
 # Referensi agregasi disjungtif:
 #   Yager, R.R. (1988) 'On ordered weighted averaging aggregation
@@ -35,8 +31,7 @@ class SkillRequirement:
     Jika is_disjunctive=True, matcher mengambil skor tertinggi
     dari semua alternatif dalam skills (OR logic).
 
-    Jika is_disjunctive=False, skills selalu berisi tepat satu
-    elemen dan diperlakukan sebagai kebutuhan tunggal.
+    Jika is_disjunctive=False, skills berisi satu elemen (kebutuhan tunggal).
     """
     skills         : list[str]
     is_disjunctive : bool = False
@@ -44,17 +39,19 @@ class SkillRequirement:
     @property
     def label(self) -> str:
         """Label ringkas untuk logging dan response."""
-        return " | ".join(self.skills)
+        if self.is_disjunctive:
+            return " | ".join(self.skills)
+        return self.skills[0]
 
 
-def parse_requirements(raw: list[str]) -> list[SkillRequirement]:
+def parse_requirements(raw: list[list[str]]) -> list[SkillRequirement]:
     """
-    Memparse list skill requirement mentah dari NER.
+    Memparse skill requirement bertingkat dari NER.
 
     Parameters
     ----------
-    raw : list[str]
-        Contoh: ["React.js|Vue.js", "Node.js", "PostgreSQL"]
+    raw : list[list[str]]
+        Contoh: [["React.js"], ["PostgreSQL", "MySQL"]]
 
     Returns
     -------
@@ -62,21 +59,14 @@ def parse_requirements(raw: list[str]) -> list[SkillRequirement]:
     """
     parsed: list[SkillRequirement] = []
 
-    for item in raw:
-        item = item.strip()
-        if not item:
+    for group in raw:
+        skills = [s.strip() for s in group if isinstance(s, str) and s.strip()]
+        if not skills:
             continue
 
-        if "|" in item:
-            alternatives = [s.strip() for s in item.split("|") if s.strip()]
-            parsed.append(SkillRequirement(
-                skills         = alternatives,
-                is_disjunctive = True,
-            ))
-        else:
-            parsed.append(SkillRequirement(
-                skills         = [item],
-                is_disjunctive = False,
-            ))
+        parsed.append(SkillRequirement(
+            skills         = skills,
+            is_disjunctive = len(skills) > 1,
+        ))
 
     return parsed

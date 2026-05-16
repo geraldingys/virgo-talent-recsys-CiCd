@@ -8,7 +8,7 @@
 # =============================================================
 
 from fastapi import APIRouter, HTTPException, Request, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from loguru import logger
 
 router = APIRouter(prefix="/similarity", tags=["Semantic Similarity"])
@@ -19,18 +19,31 @@ router = APIRouter(prefix="/similarity", tags=["Semantic Similarity"])
 # ----------------------------------------------------------
 
 class RankRequest(BaseModel):
-    required_skills: list[str] = Field(
+    required_skills: list[list[str]] = Field(
         ...,
         min_length=1,
         description=(
-            "Daftar skill requirement dari NER. Satu string dapat berisi "
-            "beberapa alternatif dipisah | (OR), misalnya \"React.js|Vue.js\"."
+            "Grup kebutuhan skill dari NER. Setiap elemen luar = satu klausa AND; "
+            "elemen dalam berisi >1 skill = alternatif OR."
         ),
         examples=[
-            ["React.js|Vue.js", "Node.js", "PostgreSQL"],
-            ["React.js", "Node.js"],
+            [["React.js"], ["PostgreSQL", "MySQL"]],
+            [["React.js", "Vue.js"], ["Node.js"]],
         ],
     )
+
+    @field_validator("required_skills")
+    @classmethod
+    def validate_skill_groups(cls, groups: list[list[str]]) -> list[list[str]]:
+        for i, group in enumerate(groups):
+            if not group:
+                raise ValueError(f"Grup skill indeks {i} tidak boleh kosong.")
+            cleaned = [s.strip() for s in group if isinstance(s, str) and s.strip()]
+            if not cleaned:
+                raise ValueError(
+                    f"Grup skill indeks {i} harus berisi minimal satu label valid."
+                )
+        return groups
 
 
 class SkillMatchDetailResponse(BaseModel):
@@ -49,7 +62,7 @@ class TalentScoreResponse(BaseModel):
 
 class RankResponse(BaseModel):
     total_talents   : int
-    required_skills : list[str]
+    required_skills : list[list[str]]
     ranked_talents  : list[TalentScoreResponse]
 
 
@@ -76,7 +89,7 @@ def get_similarity_service(request):
     response_model=RankResponse,
     summary="Ranking talenta berdasarkan kemiripan skill",
     description=(
-        "Menerima daftar skill requirement dari NER, lalu menghitung "
+        "Menerima grup skill requirement dari NER, lalu menghitung "
         "skor kemiripan semantik (Sánchez Similarity) setiap talenta "
         "menggunakan strategi Best Match Average. "
         "Mengembalikan seluruh talenta diurutkan dari skor tertinggi."
@@ -86,7 +99,7 @@ async def rank_talents(body: RankRequest, request: Request) -> RankResponse:
     service = get_similarity_service(request)
 
     logger.info(
-        f"POST /similarity/rank — {len(body.required_skills)} skill: "
+        f"POST /similarity/rank — {len(body.required_skills)} grup skill: "
         f"{body.required_skills}"
     )
 

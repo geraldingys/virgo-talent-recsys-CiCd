@@ -1,9 +1,9 @@
 # =============================================================
-# matcher.py — disjungtif (|) + lookup similarity Neo4j
+# matcher.py — grup OR (array dalam) + lookup similarity Neo4j
 # Modul Semantic Similarity — Increment 2
 #
-# Mendukung format requirement disjungtif dari NER:
-#   ["React.js|Vue.js", "Node.js", "PostgreSQL"]
+# Mendukung format requirement dari NER:
+#   [["React.js"], ["PostgreSQL", "MySQL"]]
 #
 # Strategi agregasi:
 #   - Untuk setiap SkillRequirement (grup skill):
@@ -52,7 +52,7 @@ class SkillMatcher:
     """
     Menghitung skor kemiripan skill seluruh talenta terhadap
     daftar skill requirement menggunakan Best Match Average
-    dengan dukungan kebutuhan disjungtif (operator |).
+    dengan dukungan kebutuhan disjungtif (grup OR dalam array).
     """
 
     def __init__(
@@ -71,18 +71,17 @@ class SkillMatcher:
     # Public
     # ----------------------------------------------------------
 
-    def match(self, required_skills: list[str]) -> list[TalentSkillScore]:
+    def match(self, required_skills: list[list[str]]) -> list[TalentSkillScore]:
         """
         Parameters
         ----------
-        required_skills : list[str]
-            Format dari NER, mendukung operator |.
-            Contoh: ["React.js|Vue.js", "Node.js", "PostgreSQL"]
+        required_skills : list[list[str]]
+            Format dari NER: grup luar = AND, grup dalam (>1) = OR.
+            Contoh: [["React.js"], ["PostgreSQL", "MySQL"]]
         """
         if not required_skills:
             return []
 
-        # Parse operator | menjadi SkillRequirement
         requirements = parse_requirements(required_skills)
 
         # Validasi semua skill di setiap grup

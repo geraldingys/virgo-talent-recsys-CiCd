@@ -10,7 +10,7 @@
 # Alur kerja:
 #   1. Saat startup: load SkillGraph dan inisialisasi matcher.
 #   2. Saat request: matcher baca [:SKILL_SIMILARITY] jika ada,
-#      selain itu fallback Sánchez di memori (dukungan | pada requirement).
+#      selain itu fallback Sánchez di memori (grup OR pada requirement).
 #   3. POST /etl/recompute-ic: hitung ulang relasi similarity ke Neo4j.
 # =============================================================
 
@@ -71,16 +71,16 @@ class SemanticSimilarityService:
         logger.info("SemanticSimilarityService: reload graf skill ...")
         self.initialize()
 
-    def rank_talents(self, required_skills: list[str]) -> list[TalentSkillScore]:
+    def rank_talents(self, required_skills: list[list[str]]) -> list[TalentSkillScore]:
         """
         Menghitung skor kemiripan skill seluruh talenta
         terhadap daftar skill requirement.
 
         Parameters
         ----------
-        required_skills : list[str]
-            Label skill dari NER; satu string dapat memuat beberapa alternatif
-            dipisah | (contoh: "React.js|Vue.js").
+        required_skills : list[list[str]]
+            Grup skill dari NER; grup luar = AND, isi grup >1 = OR.
+            Contoh: [["React.js"], ["PostgreSQL", "MySQL"]].
 
         Returns
         -------
