@@ -131,13 +131,15 @@ class Neo4jWriter:
         MERGE (t:Talent {nip: $nip})
         SET   t.namaLengkap      = $nama_lengkap,
               t.pengalamanTahun  = $pengalaman_tahun,
-              t.concernPerbankan = $concern_perbankan
+              t.concernPerbankan = $concern_perbankan,
+              t.pendidikan       = $pendidikan
         """
         tx.run(cypher, {
             "nip"              : record.nip,
             "nama_lengkap"     : record.nama_lengkap,
             "pengalaman_tahun" : record.pengalaman_tahun,
             "concern_perbankan": record.concern_perbankan,
+            "pendidikan"       : record.pendidikan,
         })
 
     def _merge_placement_and_rel(self, tx, record) -> None:

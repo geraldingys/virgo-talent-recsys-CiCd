@@ -24,6 +24,8 @@ _PLACEMENT_MAP = {
     "tanpa batasan"  : "Tanpa Batasan",
 }
 
+# Nilai pendidikan yang diakui sistem
+_VALID_PENDIDIKAN = {"S3", "S2", "S1", "D4", "D3", "D2", "D1", "SMA", "SMK"}
 
 @dataclass
 class TalentRecord:
@@ -38,7 +40,7 @@ class TalentRecord:
     project_nama       : Optional[str] = None
     start_date         : Optional[str] = None
     end_date           : Optional[str] = None
-
+    pendidikan         : Optional[str] = None
 
 class Transformer:
     """
@@ -119,6 +121,15 @@ class Transformer:
         start_date   = self._parse_date(row.get("start_date", ""), nip)
         end_date     = self._parse_date(row.get("end_date", ""), nip)
 
+        # ── Normalisasi pendidikan ─────────────────────────
+        pendidikan_raw = str(row.get("pendidikan", "")).strip().upper()
+        pendidikan = pendidikan_raw if pendidikan_raw in _VALID_PENDIDIKAN else None
+        if pendidikan_raw and pendidikan is None:
+            logger.warning(
+                f"[NIP={nip}] Nilai pendidikan '{pendidikan_raw}' "
+                f"tidak dikenal, dilewati."
+            )
+
         return TalentRecord(
             nip               = nip,
             nama_lengkap      = nama_lengkap,
@@ -131,6 +142,7 @@ class Transformer:
             project_nama      = project_nama,
             start_date        = start_date,
             end_date          = end_date,
+            pendidikan        = pendidikan,
         )
 
     @staticmethod

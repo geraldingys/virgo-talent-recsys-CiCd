@@ -41,6 +41,7 @@ _COLUMN_MAP = {
     "Project"             : "project",
     "start_date"          : "start_date",
     "end_date"            : "end_date",
+    "pendidikan"          : "pendidikan",
 }
 
 
