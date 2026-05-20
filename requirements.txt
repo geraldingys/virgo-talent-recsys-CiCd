@@ -46,3 +46,10 @@ ruff==0.7.4                      # linter + formatter (pengganti flake8+black)
 
 # ─── Logging ──────────────────────────────────────────────
 loguru==0.7.2
+
+# ─── Google Sheets (ETL Increment 2) ──────────────────────
+gspread==6.1.2
+google-auth==2.35.0
+
+
+rapidfuzz==3.9.3

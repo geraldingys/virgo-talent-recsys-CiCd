@@ -110,10 +110,11 @@ docker exec virgo-ollama ollama pull qwen3:8b
 
 ### 4. Akses
 
-| Service              | URL                        |
-| -------------------- | -------------------------- |
-| FastAPI Swagger Docs | http://localhost:8000/docs |
-| Neo4j Browser        | http://localhost:7474      |
+| Service              | URL                                            |
+| -------------------- | ---------------------------------------------- |
+| FastAPI Swagger Docs | http://localhost:8000/docs                     |
+| Neo4j Browser        | http://localhost:7474                          |
+| n8n                  | https://greedily-flap-disagree.ngrok-free.dev/ |
 
 ---
 
@@ -137,6 +138,21 @@ feature/inc1-ner           → Increment 1: Modul NER
 feature/inc2-semantic-sim  → Increment 2: Semantic Similarity
 feature/inc3-saw           → Increment 3: SAW + ROC
 ```
+
+---
+
+## Meninjau Skill Similarity
+
+Untuk menampilkan dan menganalisis relasi similarity antar skill di Neo4j, lihat [SKILL_SIMILARITY_QUERIES.md](SKILL_SIMILARITY_QUERIES.md).
+
+Dokumen tersebut menyediakan 12+ query Cypher untuk:
+- Lihat semua relasi similarity + score
+- Filter berdasarkan threshold
+- Cari skill terdekat untuk satu skill
+- Analisis similarity network (clustering, hubungan indirect)
+- Export ke CSV untuk analisis offline
+
+**Akses:** Buka Neo4j Browser di `http://localhost:7474` → paste query → jalankan dengan Ctrl+Enter
 
 ---
 
