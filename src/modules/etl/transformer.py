@@ -27,11 +27,14 @@ _PLACEMENT_MAP = {
 # Nilai pendidikan yang diakui sistem
 _VALID_PENDIDIKAN = {"S3", "S2", "S1", "D4", "D3", "D2", "D1", "SMA", "SMK"}
 
+# Nilai valid status_penugasan
+_VALID_STATUS_PENUGASAN = {"idle", "irreplacable", "replacable", "transferable"}
+
 @dataclass
 class TalentRecord:
     nip                : str
     nama_lengkap       : str
-    pengalaman_tahun   : int
+    pengalaman_tahun   : float
     concern_perbankan  : bool
     jenis_penempatan   : list[str] = field(default_factory=list)
     skill_labels       : list[str] = field(default_factory=list)  # label kanonik ontologi
@@ -41,6 +44,7 @@ class TalentRecord:
     start_date         : Optional[str] = None
     end_date           : Optional[str] = None
     pendidikan         : Optional[str] = None
+    status_penugasan   : Optional[str] = None
 
 class Transformer:
     """
@@ -77,9 +81,9 @@ class Transformer:
         nama_lengkap = str(row["nama_lengkap"]).strip()
 
         try:
-            pengalaman = int(str(row.get("pengalaman", "0")).strip() or "0")
+            pengalaman = float(str(row.get("pengalaman", "0")).strip() or "0")
         except ValueError:
-            pengalaman = 0
+            pengalaman = 0.0
 
         concern_raw = str(row.get("concern_perbankan", "false")).strip().lower()
         concern     = concern_raw in ("true", "1", "yes", "ya")
@@ -130,6 +134,14 @@ class Transformer:
                 f"tidak dikenal, dilewati."
             )
 
+        status_raw = str(row.get("status_penugasan", "")).strip().lower()
+        status_penugasan = status_raw if status_raw in _VALID_STATUS_PENUGASAN else None
+        if status_raw and status_penugasan is None:
+            logger.warning(
+                f"[NIP={nip}] Nilai status_penugasan '{status_raw}' "
+                f"tidak dikenal, dilewati."
+            )
+
         return TalentRecord(
             nip               = nip,
             nama_lengkap      = nama_lengkap,
@@ -143,6 +155,7 @@ class Transformer:
             start_date        = start_date,
             end_date          = end_date,
             pendidikan        = pendidikan,
+            status_penugasan  = status_penugasan,
         )
 
     @staticmethod
