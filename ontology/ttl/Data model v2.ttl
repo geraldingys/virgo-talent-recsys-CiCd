@@ -1,139 +1,8 @@
-@prefix : <http://padepokan79.com/ontology/skill#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix virgo: <http://padepokan79.com/ontology/skill#> .
-@base <http://padepokan79.com/ontology/skill#> .
 
-<http://padepokan79.com/ontology/skill> rdf:type owl:Ontology .
-
-#################################################################
-#    Object Properties
-#################################################################
-
-###  http://padepokan79.com/ontology/skill#assignedToProject
-virgo:assignedToProject rdf:type owl:ObjectProperty ;
-                        rdfs:domain virgo:Talent ;
-                        rdfs:range virgo:Project ;
-                        rdfs:label "assignedToProject" .
-
-
-###  http://padepokan79.com/ontology/skill#hasSkill
-virgo:hasSkill rdf:type owl:ObjectProperty ;
-               rdfs:domain virgo:Talent ;
-               rdfs:range virgo:root ;
-               rdfs:label "hasSkill" .
-
-
-###  http://padepokan79.com/ontology/skill#prefersPlacement
-virgo:prefersPlacement rdf:type owl:ObjectProperty ;
-                       rdfs:domain virgo:Talent ;
-                       rdfs:range virgo:Placement ;
-                       rdfs:label "prefersPlacement" .
-
-
-#################################################################
-#    Data properties
-#################################################################
-
-###  http://padepokan79.com/ontology/skill#concernPerbankan
-virgo:concernPerbankan rdf:type owl:DatatypeProperty ,
-                                owl:FunctionalProperty ;
-                       rdfs:domain virgo:Talent ;
-                       rdfs:range xsd:boolean ;
-                       rdfs:label "concernPerbankan" .
-
-
-###  http://padepokan79.com/ontology/skill#namaLengkap
-virgo:namaLengkap rdf:type owl:DatatypeProperty ,
-                           owl:FunctionalProperty ;
-                  rdfs:domain virgo:Talent ;
-                  rdfs:range xsd:string ;
-                  rdfs:label "namaLengkap" .
-
-
-###  http://padepokan79.com/ontology/skill#namaLokasi
-virgo:namaLokasi rdf:type owl:DatatypeProperty ;
-                 rdfs:subPropertyOf owl:topDataProperty ;
-                 rdfs:domain virgo:Placement ;
-                 rdfs:range xsd:string ;
-                 rdfs:label "namaLokasi" .
-
-
-###  http://padepokan79.com/ontology/skill#namaProject
-virgo:namaProject rdf:type owl:DatatypeProperty ,
-                           owl:FunctionalProperty ;
-                  rdfs:domain virgo:Project ;
-                  rdfs:range xsd:string ;
-                  rdfs:label "namaProject" .
-
-
-###  http://padepokan79.com/ontology/skill#nip
-virgo:nip rdf:type owl:DatatypeProperty ,
-                   owl:FunctionalProperty ;
-          rdfs:domain virgo:Talent ;
-          rdfs:range xsd:string ;
-          rdfs:label "nip" .
-
-
-###  http://padepokan79.com/ontology/skill#pengalamanTahun
-virgo:pengalamanTahun rdf:type owl:DatatypeProperty ,
-                               owl:FunctionalProperty ;
-                      rdfs:domain virgo:Talent ;
-                      rdfs:range xsd:nonNegativeInteger ;
-                      rdfs:label "pengalamanTahun" .
-
-
-###  http://padepokan79.com/ontology/skill#projectEndDate
-virgo:projectEndDate rdf:type owl:DatatypeProperty ,
-                              owl:FunctionalProperty ;
-                     rdfs:domain virgo:Talent ;
-                     rdfs:range xsd:dateTime ;
-                     rdfs:label "projectEndDate" .
-
-
-###  http://padepokan79.com/ontology/skill#projectStartDate
-virgo:projectStartDate rdf:type owl:DatatypeProperty ,
-                                owl:FunctionalProperty ;
-                       rdfs:domain virgo:Talent ;
-                       rdfs:range xsd:dateTime ;
-                       rdfs:label "projectStartDate" .
-
-
-#################################################################
-#    Classes
-#################################################################
-
-###  http://padepokan79.com/ontology/skill#Placement
-virgo:Placement rdf:type owl:Class ;
-                rdfs:label "Placement" .
-
-
-###  http://padepokan79.com/ontology/skill#Project
-virgo:Project rdf:type owl:Class ;
-              rdfs:label "Project" .
-
-
-###  http://padepokan79.com/ontology/skill#Talent
-virgo:Talent rdf:type owl:Class ;
-             owl:equivalentClass [ rdf:type owl:Restriction ;
-                                   owl:onProperty virgo:hasSkill ;
-                                   owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                                   owl:onClass virgo:root
-                                 ] ;
-             rdfs:subClassOf [ rdf:type owl:Restriction ;
-                               owl:onProperty virgo:hasSkill ;
-                               owl:allValuesFrom virgo:root
-                             ] ,
-                             [ rdf:type owl:Restriction ;
-                               owl:onProperty virgo:nip ;
-                               owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                               owl:onDataRange xsd:string
-                             ] ;
-             rdfs:label "Talent" .
-
+<http://padepokan79.com/ontology/skill> a owl:Ontology .
 
 virgo:activityDiagram a owl:Class ;
     rdfs:label "Activity Diagram" ;
@@ -149,7 +18,7 @@ virgo:adobePhotoshop a owl:Class ;
 
 virgo:ajax a owl:Class ;
     rdfs:label "AJAX" ;
-    rdfs:subClassOf virgo:httpClientLibraries,
+    rdfs:subClassOf virgo:apiIntegration,
         virgo:javascriptEcosystem .
 
 virgo:angular a owl:Class ;
@@ -168,7 +37,7 @@ virgo:antDesign a owl:Class ;
         virgo:uiComponentLibraries .
 
 virgo:apacheDubbo a owl:Class ;
-    rdfs:label "Apache Dubbo" ;
+    rdfs:label "Dubbo" ;
     rdfs:subClassOf virgo:apiIntegration,
         virgo:javaEcosystem,
         virgo:messagingStreaming .
@@ -203,7 +72,7 @@ virgo:artemisMq a owl:Class ;
     rdfs:subClassOf virgo:messagingStreaming .
 
 virgo:aspNet a owl:Class ;
-    rdfs:label "ASP.NET" ;
+    rdfs:label "ASP.NET Core" ;
     rdfs:subClassOf virgo:dotnetEcosystem,
         virgo:webBackendFrameworks .
 
@@ -257,7 +126,7 @@ virgo:bloc a owl:Class ;
 
 virgo:bootstrap a owl:Class ;
     rdfs:label "Bootstrap" ;
-    rdfs:subClassOf virgo:javascriptEcosystem,
+    rdfs:subClassOf virgo:cssFrameworks,
         virgo:uiComponentLibraries .
 
 virgo:brd a owl:Class ;
@@ -281,8 +150,8 @@ virgo:burpSuite a owl:Class ;
 
 virgo:camunda a owl:Class ;
     rdfs:label "Camunda" ;
-    rdfs:subClassOf virgo:apiIntegration,
-        virgo:bpmWorkflow .
+    rdfs:subClassOf virgo:bpmWorkflow,
+        virgo:softwareArchitecture .
 
 virgo:canva a owl:Class ;
     rdfs:label "Canva" ;
@@ -299,8 +168,7 @@ virgo:classDiagram a owl:Class ;
 
 virgo:cloudflare a owl:Class ;
     rdfs:label "Cloudflare" ;
-    rdfs:subClassOf virgo:cloudProviders,
-        virgo:networkingProtocols,
+    rdfs:subClassOf virgo:cloudInfrastructure,
         virgo:securityTools .
 
 virgo:codeIgniter a owl:Class ;
@@ -314,7 +182,7 @@ virgo:confluence a owl:Class ;
         virgo:projectManagementTools .
 
 virgo:contextApi a owl:Class ;
-    rdfs:label "Context API" ;
+    rdfs:label "React Context API" ;
     rdfs:subClassOf virgo:javascriptEcosystem,
         virgo:stateManagement .
 
@@ -395,7 +263,7 @@ virgo:electronJs a owl:Class ;
         virgo:javascriptEcosystem .
 
 virgo:erd a owl:Class ;
-    rdfs:label "ERD" ;
+    rdfs:label "Entity-Relationship Diagram" ;
     rdfs:subClassOf virgo:databases,
         virgo:umlDiagrams .
 
@@ -474,7 +342,7 @@ virgo:geoJson a owl:Class ;
         virgo:gisGeospatial .
 
 virgo:geopandas a owl:Class ;
-    rdfs:label "Geopandas" ;
+    rdfs:label "GeoPandas" ;
     rdfs:subClassOf virgo:dataProcessingLibraries,
         virgo:gisGeospatial,
         virgo:pythonEcosystem .
@@ -509,12 +377,12 @@ virgo:gitlabCi a owl:Class ;
     rdfs:subClassOf virgo:devOpsTooling .
 
 virgo:goFiber a owl:Class ;
-    rdfs:label "GoFiber" ;
+    rdfs:label "Fiber" ;
     rdfs:subClassOf virgo:goEcosystem,
         virgo:webBackendFrameworks .
 
 virgo:golang a owl:Class ;
-    rdfs:label "Golang" ;
+    rdfs:label "Go" ;
     rdfs:subClassOf virgo:goEcosystem .
 
 virgo:googleAnalytics a owl:Class ;
@@ -587,8 +455,8 @@ virgo:husky a owl:Class ;
 
 virgo:iis10 a owl:Class ;
     rdfs:label "IIS" ;
-    rdfs:subClassOf virgo:cloudInfrastructure,
-        virgo:networkingProtocols .
+    rdfs:subClassOf virgo:devOpsTooling,
+        virgo:webServers .
 
 virgo:inertiaJs a owl:Class ;
     rdfs:label "Inertia.js" ;
@@ -784,7 +652,7 @@ virgo:mariaDb a owl:Class ;
     rdfs:subClassOf virgo:relationalDatabases .
 
 virgo:materialUi a owl:Class ;
-    rdfs:label "Material UI (MUI)" ;
+    rdfs:label "Material UI" ;
     rdfs:subClassOf virgo:javascriptEcosystem,
         virgo:uiComponentLibraries .
 
@@ -897,9 +765,9 @@ virgo:nexus a owl:Class ;
     rdfs:subClassOf virgo:devOpsTooling .
 
 virgo:nginx a owl:Class ;
-    rdfs:label "Nginx" ;
-    rdfs:subClassOf virgo:cloudInfrastructure,
-        virgo:networkingProtocols .
+    rdfs:label "NGINX" ;
+    rdfs:subClassOf virgo:devOpsTooling,
+        virgo:webServers .
 
 virgo:nightwatchJs a owl:Class ;
     rdfs:label "Nightwatch.js" ;
@@ -950,7 +818,7 @@ virgo:openshift a owl:Class ;
     rdfs:subClassOf virgo:containerOrchestration .
 
 virgo:oracleDb a owl:Class ;
-    rdfs:label "Oracle DB" ;
+    rdfs:label "Oracle Database" ;
     rdfs:subClassOf virgo:relationalDatabases .
 
 virgo:outsystems a owl:Class ;
@@ -1100,9 +968,8 @@ virgo:reactNative a owl:Class ;
         virgo:mobileFrameworks .
 
 virgo:reactQuery a owl:Class ;
-    rdfs:label "React Query" ;
-    rdfs:subClassOf virgo:httpClientLibraries,
-        virgo:javascriptEcosystem,
+    rdfs:label "TanStack Query" ;
+    rdfs:subClassOf virgo:javascriptEcosystem,
         virgo:stateManagement .
 
 virgo:redis a owl:Class ;
@@ -1121,7 +988,7 @@ virgo:reportBuilder a owl:Class ;
         virgo:dotnetEcosystem .
 
 virgo:rest a owl:Class ;
-    rdfs:label "REST API" ;
+    rdfs:label "REST" ;
     rdfs:subClassOf virgo:apiProtocols .
 
 virgo:ruby a owl:Class ;
@@ -1180,7 +1047,7 @@ virgo:serviceStudio a owl:Class ;
         virgo:lowCodeNoCode .
 
 virgo:shadcnUi a owl:Class ;
-    rdfs:label "Shadcn UI" ;
+    rdfs:label "shadcn/ui" ;
     rdfs:subClassOf virgo:javascriptEcosystem,
         virgo:uiComponentLibraries .
 
@@ -1258,7 +1125,8 @@ virgo:svelte a owl:Class ;
 
 virgo:swagger a owl:Class ;
     rdfs:label "Swagger" ;
-    rdfs:subClassOf virgo:apiDocumentation .
+    rdfs:subClassOf virgo:apiDocumentation,
+        virgo:apiProtocols .
 
 virgo:swaggo a owl:Class ;
     rdfs:label "Swaggo" ;
@@ -1283,8 +1151,7 @@ virgo:systemDesignArtifacts a owl:Class ;
 virgo:tailwindCss a owl:Class ;
     rdfs:label "Tailwind CSS" ;
     rdfs:subClassOf virgo:css,
-        virgo:javascriptEcosystem,
-        virgo:webFrontendFrameworks .
+        virgo:cssFrameworks .
 
 virgo:talend a owl:Class ;
     rdfs:label "Talend" ;
@@ -1470,8 +1337,7 @@ virgo:css a owl:Class ;
 
 virgo:etlTools a owl:Class ;
     rdfs:label "ETL & Data Pipeline Tools" ;
-    rdfs:subClassOf virgo:dataAnalytics,
-        virgo:devOpsTooling .
+    rdfs:subClassOf virgo:dataAnalytics .
 
 virgo:inMemoryDatabases a owl:Class ;
     rdfs:label "In-Memory & Cache Databases" ;
@@ -1483,8 +1349,7 @@ virgo:performanceTesting a owl:Class ;
 
 virgo:rpa a owl:Class ;
     rdfs:label "RPA" ;
-    rdfs:subClassOf virgo:lowCodeNoCode,
-        virgo:methodologiesProcesses .
+    rdfs:subClassOf virgo:lowCodeNoCode .
 
 virgo:unitTesting a owl:Class ;
     rdfs:label "Unit & Integration Testing" ;
@@ -1508,6 +1373,14 @@ virgo:bpmWorkflow a owl:Class ;
     rdfs:label "BPM & Workflow Automation" ;
     rdfs:subClassOf virgo:methodologiesProcesses,
         virgo:softwareArchitecture .
+
+virgo:cssFrameworks a owl:Class ;
+    rdfs:label "CSS Frameworks & Utilities" ;
+    rdfs:subClassOf virgo:frameworks .
+
+virgo:httpClientLibraries a owl:Class ;
+    rdfs:label "HTTP Client Libraries" ;
+    rdfs:subClassOf virgo:apiIntegration .
 
 virgo:kotlinEcosystem a owl:Class ;
     rdfs:label "Kotlin Ecosystem" ;
@@ -1534,6 +1407,10 @@ virgo:securityTesting a owl:Class ;
     rdfs:subClassOf virgo:securityTools,
         virgo:testingQA .
 
+virgo:webServers a owl:Class ;
+    rdfs:label "Web Servers & Reverse Proxies" ;
+    rdfs:subClassOf virgo:cloudInfrastructure .
+
 virgo:dartFlutterEcosystem a owl:Class ;
     rdfs:label "Dart & Flutter Ecosystem" ;
     rdfs:subClassOf virgo:programmingLanguages .
@@ -1553,8 +1430,7 @@ virgo:erpPlatforms a owl:Class ;
 
 virgo:frontendArchitecture a owl:Class ;
     rdfs:label "Frontend Architecture" ;
-    rdfs:subClassOf virgo:softwareArchitecture,
-        virgo:webFrontendFrameworks .
+    rdfs:subClassOf virgo:softwareArchitecture .
 
 virgo:graphicDesignTools a owl:Class ;
     rdfs:label "Graphic Design Tools" ;
@@ -1562,8 +1438,7 @@ virgo:graphicDesignTools a owl:Class ;
 
 virgo:wireframingPrototyping a owl:Class ;
     rdfs:label "Wireframing & Prototyping" ;
-    rdfs:subClassOf virgo:documentationDiagramming,
-        virgo:uiUxDesign .
+    rdfs:subClassOf virgo:uiUxDesign .
 
 virgo:aiMl a owl:Class ;
     rdfs:label "AI & Machine Learning" ;
@@ -1585,15 +1460,9 @@ virgo:desktopFrameworks a owl:Class ;
     rdfs:label "Desktop Frameworks" ;
     rdfs:subClassOf virgo:frameworks .
 
-virgo:httpClientLibraries a owl:Class ;
-    rdfs:label "HTTP Client Libraries" ;
-    rdfs:subClassOf virgo:apiIntegration,
-        virgo:frameworks .
-
 virgo:testManagement a owl:Class ;
     rdfs:label "Test Management Tools" ;
-    rdfs:subClassOf virgo:projectManagementTools,
-        virgo:testingQA .
+    rdfs:subClassOf virgo:testingQA .
 
 virgo:testingFrameworks a owl:Class ;
     rdfs:label "Testing Frameworks & Libraries" ;
@@ -1621,6 +1490,10 @@ virgo:mobileFrameworks a owl:Class ;
     rdfs:label "Mobile Frameworks" ;
     rdfs:subClassOf virgo:frameworks .
 
+virgo:cloudProviders a owl:Class ;
+    rdfs:label "Cloud Providers" ;
+    rdfs:subClassOf virgo:cloudInfrastructure .
+
 virgo:containerOrchestration a owl:Class ;
     rdfs:label "Container & Orchestration" ;
     rdfs:subClassOf virgo:cloudInfrastructure,
@@ -1630,18 +1503,17 @@ virgo:diagrammingTools a owl:Class ;
     rdfs:label "Diagramming Tools" ;
     rdfs:subClassOf virgo:documentationDiagramming .
 
+virgo:networkingProtocols a owl:Class ;
+    rdfs:label "Networking & Protocols" ;
+    rdfs:subClassOf virgo:root .
+
 virgo:ormLibraries a owl:Class ;
     rdfs:label "ORM & Data Access Libraries" ;
-    rdfs:subClassOf virgo:databases,
-        virgo:frameworks .
+    rdfs:subClassOf virgo:webBackendFrameworks .
 
 virgo:phpEcosystem a owl:Class ;
     rdfs:label "PHP Ecosystem" ;
     rdfs:subClassOf virgo:programmingLanguages .
-
-virgo:softwareArchitecture a owl:Class ;
-    rdfs:label "Software Architecture & Design" ;
-    rdfs:subClassOf virgo:root .
 
 virgo:stateManagement a owl:Class ;
     rdfs:label "State Management" ;
@@ -1652,12 +1524,12 @@ virgo:biVisualizationTools a owl:Class ;
     rdfs:label "BI & Visualization Tools" ;
     rdfs:subClassOf virgo:dataAnalytics .
 
-virgo:cloudProviders a owl:Class ;
-    rdfs:label "Cloud Providers" ;
-    rdfs:subClassOf virgo:cloudInfrastructure .
-
 virgo:dataAnalytics a owl:Class ;
     rdfs:label "Data Analytics & BI" ;
+    rdfs:subClassOf virgo:root .
+
+virgo:databases a owl:Class ;
+    rdfs:label "Databases & Data Stores" ;
     rdfs:subClassOf virgo:root .
 
 virgo:e2eTesting a owl:Class ;
@@ -1670,6 +1542,10 @@ virgo:lowCodeNoCode a owl:Class ;
 
 virgo:operatingSystems a owl:Class ;
     rdfs:label "Operating Systems & Environments" ;
+    rdfs:subClassOf virgo:root .
+
+virgo:softwareArchitecture a owl:Class ;
+    rdfs:label "Software Architecture & Design" ;
     rdfs:subClassOf virgo:root .
 
 virgo:umlDiagrams a owl:Class ;
@@ -1686,10 +1562,6 @@ virgo:databaseAdminTools a owl:Class ;
     rdfs:subClassOf virgo:databases,
         virgo:developmentTools .
 
-virgo:databases a owl:Class ;
-    rdfs:label "Databases & Data Stores" ;
-    rdfs:subClassOf virgo:root .
-
 virgo:gisGeospatial a owl:Class ;
     rdfs:label "GIS & Geospatial" ;
     rdfs:subClassOf virgo:root .
@@ -1698,25 +1570,21 @@ virgo:relationalDatabases a owl:Class ;
     rdfs:label "Relational Databases (SQL)" ;
     rdfs:subClassOf virgo:databases .
 
-virgo:networkingProtocols a owl:Class ;
-    rdfs:label "Networking & Protocols" ;
-    rdfs:subClassOf virgo:root .
-
 virgo:uiComponentLibraries a owl:Class ;
     rdfs:label "UI Component Libraries" ;
     rdfs:subClassOf virgo:frameworks .
 
-virgo:apiProtocols a owl:Class ;
-    rdfs:label "API Protocols & Standards" ;
-    rdfs:subClassOf virgo:apiIntegration .
+virgo:frameworks a owl:Class ;
+    rdfs:label "Frameworks & Libraries" ;
+    rdfs:subClassOf virgo:root .
 
 virgo:messagingStreaming a owl:Class ;
     rdfs:label "Messaging & Streaming" ;
     rdfs:subClassOf virgo:root .
 
-virgo:frameworks a owl:Class ;
-    rdfs:label "Frameworks & Libraries" ;
-    rdfs:subClassOf virgo:root .
+virgo:apiProtocols a owl:Class ;
+    rdfs:label "API Protocols & Standards" ;
+    rdfs:subClassOf virgo:apiIntegration .
 
 virgo:methodologiesProcesses a owl:Class ;
     rdfs:label "Methodologies & Processes" ;
@@ -1734,12 +1602,12 @@ virgo:apiIntegration a owl:Class ;
     rdfs:label "API & Integration" ;
     rdfs:subClassOf virgo:root .
 
-virgo:securityTools a owl:Class ;
-    rdfs:label "Security & Compliance" ;
-    rdfs:subClassOf virgo:root .
-
 virgo:documentationDiagramming a owl:Class ;
     rdfs:label "Documentation & Diagramming" ;
+    rdfs:subClassOf virgo:root .
+
+virgo:securityTools a owl:Class ;
+    rdfs:label "Security & Compliance" ;
     rdfs:subClassOf virgo:root .
 
 virgo:pythonEcosystem a owl:Class ;
@@ -1777,56 +1645,3 @@ virgo:javascriptEcosystem a owl:Class ;
     rdfs:label "JavaScript Ecosystem" ;
     rdfs:subClassOf virgo:programmingLanguages .
 
-
-
-#################################################################
-#    Individuals
-#################################################################
-
-###  http://padepokan79.com/ontology/skill#Harish
-virgo:Harish rdf:type owl:NamedIndividual ;
-             virgo:namaLengkap "" ;
-             virgo:nip "" .
-
-
-#################################################################
-#    General axioms
-#################################################################
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( virgo:Placement
-                virgo:Project
-                virgo:Talent
-                virgo:root
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( virgo:aws
-                virgo:azure
-                virgo:biznetCloud
-                virgo:gcp
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( virgo:dataWarehouse
-                virgo:inMemoryDatabases
-                virgo:nonRelationalDatabases
-                virgo:relationalDatabases
-              )
-] .
-
-
-[ rdf:type owl:AllDisjointClasses ;
-  owl:members ( virgo:e2eTesting
-                virgo:performanceTesting
-                virgo:securityTesting
-                virgo:unitTesting
-              )
-] .
-
-
-###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

@@ -10,7 +10,7 @@
 # Kolom Spreadsheet yang Diharapkan:
 #   No. | Nama Lengkap | NIP | Jenis Penempatan |
 #   Concern Perbankan | Teknologi | Pengalaman |
-#   Project | start_date | end_date
+#   Project | start_date | end_date | Pendidikan | status_penugasan
 #
 # Tanggal (start_date / end_date): format Indonesia DD/MM/YYYY, mis. 15/01/2023.
 # Kolom ini dimasukkan numericise_ignore agar tidak diubah ke angka serial.
@@ -41,6 +41,8 @@ _COLUMN_MAP = {
     "Project"             : "project",
     "start_date"          : "start_date",
     "end_date"            : "end_date",
+    "Pendidikan"          : "pendidikan",
+    "status_penugasan"    : "status_penugasan",
 }
 
 
