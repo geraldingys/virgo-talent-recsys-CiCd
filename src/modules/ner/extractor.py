@@ -48,7 +48,7 @@ Aturan:
 - location: nama kota lengkap (normalisasi: bdg→Bandung, jkt→Jakarta, sby→Surabaya)
 - start_date: format dd/mm/yyyy. Jika hanya bulan → 01/mm/yyyy. jika mulai minggu pertama mei = 01/05/2026. Jika mulai minggu kedua = 08/05/2026, jika mulai minggu ketiga = 15/05/2026, jika mulai minggu keempat = 22/05/2026. jika mulai april/mei maka yang diambil adalah bulan pertama yaitu april maka response nya 01/04/2026, Jika disebutkan rentang bulan, gunakan tanggal pertama dari bulan pertama yang disebutkan.null jika tidak ada
 - project_sector: sektor industri atau null
-- education: flat array jenjang pendidikan ["D3","S1"] atau null. "/" artinya OR → ["D3","S1"]
+- education: flat array jenjang pendidikan seperti SMK, ahli madya = D3, Sarjana = S1, Sarjana Terapan = D4, Magister = S2, null jika tidak. jika OR, atau, "/" artinya OR → ["SMK","D3"], 
 
 Contoh:
 Q: "senior react min 3 thn, bdg, fintech, mulai 1 mei 2026"
