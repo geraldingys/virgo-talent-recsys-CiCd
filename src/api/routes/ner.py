@@ -17,7 +17,6 @@ from __future__ import annotations
 
 import time
 
-import httpx
 from fastapi import APIRouter, HTTPException, status
 from loguru import logger
 from pydantic import BaseModel, Field
@@ -64,7 +63,7 @@ class NERResponse(BaseModel):
     description=(
         "Menerima kalimat natural kebutuhan talenta dan mengekstrak "
         "enam slot entitas: skill, seniority, pengalaman, lokasi, "
-        "tanggal mulai, dan sektor proyek."
+        "sektor proyek, dan pendidikan."
     ),
 )
 async def extract_entities(request: NERRequest) -> NERResponse:

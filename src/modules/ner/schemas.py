@@ -53,10 +53,7 @@ class ExtractionResult(BaseModel):
         default=None,
         description="Kota penempatan (nama lengkap). Contoh: 'Bandung'.",
     )
-    start_date: str | None = Field(
-        default=None,
-        description="Tanggal mulai proyek format dd/mm/yyyy. Contoh: '01/05/2026'.",
-    )
+
     project_sector: str | None = Field(
         default=None,
         description="Sektor industri proyek. Contoh: 'perbankan', 'fintech'.",
