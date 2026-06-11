@@ -73,4 +73,3 @@ configs/*
 *.bak
 *.tmp
 node_modules/
-.assist/
