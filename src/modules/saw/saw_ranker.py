@@ -16,7 +16,7 @@
 #
 # Catatan:
 #   - Seluruh kriteria bersifat benefit (tidak ada cost)
-#   - Skema pendidikan: opsi B (≥ threshold)
+#   - Skema pendidikan: ≥ threshold
 #     TODO: konfirmasi final skema penilaian pendidikan
 # =============================================================
 
@@ -154,7 +154,7 @@ class SAWRanker:
         return matrix
 
     # ----------------------------------------------------------
-    # Private — Skor pendidikan (Opsi B: ≥ threshold)
+    # Private — Skor pendidikan (≥ threshold)
     # ----------------------------------------------------------
 
     @staticmethod

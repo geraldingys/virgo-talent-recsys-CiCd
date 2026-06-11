@@ -24,7 +24,7 @@ from loguru import logger
 
 
 # ----------------------------------------------------------
-# Bobot ROC — Hardcoded (hasil perhitungan Rangkuman §3.3 & §3.4)
+# Bobot ROC — Hardcoded
 # ----------------------------------------------------------
 
 # Empat kriteria aktif (kueri menyebutkan pendidikan)
