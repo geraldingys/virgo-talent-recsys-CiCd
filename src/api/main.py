@@ -45,7 +45,7 @@ async def lifespan(app: FastAPI):
 
     neo4j_driver = GraphDatabase.driver(
         os.environ["NEO4J_URI"],
-        auth=(os.environ["NEO4J_USER"], os.environ["NEO4J_PASSWORD"]),
+        auth=(os.environ["NEO4J_USERNAME"], os.environ["NEO4J_PASSWORD"]),
     )
     app.state.neo4j_driver = neo4j_driver
 

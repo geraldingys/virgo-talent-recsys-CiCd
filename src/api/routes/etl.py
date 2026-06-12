@@ -42,10 +42,9 @@ class RecomputeICResponse(BaseModel):
 
 def _build_config() -> ETLConfig:
     required_env = [
-        "GOOGLE_CREDENTIALS_PATH",
         "GOOGLE_SPREADSHEET_ID",
         "NEO4J_URI",
-        "NEO4J_USER",
+        "NEO4J_USERNAME",
         "NEO4J_PASSWORD",
         "ONTOLOGY_TTL_PATH",
     ]
@@ -55,13 +54,18 @@ def _build_config() -> ETLConfig:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Environment variable belum diset: {missing}",
         )
+
+    # credentials.json opsional — error akan terjadi saat ETL dijalankan,
+    # bukan saat startup. Teman tim bisa push file ini nanti.
+    credentials_path = os.getenv("GOOGLE_CREDENTIALS_PATH", "configs/credentials.json")
+
     return ETLConfig(
-        credentials_path = os.environ["GOOGLE_CREDENTIALS_PATH"],
+        credentials_path = credentials_path,
         spreadsheet_id   = os.environ["GOOGLE_SPREADSHEET_ID"],
         worksheet_name   = os.getenv("GOOGLE_WORKSHEET_NAME"),
         ttl_path         = os.environ["ONTOLOGY_TTL_PATH"],
         neo4j_uri        = os.environ["NEO4J_URI"],
-        neo4j_user       = os.environ["NEO4J_USER"],
+        neo4j_user       = os.environ["NEO4J_USERNAME"],
         neo4j_password   = os.environ["NEO4J_PASSWORD"],
         neo4j_database   = os.getenv("NEO4J_DATABASE", "neo4j"),
     )

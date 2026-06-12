@@ -44,7 +44,7 @@ class ETLConfig:
     ttl_path        : str = "ontology/ttl/Data_model_v2.ttl"
 
     # Neo4j
-    neo4j_uri       : str = "bolt://localhost:7687"
+    neo4j_uri       : str = "neo4j+s://localhost"
     neo4j_user      : str = "neo4j"
     neo4j_password  : str = "changeme123"
     neo4j_database  : str = "neo4j"

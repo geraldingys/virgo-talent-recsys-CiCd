@@ -1,0 +1,81 @@
+name: Build and Deploy to AWS ECS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION:        ap-southeast-1
+  ECR_REPOSITORY:    virgo-recsys
+  ECS_CLUSTER:       virgo-cluster
+  ECS_SERVICE:       virgo-api
+  CONTAINER_NAME:    virgo-api
+  TASK_DEFINITION:   infra/task-definition.json
+
+jobs:
+  deploy:
+    name: Build, Push, Deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      # ── 1. Checkout kode ──────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Konfigurasi AWS credentials ───────────────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.AWS_REGION }}
+
+      # ── 3. Login ke Amazon ECR ────────────────────────────────
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # ── 4. Build & push Docker image ──────────────────────────
+      - name: Build, tag, and push image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG:     ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      # ── 5. Render task-definition dengan image baru ───────────
+      - name: Render ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.TASK_DEFINITION }}
+          container-name:  ${{ env.CONTAINER_NAME }}
+          image:           ${{ steps.build-image.outputs.image }}
+
+      # ── 6. Inject environment variables ke task definition ────
+      # Semua secrets di-set via GitHub Actions Secrets dan
+      # di-inject ke task definition saat deploy (tidak di-commit ke repo)
+      - name: Inject secrets into task definition
+        id: inject-secrets
+        env:
+          ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        run: |
+          # Ganti placeholder ACCOUNT_ID di task definition
+          sed -i "s/ACCOUNT_ID/$ACCOUNT_ID/g" ${{ steps.task-def.outputs.task-definition }}
+          sed -i "s/IMAGE_TAG/${{ github.sha }}/g" ${{ steps.task-def.outputs.task-definition }}
+
+      # ── 7. Deploy ke ECS Fargate ──────────────────────────────
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition:  ${{ steps.task-def.outputs.task-definition }}
+          service:          ${{ env.ECS_SERVICE }}
+          cluster:          ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true

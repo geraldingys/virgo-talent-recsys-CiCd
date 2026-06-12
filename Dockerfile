@@ -17,7 +17,6 @@ WORKDIR /app
 # Install OS dependencies (minimal)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    openjdk-21-jre \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies dulu (cache layer)

@@ -1,0 +1,56 @@
+{
+  "family": "virgo-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/virgo-task-role",
+  "containerDefinitions": [
+    {
+      "name": "virgo-api",
+      "image": "ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/virgo-recsys:IMAGE_TAG",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "APP_ENV",            "value": "production" },
+        { "name": "APP_HOST",           "value": "0.0.0.0" },
+        { "name": "APP_PORT",           "value": "8000" },
+        { "name": "APP_RELOAD",         "value": "false" },
+        { "name": "ONTOLOGY_TTL_PATH",  "value": "ontology/ttl/Data model v2.ttl" },
+        { "name": "GOOGLE_CREDENTIALS_PATH", "value": "configs/credentials.json" }
+      ],
+      "secrets": [
+        { "name": "NEO4J_URI",              "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:NEO4J_URI::" },
+        { "name": "NEO4J_USERNAME",         "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:NEO4J_USERNAME::" },
+        { "name": "NEO4J_PASSWORD",         "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:NEO4J_PASSWORD::" },
+        { "name": "NEO4J_DATABASE",         "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:NEO4J_DATABASE::" },
+        { "name": "OLLAMA_ENDPOINT",        "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:OLLAMA_ENDPOINT::" },
+        { "name": "JWT_TOKEN",              "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:JWT_TOKEN::" },
+        { "name": "OLLAMA_MODEL",           "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:OLLAMA_MODEL::" },
+        { "name": "OLLAMA_TIMEOUT",         "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:OLLAMA_TIMEOUT::" },
+        { "name": "GOOGLE_SPREADSHEET_ID",  "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:ACCOUNT_ID:secret:virgo/production:GOOGLE_SPREADSHEET_ID::" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group":         "/ecs/virgo-api",
+          "awslogs-region":        "ap-southeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"],
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3,
+        "startPeriod": 30
+      }
+    }
+  ]
+}

@@ -1,34 +1,27 @@
 # =============================================================
 # docker-compose.yml — virgo-recsys Development Environment
-# Services: FastAPI · Neo4j · Ollama (opsional, lokal saja)
+# Services: FastAPI saja
 #
 # CATATAN ARSITEKTUR:
 #   - n8n        → sudah existing di PT P79, tidak perlu di sini.
-#                  Nanti tinggal tambah node rekomendasi di workflow
-#                  yang sudah berjalan.
 #   - Ollama     → remote server PT P79, akses via Bearer token.
-#                  Set OLLAMA_BASE_URL + OLLAMA_API_TOKEN di .env.
-#   - Neo4j      → dikelola sendiri via Docker (belum ada di P79).
+#                  Set OLLAMA_ENDPOINT + JWT_TOKEN di .env.
+#   - Neo4j      → Neo4j Aura (cloud), tidak perlu container lokal.
+#                  Set NEO4J_URI + NEO4J_USERNAME + NEO4J_PASSWORD di .env.
 #   - FastAPI    → untuk sekarang lokal; deploy target menyusul.
 #
 # Usage:
-#   docker compose up -d                          → FastAPI + Neo4j
-#   docker compose --profile local-ollama up -d  → + Ollama lokal
-#   docker compose logs -f api                   → lihat log FastAPI
+#   docker compose up -d          → jalankan FastAPI (Neo4j sudah di Aura cloud)
+#   docker compose logs -f api    → lihat log FastAPI
 # =============================================================
 
 networks:
   virgo-net:
     driver: bridge
 
-volumes:
-  neo4j_data:
-  neo4j_logs:
-  ollama_data:
-  n8n_data:
 
 services:
-  # ── 1. FastAPI — Backend Recommendation Service ───────────
+  # ── FastAPI — Backend Recommendation Service ─────────────
   api:
     build:
       context: .
@@ -42,53 +35,7 @@ services:
       - ./src:/app/src
       - ./configs:/app/configs
       - ./ontology/ttl:/app/ontology/ttl
-    depends_on:
-      neo4j:
-        condition: service_healthy
     networks:
       - virgo-net
     command: uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
-
-  # ── 2. Neo4j — Knowledge Graph Database ──────────────────
-  neo4j:
-    image: neo4j:5.24-community
-    container_name: virgo-neo4j
-    restart: unless-stopped
-    environment:
-      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-changeme123}
-      NEO4J_PLUGINS: '["apoc"]'
-      NEO4J_dbms_security_procedures_unrestricted: "apoc.*,n10s.*"
-      NEO4J_dbms_memory_heap_max__size: "1G"
-    ports:
-      - "7474:7474" # Neo4j Browser (UI)
-      - "7687:7687" # Bolt protocol (Python driver)
-    volumes:
-      - neo4j_data:/data
-      - neo4j_logs:/logs
-      - ./ontology/ttl:/import/ontology
-      - ./plugins:/plugins
-      - ./ontology:/ontology
-    healthcheck:
-      test: ["CMD", "neo4j", "status"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 60s
-    networks:
-      - virgo-net
-
-
-  # n8n: #12345678A ngrok http 5678
-  #     image: n8nio/n8n:latest
-  #     container_name: virgo-n8n
-  #     restart: unless-stopped
-  #     ports:
-  #       - "5678:5678"
-  #     environment:
-  #       - N8N_HOST=0.0.0.0
-  #       - N8N_PORT=5678
-  #       - WEBHOOK_URL=https://greedily-flap-disagree.ngrok-free.dev # diisi setelah langkah D2
-  #     volumes:
-  #       - n8n_data:/home/node/.n8n
-  #     networks:
-  #       - virgo-net
+

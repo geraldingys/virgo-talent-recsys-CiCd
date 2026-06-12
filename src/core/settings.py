@@ -39,9 +39,10 @@ class Settings(BaseSettings):
     ollama_max_retries: int = 1
 
     # ── Neo4j ─────────────────────────────────────────────────────────────
-    neo4j_uri: str = "bolt://neo4j:7687"
-    neo4j_user: str = "neo4j"
+    neo4j_uri: str = "neo4j+s://localhost"
+    neo4j_username: str = "neo4j"
     neo4j_password: str = "changeme"
+    neo4j_database: str = "neo4j"
 
     # ── FastAPI ───────────────────────────────────────────────────────────
     app_env: str = "development"
