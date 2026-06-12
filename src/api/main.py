@@ -11,8 +11,9 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from src.api.routes.etl import router as etl_router
-from src.api.routes import ner as ner_routes
+from src.api.routes import ner
 from src.api.routes.similarity import router as similarity_router
+from src.api.routes.saw import router as saw_router
 from src.core.ollama_client import OllamaClient
 from src.modules.semantic_similarity.similarity_service import SemanticSimilarityService
 
@@ -76,7 +77,7 @@ async def lifespan(app: FastAPI):
 
     ollama_client = OllamaClient()
     app.state.ollama_client = ollama_client
-    ner_routes._extractor.client = ollama_client
+    ner._extractor.client = ollama_client
     await _warmup_ollama(ollama_client)
 
     logger.info("Virgo API: siap menerima request.")
@@ -95,7 +96,8 @@ app = FastAPI(
     title="Virgo Talent Recommendation System API",
     description=(
         "API untuk sistem rekomendasi talenta multi-kriteria: "
-        "NER (Qwen/Ollama), ETL ontology, dan semantic similarity pada Neo4j."
+        "NER (Qwen/Ollama), ETL ontology, semantic similarity pada Neo4j, "
+        "dan perankingan SAW."
     ),
     version="0.3.0",
     lifespan=lifespan,
@@ -103,7 +105,8 @@ app = FastAPI(
 
 app.include_router(etl_router)
 app.include_router(similarity_router)
-app.include_router(ner_routes.router)
+app.include_router(ner.router)
+app.include_router(saw_router)
 
 
 @app.get("/", tags=["Info"])
@@ -112,7 +115,7 @@ def root():
         "project": "Virgo Talent Recommendation System",
         "status": "Development",
         "current_increment": 3,
-        "modules": ["NER", "ETL", "Semantic Similarity"],
+        "modules": ["NER", "ETL", "Semantic Similarity", "SAW"],
         "team": ["Geraldin", "Ikhsan", "Harish"],
         "docs": "/docs",
     }
